@@ -2,247 +2,531 @@
 <html lang="ku" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+  >
   <title>ئاگەهداری</title>
 
   <style>
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
-      background:#f4f7f6;color:#0f172a;
-      -webkit-tap-highlight-color:transparent
-    }
-    button{font:inherit;cursor:pointer}
-
-    .wrapper{
-      min-height:100vh;
-      max-width:850px;
-      margin:auto;
-      padding:20px
+    * {
+      box-sizing: border-box;
     }
 
-    .top-bar{
-      position:relative;
-      display:flex;align-items:center;justify-content:center;
-      height:54px;
-      margin:10px 0 30px
-    }
-    .back-btn{
-      position:absolute;right:0;
-      width:46px;height:46px;
-      border:0;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      background:rgba(255,136,0,.12);color:#e65100;
-      transition:.25s ease
-    }
-    .back-btn:hover{background:#ff8c00;color:#fff;transform:scale(1.05)}
-    .back-btn svg{width:22px;height:22px}
-    .page-title{
-      margin:0;font-size:23px;font-weight:900;color:#0f172a
-    }
-    .unread-count{
-      position:absolute;left:0;
-      min-width:42px;height:42px;padding:0 10px;
-      border-radius:999px;
-      display:flex;align-items:center;justify-content:center;
-      background:#ef4444;color:#fff;
-      border:4px solid #fff;
-      box-shadow:0 8px 20px rgba(239,68,68,.24);
-      font-size:14px;font-weight:900;direction:ltr
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7f6;
+      color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .alerts{
-      display:flex;flex-direction:column;gap:16px;padding-bottom:30px
-    }
-    .alert-card{
-      position:relative;
-      padding:20px;
-      border-radius:22px;
-      background:#fff;
-      border:1px solid #f1f5f9;
-      box-shadow:0 10px 30px rgba(0,0,0,.04);
-      cursor:pointer;
-      transition:.25s ease
-    }
-    .alert-card:hover{
-      transform:translateY(-3px);
-      box-shadow:0 15px 35px rgba(255,136,0,.08);
-      border-color:rgba(255,136,0,.2)
-    }
-    .alert-card.unread{
-      border-color:rgba(255,136,0,.32);
-      background:linear-gradient(135deg,#fff,#fffaf4)
-    }
-    .unread-dot{
-      position:absolute;top:18px;left:18px;
-      width:11px;height:11px;border-radius:50%;
-      background:#ff8c00;
-      box-shadow:0 0 0 5px rgba(255,140,0,.1)
-    }
-    .alert-head{
-      display:flex;align-items:flex-start;gap:13px;
-      padding-left:22px
-    }
-    .icon{
-      width:48px;height:48px;flex:0 0 auto;
-      border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      background:rgba(255,136,0,.12);color:#e65100
-    }
-    .icon svg{width:23px;height:23px}
-    .head-text{min-width:0;flex:1}
-    .head-text h3{
-      margin:1px 0 5px;
-      font-size:17px;font-weight:900;color:#1e293b
-    }
-    .date{
-      color:#94a3b8;font-size:12px;font-weight:700;direction:ltr
-    }
-    .preview{
-      margin:14px 0 0;
-      color:#64748b;font-size:14px;line-height:1.8;
-      white-space:pre-wrap;word-break:break-word
+    button {
+      font: inherit;
+      cursor: pointer;
     }
 
-    .state{
-      padding:55px 20px;text-align:center;
-      background:#fff;border:1px solid #f1f5f9;
-      border-radius:24px;
-      box-shadow:0 10px 30px rgba(0,0,0,.035)
-    }
-    .state svg{width:54px;height:54px;color:#ff8c00;margin-bottom:12px}
-    .state h3{margin:0 0 7px;font-size:19px}
-    .state p{margin:0;color:#64748b;font-size:14px}
-
-    .loading{
-      position:fixed;inset:0;z-index:9999;
-      display:flex;align-items:center;justify-content:center;
-      background:#f4f7f6
-    }
-    .loading.hide{display:none}
-    .loader{
-      width:46px;height:46px;border-radius:50%;
-      border:5px solid #e5e7eb;border-top-color:#ff8c00;
-      animation:spin .8s linear infinite
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
-
-    .modal{
-      position:fixed;inset:0;z-index:5000;
-      display:none;align-items:center;justify-content:center;
-      padding:20px;
-      background:rgba(15,23,42,.48);
-      backdrop-filter:blur(5px)
-    }
-    .modal.active{display:flex}
-    .modal-card{
-      position:relative;
-      width:min(500px,100%);
-      max-height:85vh;overflow:auto;
-      background:#fff;border-radius:28px;
-      padding:30px;
-      box-shadow:0 28px 60px rgba(0,0,0,.2)
-    }
-    .close-btn{
-      position:absolute;top:17px;left:17px;
-      width:38px;height:38px;
-      border:0;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      background:#f1f5f9;color:#64748b
-    }
-    .close-btn svg{width:19px;height:19px}
-    .modal-icon{
-      width:64px;height:64px;
-      border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      background:rgba(255,136,0,.12);color:#e65100;
-      margin-bottom:18px
-    }
-    .modal-icon svg{width:30px;height:30px}
-    .modal-title{
-      margin:0 0 8px;padding-left:42px;
-      font-size:23px;font-weight:900
-    }
-    .modal-date{
-      margin-bottom:18px;
-      color:#94a3b8;font-size:12px;font-weight:700;direction:ltr;text-align:right
-    }
-    .modal-message{
-      margin:0;
-      color:#475569;font-size:15px;line-height:2;
-      white-space:pre-wrap;word-break:break-word
+    .wrapper {
+      min-height: 100vh;
+      max-width: 850px;
+      margin: auto;
+      padding: 20px;
     }
 
-    @media(min-width:1024px){
-      .wrapper{max-width:1100px;padding:38px 42px}
-      .top-bar{height:64px;margin-bottom:38px}
-      .back-btn{width:58px;height:58px}
-      .page-title{font-size:34px}
-      .unread-count{min-width:54px;height:54px;font-size:18px}
-      .alerts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-      .state{grid-column:1/-1}
-      .alert-card{padding:27px;border-radius:26px}
-      .icon{width:60px;height:60px}
-      .icon svg{width:29px;height:29px}
-      .head-text h3{font-size:21px}
-      .preview{font-size:16px}
+    .top-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 54px;
+      margin: 10px 0 30px;
+    }
+
+    .back-btn {
+      position: absolute;
+      right: 0;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 136, 0, 0.12);
+      color: #e65100;
+      transition: 0.25s ease;
+    }
+
+    .back-btn:hover {
+      background: #ff8c00;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .back-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .page-title {
+      margin: 0;
+      font-size: 23px;
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    .unread-count {
+      position: absolute;
+      left: 0;
+      min-width: 42px;
+      height: 42px;
+      padding: 0 10px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ef4444;
+      color: #fff;
+      border: 4px solid #fff;
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.24);
+      font-size: 14px;
+      font-weight: 900;
+      direction: ltr;
+    }
+
+    .alerts {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 30px;
+    }
+
+    .alert-card {
+      position: relative;
+      padding: 20px;
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .alert-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(255, 136, 0, 0.08);
+      border-color: rgba(255, 136, 0, 0.2);
+    }
+
+    .alert-card.unread {
+      border-color: rgba(255, 136, 0, 0.32);
+      background: linear-gradient(135deg, #fff, #fffaf4);
+    }
+
+    .unread-dot {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #ff8c00;
+      box-shadow: 0 0 0 5px rgba(255, 140, 0, 0.1);
+    }
+
+    .alert-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding-left: 22px;
+    }
+
+    .icon {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 136, 0, 0.12);
+      color: #e65100;
+    }
+
+    .icon svg {
+      width: 23px;
+      height: 23px;
+    }
+
+    .head-text {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .head-text h3 {
+      margin: 1px 0 5px;
+      font-size: 17px;
+      font-weight: 900;
+      color: #1e293b;
+    }
+
+    .date {
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 700;
+      direction: ltr;
+    }
+
+    .preview {
+      margin: 14px 0 0;
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .state {
+      padding: 55px 20px;
+      text-align: center;
+      background: #fff;
+      border: 1px solid #f1f5f9;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.035);
+    }
+
+    .state svg {
+      width: 54px;
+      height: 54px;
+      color: #ff8c00;
+      margin-bottom: 12px;
+    }
+
+    .state h3 {
+      margin: 0 0 7px;
+      font-size: 19px;
+    }
+
+    .state p {
+      margin: 0;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .loading {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f4f7f6;
+    }
+
+    .loading.hide {
+      display: none;
+    }
+
+    .loader {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 5px solid #e5e7eb;
+      border-top-color: #ff8c00;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.48);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-card {
+      position: relative;
+      width: min(500px, 100%);
+      max-height: 85vh;
+      overflow: auto;
+      background: #fff;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 17px;
+      left: 17px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .close-btn svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .modal-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 136, 0, 0.12);
+      color: #e65100;
+      margin-bottom: 18px;
+    }
+
+    .modal-icon svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .modal-title {
+      margin: 0 0 8px;
+      padding-left: 42px;
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+    .modal-date {
+      margin-bottom: 18px;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 700;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .modal-message {
+      margin: 0;
+      color: #475569;
+      font-size: 15px;
+      line-height: 2;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    @media (min-width: 1024px) {
+      .wrapper {
+        max-width: 1100px;
+        padding: 38px 42px;
+      }
+
+      .top-bar {
+        height: 64px;
+        margin-bottom: 38px;
+      }
+
+      .back-btn {
+        width: 58px;
+        height: 58px;
+      }
+
+      .page-title {
+        font-size: 34px;
+      }
+
+      .unread-count {
+        min-width: 54px;
+        height: 54px;
+        font-size: 18px;
+      }
+
+      .alerts {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .state {
+        grid-column: 1 / -1;
+      }
+
+      .alert-card {
+        padding: 27px;
+        border-radius: 26px;
+      }
+
+      .icon {
+        width: 60px;
+        height: 60px;
+      }
+
+      .icon svg {
+        width: 29px;
+        height: 29px;
+      }
+
+      .head-text h3 {
+        font-size: 21px;
+      }
+
+      .preview {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 
 <body>
+
   <div class="loading" id="pageLoading">
     <div class="loader"></div>
   </div>
 
   <div class="wrapper">
+
     <div class="top-bar">
-      <button type="button" class="back-btn" onclick="window.history.back()">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+
+      <button
+        type="button"
+        class="back-btn"
+        id="backBtn"
+        aria-label="زڤرین"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 5l7 7-7 7"
+          />
         </svg>
       </button>
 
-      <h1 class="page-title">ئاگەهداری</h1>
-      <div class="unread-count" id="unreadCount">0</div>
+      <h1 class="page-title">
+        ئاگەهداری
+      </h1>
+
+      <div
+        class="unread-count"
+        id="unreadCount"
+      >
+        0
+      </div>
+
     </div>
 
-    <div class="alerts" id="alertsContainer">
+    <div
+      class="alerts"
+      id="alertsContainer"
+    >
       <div class="state">
         <h3>چاڤەرێ بە...</h3>
         <p>ئاگەهداری دهێنە بارکرن</p>
       </div>
     </div>
+
   </div>
 
-  <div class="modal" id="detailsModal">
+  <div
+    class="modal"
+    id="detailsModal"
+  >
+
     <div class="modal-card">
-      <button class="close-btn" id="closeBtn" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+
+      <button
+        class="close-btn"
+        id="closeBtn"
+        type="button"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
         </svg>
       </button>
 
       <div class="modal-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"
+          />
         </svg>
       </div>
 
-      <h2 class="modal-title" id="modalTitle">ئاگەهداری</h2>
-      <div class="modal-date" id="modalDate">--</div>
-      <p class="modal-message" id="modalMessage"></p>
+      <h2
+        class="modal-title"
+        id="modalTitle"
+      >
+        ئاگەهداری
+      </h2>
+
+      <div
+        class="modal-date"
+        id="modalDate"
+      >
+        --
+      </div>
+
+      <p
+        class="modal-message"
+        id="modalMessage"
+      ></p>
+
     </div>
+
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
     import {
       getAuth,
       onAuthStateChanged,
       signOut
     } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
     import {
       getDatabase,
       ref,
@@ -265,18 +549,50 @@
     const auth = getAuth(app);
     const database = getDatabase(app);
 
-    const pageLoading = document.getElementById("pageLoading");
-    const alertsContainer = document.getElementById("alertsContainer");
-    const unreadCount = document.getElementById("unreadCount");
-    const detailsModal = document.getElementById("detailsModal");
-    const closeBtn = document.getElementById("closeBtn");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalDate = document.getElementById("modalDate");
-    const modalMessage = document.getElementById("modalMessage");
+    const pageLoading =
+      document.getElementById("pageLoading");
+
+    const alertsContainer =
+      document.getElementById("alertsContainer");
+
+    const unreadCount =
+      document.getElementById("unreadCount");
+
+    const detailsModal =
+      document.getElementById("detailsModal");
+
+    const closeBtn =
+      document.getElementById("closeBtn");
+
+    const backBtn =
+      document.getElementById("backBtn");
+
+    const modalTitle =
+      document.getElementById("modalTitle");
+
+    const modalDate =
+      document.getElementById("modalDate");
+
+    const modalMessage =
+      document.getElementById("modalMessage");
 
     let currentUser = null;
     let alertsCache = {};
     let readIds = new Set();
+
+    /* =========================================
+       USER LOGIN LOCATION
+    ========================================== */
+
+    const USER_LOGIN_URL =
+      "/office/index.html";
+
+    const USER_DASHBOARD_URL =
+      "/office/daspek/Daspek.html";
+
+    /* =========================================
+       STORAGE
+    ========================================== */
 
     function storageKey() {
       return `office_read_alerts_${currentUser?.uid || "guest"}`;
@@ -284,16 +600,45 @@
 
     function loadReadIds() {
       try {
-        const saved = JSON.parse(localStorage.getItem(storageKey()) || "[]");
-        readIds = new Set(Array.isArray(saved) ? saved : []);
-      } catch {
-        readIds = new Set();
+        const saved =
+          JSON.parse(
+            localStorage.getItem(storageKey()) || "[]"
+          );
+
+        readIds =
+          new Set(
+            Array.isArray(saved)
+              ? saved
+              : []
+          );
+      } catch (error) {
+        console.error(
+          "Load read alerts error:",
+          error
+        );
+
+        readIds =
+          new Set();
       }
     }
 
     function saveReadIds() {
-      localStorage.setItem(storageKey(), JSON.stringify([...readIds]));
+      try {
+        localStorage.setItem(
+          storageKey(),
+          JSON.stringify([...readIds])
+        );
+      } catch (error) {
+        console.error(
+          "Save read alerts error:",
+          error
+        );
+      }
     }
+
+    /* =========================================
+       HELPERS
+    ========================================== */
 
     function escapeHTML(value) {
       return String(value ?? "")
@@ -305,171 +650,430 @@
     }
 
     function formatDate(timestamp) {
-      const value = Number(timestamp);
-      if (!value) return "--";
+      const value =
+        Number(timestamp);
 
-      return new Intl.DateTimeFormat("en-GB", {
-        day:"2-digit",
-        month:"2-digit",
-        year:"numeric",
-        hour:"2-digit",
-        minute:"2-digit"
-      }).format(new Date(value));
+      if (!value) {
+        return "--";
+      }
+
+      return new Intl.DateTimeFormat(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      ).format(
+        new Date(value)
+      );
     }
 
     async function goToLogin() {
       try {
         await signOut(auth);
       } catch (error) {
-        console.error(error);
+        console.error(
+          "Sign out error:",
+          error
+        );
       }
 
-      window.location.replace("/office/index.html");
+      window.location.replace(
+        USER_LOGIN_URL
+      );
     }
+
+    /* =========================================
+       BACK BUTTON
+    ========================================== */
+
+    backBtn.addEventListener(
+      "click",
+      () => {
+        window.location.href =
+          USER_DASHBOARD_URL;
+      }
+    );
+
+    /* =========================================
+       UNREAD COUNT
+    ========================================== */
 
     function updateUnreadCount() {
-      const alerts = Object.entries(alertsCache).filter(([, alertItem]) => {
-        return (
-          alertItem &&
-          alertItem.active !== false &&
-          String(alertItem.target || "all").toLowerCase() === "all"
+      const alerts =
+        Object.entries(
+          alertsCache
+        ).filter(
+          ([, alertItem]) => {
+            return (
+              alertItem &&
+              alertItem.active !== false &&
+              String(
+                alertItem.target || "all"
+              ).toLowerCase() === "all"
+            );
+          }
         );
-      });
 
-      const count = alerts.filter(([id]) => !readIds.has(id)).length;
-      unreadCount.textContent = count > 99 ? "99+" : String(count);
+      const count =
+        alerts.filter(
+          ([id]) => !readIds.has(id)
+        ).length;
+
+      unreadCount.textContent =
+        count > 99
+          ? "99+"
+          : String(count);
     }
 
+    /* =========================================
+       RENDER ALERTS
+    ========================================== */
+
     function renderAlerts() {
-      const alerts = Object.entries(alertsCache)
-        .map(([id, data]) => ({ id, ...data }))
-        .filter(item => (
-          item.active !== false &&
-          String(item.target || "all").toLowerCase() === "all"
-        ))
-        .sort((a,b) => (Number(b.createdAt)||0) - (Number(a.createdAt)||0));
+      const alerts =
+        Object.entries(
+          alertsCache
+        )
+        .map(
+          ([id, data]) => ({
+            id,
+            ...data
+          })
+        )
+        .filter(
+          item => (
+            item &&
+            item.active !== false &&
+            String(
+              item.target || "all"
+            ).toLowerCase() === "all"
+          )
+        )
+        .sort(
+          (a, b) =>
+            (Number(b.createdAt) || 0) -
+            (Number(a.createdAt) || 0)
+        );
 
       if (!alerts.length) {
         alertsContainer.innerHTML = `
           <div class="state">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"/>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"
+              />
             </svg>
-            <h3>هێشتا ئاگەهداری نینن</h3>
-            <p>هەر ئاگەهدارییەکا نوێ ل ڤێرێ دێ دیار بیت</p>
+
+            <h3>
+              هێشتا ئاگەهداری نینن
+            </h3>
+
+            <p>
+              هەر ئاگەهدارییەکا نوێ ل ڤێرێ دێ دیار بیت
+            </p>
+
           </div>
         `;
+
         updateUnreadCount();
         return;
       }
 
-      alertsContainer.innerHTML = alerts.map(item => {
-        const unread = !readIds.has(item.id);
+      alertsContainer.innerHTML =
+        alerts.map(
+          item => {
 
-        return `
-          <article class="alert-card ${unread ? "unread" : ""}" data-id="${escapeHTML(item.id)}">
-            ${unread ? '<span class="unread-dot"></span>' : ""}
-            <div class="alert-head">
-              <div class="icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"/>
-                </svg>
-              </div>
-              <div class="head-text">
-                <h3>${escapeHTML(item.title || "ئاگەهداری")}</h3>
-                <div class="date">${escapeHTML(formatDate(item.createdAt))}</div>
-              </div>
-            </div>
-            <p class="preview">${escapeHTML(item.message || "")}</p>
-          </article>
-        `;
-      }).join("");
+            const unread =
+              !readIds.has(
+                item.id
+              );
 
-      alertsContainer.querySelectorAll(".alert-card").forEach(card => {
-        card.addEventListener("click", () => openAlert(card.dataset.id));
-      });
+            return `
+              <article
+                class="alert-card ${unread ? "unread" : ""}"
+                data-id="${escapeHTML(item.id)}"
+              >
+
+                ${
+                  unread
+                    ? '<span class="unread-dot"></span>'
+                    : ""
+                }
+
+                <div class="alert-head">
+
+                  <div class="icon">
+
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"
+                      />
+                    </svg>
+
+                  </div>
+
+                  <div class="head-text">
+
+                    <h3>
+                      ${
+                        escapeHTML(
+                          item.title || "ئاگەهداری"
+                        )
+                      }
+                    </h3>
+
+                    <div class="date">
+                      ${
+                        escapeHTML(
+                          formatDate(item.createdAt)
+                        )
+                      }
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <p class="preview">
+                  ${
+                    escapeHTML(
+                      item.message || ""
+                    )
+                  }
+                </p>
+
+              </article>
+            `;
+          }
+        ).join("");
+
+      alertsContainer
+        .querySelectorAll(
+          ".alert-card"
+        )
+        .forEach(
+          card => {
+            card.addEventListener(
+              "click",
+              () => {
+                openAlert(
+                  card.dataset.id
+                );
+              }
+            );
+          }
+        );
 
       updateUnreadCount();
     }
 
+    /* =========================================
+       OPEN ALERT
+    ========================================== */
+
     function openAlert(id) {
-      const item = alertsCache[id];
-      if (!item) return;
+      const item =
+        alertsCache[id];
+
+      if (!item) {
+        return;
+      }
 
       readIds.add(id);
       saveReadIds();
 
-      modalTitle.textContent = item.title || "ئاگەهداری";
-      modalDate.textContent = formatDate(item.createdAt);
-      modalMessage.textContent = item.message || "";
-      detailsModal.classList.add("active");
+      modalTitle.textContent =
+        item.title ||
+        "ئاگەهداری";
+
+      modalDate.textContent =
+        formatDate(
+          item.createdAt
+        );
+
+      modalMessage.textContent =
+        item.message ||
+        "";
+
+      detailsModal.classList.add(
+        "active"
+      );
 
       renderAlerts();
     }
 
-    closeBtn.addEventListener("click", () => {
-      detailsModal.classList.remove("active");
-    });
+    /* =========================================
+       MODAL
+    ========================================== */
 
-    detailsModal.addEventListener("click", event => {
-      if (event.target === detailsModal) {
-        detailsModal.classList.remove("active");
+    closeBtn.addEventListener(
+      "click",
+      () => {
+        detailsModal.classList.remove(
+          "active"
+        );
       }
-    });
+    );
+
+    detailsModal.addEventListener(
+      "click",
+      event => {
+        if (
+          event.target ===
+          detailsModal
+        ) {
+          detailsModal.classList.remove(
+            "active"
+          );
+        }
+      }
+    );
+
+    /* =========================================
+       ALERT LISTENER
+    ========================================== */
 
     function startAlertsListener() {
       onValue(
-        ref(database, "alerts"),
+        ref(
+          database,
+          "alerts"
+        ),
+
         snapshot => {
-          alertsCache = snapshot.exists() ? (snapshot.val() || {}) : {};
+          alertsCache =
+            snapshot.exists()
+              ? snapshot.val() || {}
+              : {};
+
           renderAlerts();
         },
+
         error => {
-          console.error("Alerts listener error:", error);
+          console.error(
+            "Alerts listener error:",
+            error
+          );
+
           alertsContainer.innerHTML = `
             <div class="state">
               <h3>هەڵە</h3>
-              <p>ئاگەهداری نەهاتنە بارکرن</p>
+              <p>
+                ئاگەهداری نەهاتنە بارکرن
+              </p>
             </div>
           `;
         }
       );
     }
 
-    onAuthStateChanged(auth, async user => {
-      if (!user) {
-        window.location.replace("/office/index.html");
-        return;
-      }
+    /* =========================================
+       USER AUTH
+    ========================================== */
 
-      try {
-        const snapshot = await get(ref(database, `users/${user.uid}`));
+    onAuthStateChanged(
+      auth,
 
-        if (!snapshot.exists()) {
-          await goToLogin();
+      async user => {
+
+        if (!user) {
+          window.location.replace(
+            USER_LOGIN_URL
+          );
+
           return;
         }
 
-        const profile = snapshot.val();
+        try {
+          const snapshot =
+            await get(
+              ref(
+                database,
+                `users/${user.uid}`
+              )
+            );
 
-        if (
-          String(profile.role || "").toLowerCase() !== "user" ||
-          profile.active === false
-        ) {
+          if (!snapshot.exists()) {
+            console.error(
+              "User profile not found"
+            );
+
+            await goToLogin();
+            return;
+          }
+
+          const profile =
+            snapshot.val();
+
+          if (
+            String(
+              profile.role || ""
+            ).toLowerCase() !== "user"
+          ) {
+            console.error(
+              "Account is not a user account"
+            );
+
+            await goToLogin();
+            return;
+          }
+
+          if (
+            profile.active === false
+          ) {
+            console.error(
+              "Account is disabled"
+            );
+
+            await goToLogin();
+            return;
+          }
+
+          currentUser =
+            user;
+
+          loadReadIds();
+
+          pageLoading.classList.add(
+            "hide"
+          );
+
+          startAlertsListener();
+
+        } catch (error) {
+
+          console.error(
+            "User verification error:",
+            error
+          );
+
           await goToLogin();
-          return;
         }
-
-        currentUser = user;
-        loadReadIds();
-
-        pageLoading.classList.add("hide");
-        startAlertsListener();
-      } catch (error) {
-        console.error("User verification error:", error);
-        await goToLogin();
       }
-    });
+    );
+
   </script>
+
 </body>
 </html>
