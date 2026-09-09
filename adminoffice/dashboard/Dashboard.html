@@ -117,7 +117,67 @@
       100%{transform:scale(1)}
     }
 
+
+    /* ========================================
+       LOGOUT BUTTON
+    ======================================== */
+
+    .logout-btn{
+      margin-right:auto;
+      min-width:118px;
+      height:48px;
+      padding:0 18px;
+      border:0;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      background:#fff;
+      color:#dc2626;
+      box-shadow:0 8px 24px rgba(15,23,42,.07);
+      font-family:inherit;
+      font-size:14px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.25s ease
+    }
+
+    .logout-btn:hover{
+      background:#dc2626;
+      color:#fff;
+      transform:translateY(-2px);
+      box-shadow:0 12px 26px rgba(220,38,38,.2)
+    }
+
+    .logout-btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+      transform:none
+    }
+
+    .logout-btn svg{
+      width:20px;
+      height:20px
+    }
+
     @media(max-width:600px){
+      .profile-header{
+        gap:12px
+      }
+
+      .logout-btn{
+        min-width:48px;
+        width:48px;
+        height:48px;
+        padding:0;
+        border-radius:14px
+      }
+
+      .logout-btn span{
+        display:none
+      }
+
       .card{flex:0 0 100%}
       .live-count{
         top:14px;left:14px;
@@ -134,6 +194,14 @@
       .user-info{margin-right:22px}
       .welcome-text{margin-bottom:7px;font-size:18px}
       .user-name{font-size:30px}
+      .logout-btn{
+        min-width:150px;
+        height:58px;
+        padding:0 22px;
+        border-radius:18px;
+        font-size:18px
+      }
+      .logout-btn svg{width:24px;height:24px}
       .cards-wrapper{gap:28px}
       .card{
         flex:0 0 calc(50% - 14px);
@@ -158,6 +226,13 @@
       .user-info{margin-right:24px}
       .welcome-text{font-size:20px}
       .user-name{font-size:34px}
+      .logout-btn{
+        min-width:165px;
+        height:62px;
+        padding:0 24px;
+        font-size:20px
+      }
+      .logout-btn svg{width:26px;height:26px}
       .cards-wrapper{gap:32px}
       .card{
         flex:0 0 calc(50% - 16px);
@@ -193,6 +268,18 @@
         <span class="welcome-text">بخێر هاتی</span>
         <h2 class="user-name" id="ownerName">رێڤەبەر</h2>
       </div>
+
+      <button
+        type="button"
+        class="logout-btn"
+        id="logoutBtn"
+        title="دەرکەفتن ژ هەژمارێ"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3H9m0 0l3-3m-3 3l3 3"/>
+        </svg>
+        <span>دەرکەفتن</span>
+      </button>
     </div>
 
     <div class="cards-wrapper">
@@ -316,6 +403,7 @@
     const rejectedCount = document.getElementById("rejectedCount");
     const notificationCount = document.getElementById("notificationCount");
     const usersCount = document.getElementById("usersCount");
+    const logoutBtn = document.getElementById("logoutBtn");
 
     let countsStarted = false;
 
@@ -412,6 +500,19 @@
         }
       );
     }
+
+
+    logoutBtn.addEventListener("click", async () => {
+      logoutBtn.disabled = true;
+
+      try {
+        await signOut(auth);
+        window.location.replace("/login/login.html");
+      } catch (error) {
+        console.error("Logout error:", error);
+        logoutBtn.disabled = false;
+      }
+    });
 
     onAuthStateChanged(auth, async user => {
       if (!user) {
