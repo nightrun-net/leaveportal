@@ -349,6 +349,20 @@
         </div>
       </a>
 
+
+      <a href="/adminoffice/sendalerts/SendAlerts.html" class="card">
+        <div class="live-count" id="sendAlertsCount">0</div>
+        <div class="card-icon-container">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h3>هنارتنا ئاگەهداریێ</h3>
+          <p>هنارتنا ئاگەهداری و پەیامان بۆ هەمی بەکارهێنەران</p>
+        </div>
+      </a>
+
       <a href="/users.html" class="card">
         <div class="live-count" id="usersCount">0</div>
         <div class="card-icon-container">
@@ -402,6 +416,7 @@
     const approvedCount = document.getElementById("approvedCount");
     const rejectedCount = document.getElementById("rejectedCount");
     const notificationCount = document.getElementById("notificationCount");
+    const sendAlertsCount = document.getElementById("sendAlertsCount");
     const usersCount = document.getElementById("usersCount");
     const logoutBtn = document.getElementById("logoutBtn");
 
@@ -460,14 +475,10 @@
           // History page contains approved + rejected requests.
           const history = approved + rejected;
 
-          // For now, new pending requests are the owner's live notifications.
-          const notifications = pending;
-
           updateCountBadge(pendingRequestCount, pending);
           updateCountBadge(historyCount, history);
           updateCountBadge(approvedCount, approved);
           updateCountBadge(rejectedCount, rejected);
-          updateCountBadge(notificationCount, notifications);
         },
         error => {
           console.error("Leave request count error:", error);
@@ -476,11 +487,36 @@
           updateCountBadge(historyCount, 0);
           updateCountBadge(approvedCount, 0);
           updateCountBadge(rejectedCount, 0);
-          updateCountBadge(notificationCount, 0);
         }
       );
 
-      // Count employee accounts only; owner is not included.
+      // Real alert count from the global alerts node.
+      onValue(
+        ref(database, "alerts"),
+        snapshot => {
+          const alerts = snapshot.exists()
+            ? Object.values(snapshot.val() || {})
+            : [];
+
+          const totalAlerts = alerts.filter(alertItem => {
+            return (
+              alertItem &&
+              alertItem.active !== false &&
+              String(alertItem.target || "all").toLowerCase() === "all"
+            );
+          }).length;
+
+          updateCountBadge(notificationCount, totalAlerts);
+          updateCountBadge(sendAlertsCount, totalAlerts);
+        },
+        error => {
+          console.error("Alerts count error:", error);
+          updateCountBadge(notificationCount, 0);
+          updateCountBadge(sendAlertsCount, 0);
+        }
+      );
+
+      // Count active employee accounts only; owner is not included.
       onValue(
         ref(database, "users"),
         snapshot => {
@@ -489,7 +525,10 @@
             : [];
 
           const totalUsers = users.filter(profile => {
-            return String(profile?.role || "").toLowerCase() === "user";
+            return (
+              String(profile?.role || "").toLowerCase() === "user" &&
+              profile?.active !== false
+            );
           }).length;
 
           updateCountBadge(usersCount, totalUsers);
