@@ -1,0 +1,9 @@
+{
+    "name": "Office",
+    "short_name": "Office",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#f4f7f6",
+    "theme_color": "#ff8c00"
+}

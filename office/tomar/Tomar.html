@@ -1,0 +1,2730 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    >
+    <link rel="manifest" href="/manifest.json">
+
+
+    <title>Office</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family:
+                'Segoe UI',
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            background-color: #f4f7f6;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        /* ========================================
+           WRAPPER
+        ======================================== */
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+
+            min-height: 100vh;
+
+            max-width: 450px;
+
+            margin: 0 auto;
+
+            padding: 20px;
+        }
+
+
+        /* ========================================
+           TOP BAR
+        ======================================== */
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+
+            margin-top: 10px;
+            margin-bottom: 30px;
+
+            position: relative;
+
+            height: 50px;
+        }
+
+
+        .back-btn,
+        .notify-btn {
+            position: absolute;
+
+            width: 45px;
+            height: 45px;
+
+            border: none;
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+        }
+
+
+        .back-btn {
+            right: 0;
+
+            background-color:
+                rgba(255, 136, 0, 0.12);
+
+            color: #e65100;
+        }
+
+
+        .back-btn:hover {
+            background-color: #ff8c00;
+
+            color: #ffffff;
+
+            transform: scale(1.05);
+        }
+
+
+        .notify-btn {
+            left: 0;
+
+            background: #ffffff;
+
+            color: #64748b;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0, 0, 0, 0.06);
+        }
+
+
+        .notify-btn:hover {
+            color: #ff8c00;
+
+            transform: scale(1.05);
+        }
+
+
+        .notify-btn.need-permission {
+            color: #ff8c00;
+
+            animation:
+                bellPulse 1.6s infinite;
+        }
+
+
+        .notify-btn.active {
+            background:
+                rgba(16, 185, 129, 0.12);
+
+            color: #10b981;
+        }
+
+
+        .notify-btn.denied {
+            background:
+                rgba(239, 68, 68, 0.10);
+
+            color: #ef4444;
+        }
+
+
+        @keyframes bellPulse {
+
+            0%,
+            100% {
+                box-shadow:
+                    0 0 0 0
+                    rgba(255, 140, 0, 0.3);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 0 12px
+                    rgba(255, 140, 0, 0);
+            }
+
+        }
+
+
+        .back-btn svg,
+        .notify-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+
+        .page-title {
+            margin: 0;
+
+            font-size: 22px;
+            font-weight: 800;
+
+            color: #0f172a;
+
+            text-align: center;
+        }
+
+
+        /* ========================================
+           RECORDS
+        ======================================== */
+
+        .records-container {
+            display: flex;
+            flex-direction: column;
+
+            gap: 16px;
+
+            padding-bottom: 30px;
+        }
+
+
+        .record-card {
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.04);
+
+            border:
+                1px solid #f1f5f9;
+
+            cursor: pointer;
+
+            transition:
+                all 0.3s ease;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .record-card:hover,
+        .record-card:active {
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(255, 136, 0, 0.08);
+
+            border-color:
+                rgba(255, 136, 0, 0.2);
+        }
+
+
+        /* ========================================
+           NEW / UNREAD
+        ======================================== */
+
+        .record-card.new-notification {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff9d22 0%,
+                    #ff7a00 100%
+                );
+
+            border-color: #ff8c00;
+
+            box-shadow:
+                0 14px 34px
+                rgba(255, 136, 0, 0.24);
+        }
+
+
+        .record-card.new-notification
+        .card-header {
+            border-bottom-color:
+                rgba(255, 255, 255, 0.42);
+        }
+
+
+        .record-card.new-notification
+        .status-badge {
+            background:
+                rgba(255, 255, 255, 0.20);
+
+            color: #ffffff;
+        }
+
+
+        .record-card.new-notification
+        .req-date,
+
+        .record-card.new-notification
+        .req-date svg,
+
+        .record-card.new-notification
+        .user-details h3,
+
+        .record-card.new-notification
+        .user-details p,
+
+        .record-card.new-notification
+        .user-icon {
+            color: #ffffff;
+        }
+
+
+        .record-card.new-notification
+        .user-icon {
+            background:
+                rgba(255, 255, 255, 0.20);
+        }
+
+
+        /* ========================================
+           CARD HEADER
+        ======================================== */
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 15px;
+
+            padding-bottom: 10px;
+
+            border-bottom:
+                1px dashed #e2e8f0;
+        }
+
+
+        .status-badge {
+            padding: 6px 12px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        .status-approved {
+            background-color:
+                rgba(16, 185, 129, 0.1);
+
+            color: #10b981;
+        }
+
+
+        .status-rejected {
+            background-color:
+                rgba(239, 68, 68, 0.1);
+
+            color: #ef4444;
+        }
+
+
+        .req-date {
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 700;
+
+            display: flex;
+            align-items: center;
+
+            gap: 6px;
+        }
+
+
+        .req-date svg {
+            width: 16px;
+            height: 16px;
+
+            color: #94a3b8;
+        }
+
+
+        /* ========================================
+           USER INFO
+        ======================================== */
+
+        .user-info {
+            display: flex;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .user-icon {
+            width: 48px;
+            height: 48px;
+
+            background-color: #f8fafc;
+
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #ff8c00;
+
+            flex-shrink: 0;
+
+            box-shadow:
+                0 4px 10px
+                rgba(0, 0, 0, 0.02);
+        }
+
+
+        .user-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+
+        .user-details h3 {
+            margin: 0 0 5px;
+
+            font-size: 16px;
+            font-weight: 800;
+
+            color: #1e293b;
+        }
+
+
+        .user-details p {
+            margin: 0;
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 500;
+        }
+
+
+        /* ========================================
+           EMPTY / LOADING
+        ======================================== */
+
+        .state-box {
+            width: 100%;
+
+            background: #ffffff;
+
+            border:
+                1px solid #f1f5f9;
+
+            border-radius: 22px;
+
+            padding: 45px 20px;
+
+            text-align: center;
+
+            color: #64748b;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.03);
+        }
+
+
+        .state-box svg {
+            width: 50px;
+            height: 50px;
+
+            margin-bottom: 12px;
+
+            color: #ff8c00;
+        }
+
+
+        .state-box h3 {
+            margin: 0 0 7px;
+
+            color: #1e293b;
+
+            font-size: 18px;
+        }
+
+
+        .state-box p {
+            margin: 0;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        /* ========================================
+           TOAST
+        ======================================== */
+
+        .toast {
+            position: fixed;
+
+            top: 20px;
+            left: 50%;
+
+            transform:
+                translate(-50%, -30px);
+
+            z-index: 5000;
+
+            width:
+                calc(100% - 40px);
+
+            max-width: 430px;
+
+            background: #0f172a;
+
+            color: #ffffff;
+
+            padding: 15px 18px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.2);
+
+            font-size: 14px;
+            font-weight: 700;
+
+            text-align: center;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                all 0.3s ease;
+        }
+
+
+        .toast.show {
+            opacity: 1;
+
+            transform:
+                translate(-50%, 0);
+        }
+
+
+        .toast.success {
+            background: #059669;
+        }
+
+
+        .toast.error {
+            background: #dc2626;
+        }
+
+
+        /* ========================================
+           MODAL
+        ======================================== */
+
+        .modal-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background-color:
+                rgba(15, 23, 42, 0.5);
+
+            backdrop-filter:
+                blur(5px);
+
+            display: none;
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 1000;
+        }
+
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+
+        .modal-content {
+            background: #ffffff;
+
+            width: 85%;
+
+            max-width: 380px;
+
+            border-radius: 28px;
+
+            padding: 30px 25px;
+
+            box-shadow:
+                0 25px 50px
+                rgba(0, 0, 0, 0.15);
+
+            position: relative;
+
+            max-height: 88vh;
+
+            overflow-y: auto;
+        }
+
+
+        .close-modal-btn {
+            position: absolute;
+
+            top: 20px;
+            left: 20px;
+
+            width: 36px;
+            height: 36px;
+
+            background-color: #f1f5f9;
+
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #64748b;
+
+            border: none;
+
+            cursor: pointer;
+
+            transition:
+                all 0.3s ease;
+        }
+
+
+        .close-modal-btn:hover {
+            background-color: #fee2e2;
+
+            color: #ef4444;
+
+            transform:
+                rotate(90deg);
+        }
+
+
+        .modal-title {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 20px;
+            font-weight: 800;
+
+            color: #0f172a;
+
+            margin-bottom: 25px;
+
+            padding-right: 12px;
+
+            border-right:
+                4px solid #ff8c00;
+        }
+
+
+        .modal-title svg {
+            width: 24px;
+            height: 24px;
+
+            color: #ff8c00;
+        }
+
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+
+            margin-bottom: 12px;
+
+            background-color: #f8fafc;
+
+            padding: 14px 16px;
+
+            border-radius: 16px;
+
+            border:
+                1px solid #f1f5f9;
+        }
+
+
+        .detail-label {
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 600;
+
+            margin-bottom: 6px;
+        }
+
+
+        .detail-value {
+            font-size: 15px;
+
+            font-weight: 800;
+
+            color: #1e293b;
+
+            word-break: break-word;
+        }
+
+
+        .detail-row {
+            display: flex;
+
+            gap: 12px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .detail-row .detail-item {
+            flex: 1;
+
+            margin-bottom: 0;
+        }
+
+
+        .time-box-special {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,136,0,0.05),
+                    rgba(255,136,0,0.1)
+                );
+
+            border:
+                1px solid
+                rgba(255,136,0,0.2);
+        }
+
+
+        .decision-box {
+            border-width: 1px;
+            border-style: solid;
+        }
+
+
+        .decision-approved {
+            background: #f0fdf4;
+
+            border-color: #bbf7d0;
+        }
+
+
+        .decision-approved
+        .detail-label,
+        .decision-approved
+        .detail-value {
+            color: #15803d;
+        }
+
+
+        .decision-rejected {
+            background: #fef2f2;
+
+            border-color: #fecaca;
+        }
+
+
+        .decision-rejected
+        .detail-label,
+        .decision-rejected
+        .detail-value {
+            color: #dc2626;
+        }
+
+
+        .reason-box {
+            background: #fff7f7;
+
+            border:
+                1px solid #fecaca;
+        }
+
+
+        .reason-box
+        .detail-label {
+            color: #991b1b;
+        }
+
+
+        .reason-box
+        .detail-value {
+            color: #dc2626;
+
+            line-height: 1.8;
+        }
+
+
+        /* ========================================
+           TABLET
+        ======================================== */
+
+        @media
+        (min-width: 601px)
+        and (max-width: 1023px) {
+
+            .wrapper {
+                max-width: 760px;
+
+                padding: 28px;
+            }
+
+
+            .top-bar {
+                height: 58px;
+
+                margin-bottom: 34px;
+            }
+
+
+            .back-btn,
+            .notify-btn {
+                width: 52px;
+                height: 52px;
+            }
+
+
+            .page-title {
+                font-size: 28px;
+            }
+
+
+            .record-card {
+                padding: 24px;
+
+                border-radius: 24px;
+            }
+
+
+            .user-icon {
+                width: 56px;
+                height: 56px;
+            }
+
+
+            .user-details h3 {
+                font-size: 19px;
+            }
+
+
+            .user-details p,
+            .req-date {
+                font-size: 15px;
+            }
+
+
+            .status-badge {
+                font-size: 14px;
+
+                padding: 7px 14px;
+            }
+
+
+            .modal-content {
+                max-width: 620px;
+
+                padding: 34px 30px;
+            }
+
+
+            .modal-title {
+                font-size: 24px;
+            }
+
+
+            .detail-label {
+                font-size: 15px;
+            }
+
+
+            .detail-value {
+                font-size: 17px;
+            }
+
+        }
+
+
+        /* ========================================
+           LAPTOP / DESKTOP
+        ======================================== */
+
+        @media
+        (min-width: 1024px)
+        and (hover: hover)
+        and (pointer: fine) {
+
+            .wrapper {
+                max-width: 1220px;
+
+                padding:
+                    36px 42px 48px;
+            }
+
+
+            .top-bar {
+                height: 66px;
+
+                margin-bottom: 38px;
+            }
+
+
+            .back-btn,
+            .notify-btn {
+                width: 58px;
+                height: 58px;
+            }
+
+
+            .back-btn svg,
+            .notify-btn svg {
+                width: 28px;
+                height: 28px;
+            }
+
+
+            .page-title {
+                font-size: 34px;
+            }
+
+
+            .records-container {
+                display: grid;
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+                gap: 24px;
+            }
+
+
+            .state-box {
+                grid-column:
+                    1 / -1;
+            }
+
+
+            .record-card {
+                min-height: 150px;
+
+                padding: 28px;
+
+                border-radius: 26px;
+
+                display: flex;
+                flex-direction: column;
+
+                justify-content: center;
+            }
+
+
+            .status-badge {
+                padding: 8px 16px;
+
+                font-size: 15px;
+            }
+
+
+            .req-date {
+                font-size: 16px;
+            }
+
+
+            .user-icon {
+                width: 64px;
+                height: 64px;
+            }
+
+
+            .user-icon svg {
+                width: 30px;
+                height: 30px;
+            }
+
+
+            .user-details h3 {
+                font-size: 22px;
+            }
+
+
+            .user-details p {
+                font-size: 16px;
+            }
+
+
+            .modal-content {
+                width: 88%;
+
+                max-width: 760px;
+
+                padding: 38px 36px;
+
+                border-radius: 32px;
+            }
+
+
+            .modal-title {
+                font-size: 27px;
+            }
+
+
+            .detail-label {
+                font-size: 16px;
+            }
+
+
+            .detail-value {
+                font-size: 19px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .detail-row {
+                flex-direction: column;
+
+                gap: 0;
+            }
+
+
+            .detail-row
+            .detail-item {
+                margin-bottom: 12px;
+            }
+
+        }
+
+    </style>
+
+
+    <!-- OneSignal Web Push SDK -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
+</head>
+
+
+<body>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+
+<div class="wrapper">
+
+
+    <!-- TOP BAR -->
+
+    <div class="top-bar">
+
+
+        <button
+            type="button"
+            class="back-btn"
+            onclick="window.history.back()"
+        >
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5l7 7-7 7"
+                />
+
+            </svg>
+
+        </button>
+
+
+
+        <h1 class="page-title">
+            ئاگەهداری
+        </h1>
+
+
+
+        <!-- MOBILE NOTIFICATION -->
+
+        <button
+            type="button"
+            class="notify-btn"
+            id="notifyBtn"
+            title="چالاککرنا ئاگەهداریان"
+        >
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341A6 6 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1"
+                />
+
+            </svg>
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- RECORDS -->
+
+    <div
+        class="records-container"
+        id="recordsContainer"
+    >
+
+        <div class="state-box">
+
+            <h3>
+                چاڤەرێ بە...
+            </h3>
+
+            <p>
+                ئاگەهداری دهێنە بارکرن
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ========================================
+     DETAILS MODAL
+======================================== -->
+
+<div
+    class="modal-overlay"
+    id="detailsModal"
+>
+
+    <div class="modal-content">
+
+
+        <button
+            type="button"
+            class="close-modal-btn"
+            id="closeModalBtn"
+        >
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:22px;height:22px;"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                />
+
+            </svg>
+
+        </button>
+
+
+
+        <div class="modal-title">
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+
+            </svg>
+
+            وردەکاریێن مولەتێ
+
+        </div>
+
+
+
+        <!-- DECISION -->
+
+        <div
+            class="detail-item decision-box"
+            id="mdlDecisionBox"
+        >
+
+            <span class="detail-label">
+                بڕیار
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlDecision"
+            >
+                --
+            </span>
+
+        </div>
+
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                رێکەفتا داخوازکرنێ
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlReqDate"
+                dir="ltr"
+            >
+                --
+            </span>
+
+        </div>
+
+
+
+        <div class="detail-row">
+
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    رێکەفتا مولەتێ
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlLeaveDate"
+                    dir="ltr"
+                    style="color:#ff8c00;"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    جۆرێ مولەتێ
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlType"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- HOURS -->
+
+        <div
+            class="detail-item time-box-special"
+            id="mdlTimeBox"
+            style="display:none;"
+        >
+
+            <span
+                class="detail-label"
+                style="color:#e65100;"
+            >
+                دەمژمێرێن مولەتێ
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlTime"
+                dir="ltr"
+                style="color:#c24100;"
+            >
+                --
+            </span>
+
+        </div>
+
+
+
+        <!-- REVIEW DATE -->
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                رێکەفتا بڕیارێ
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlReviewDate"
+                dir="ltr"
+            >
+                --
+            </span>
+
+        </div>
+
+
+
+        <!-- REJECT REASON -->
+
+        <div
+            class="detail-item reason-box"
+            id="mdlReasonBox"
+            style="display:none;"
+        >
+
+            <span class="detail-label">
+                هۆکارێ رەتکرنێ
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlReason"
+            >
+                --
+            </span>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script type="module">
+    /* ========================================
+       FIREBASE IMPORTS
+    ======================================== */
+
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+    import {
+        getAuth,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+    import {
+        getDatabase,
+        ref,
+        get,
+        onValue,
+        query,
+        orderByChild,
+        equalTo
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+    /* ========================================
+       FIREBASE CONFIG
+    ======================================== */
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+        authDomain: "office-8e7cb.firebaseapp.com",
+        databaseURL: "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "office-8e7cb",
+        storageBucket: "office-8e7cb.firebasestorage.app",
+        messagingSenderId: "604465845047",
+        appId: "1:604465845047:web:42004e33906c8986ee80b2",
+        measurementId: "G-LJJM71LQ0K"
+    };
+
+    const ONESIGNAL_APP_ID =
+        "5b331871-60c5-4e81-8679-561fabc89a05";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+
+    /* ========================================
+       ELEMENTS
+    ======================================== */
+
+    const recordsContainer =
+        document.getElementById("recordsContainer");
+
+    const detailsModal =
+        document.getElementById("detailsModal");
+
+    const closeModalBtn =
+        document.getElementById("closeModalBtn");
+
+    const notifyBtn =
+        document.getElementById("notifyBtn");
+
+    const toast =
+        document.getElementById("toast");
+
+    const mdlDecisionBox =
+        document.getElementById("mdlDecisionBox");
+
+    const mdlDecision =
+        document.getElementById("mdlDecision");
+
+    const mdlReqDate =
+        document.getElementById("mdlReqDate");
+
+    const mdlLeaveDate =
+        document.getElementById("mdlLeaveDate");
+
+    const mdlType =
+        document.getElementById("mdlType");
+
+    const mdlTimeBox =
+        document.getElementById("mdlTimeBox");
+
+    const mdlTime =
+        document.getElementById("mdlTime");
+
+    const mdlReviewDate =
+        document.getElementById("mdlReviewDate");
+
+    const mdlReasonBox =
+        document.getElementById("mdlReasonBox");
+
+    const mdlReason =
+        document.getElementById("mdlReason");
+
+
+    /* ========================================
+       STATE
+    ======================================== */
+
+    let currentUser = null;
+    let requestsCache = {};
+    let firstRequestsLoad = true;
+    let previousStatuses = new Map();
+    let audioContext = null;
+
+    let oneSignalInstance = null;
+    let oneSignalInitPromise = null;
+
+
+    /* ========================================
+       TOAST
+    ======================================== */
+
+    let toastTimer = null;
+
+    function showToast(text, type = "") {
+        clearTimeout(toastTimer);
+
+        toast.textContent = text;
+        toast.className = `toast ${type} show`;
+
+        toastTimer = setTimeout(() => {
+            toast.className = "toast";
+        }, 3200);
+    }
+
+
+    /* ========================================
+       AUTHENTICATION
+    ======================================== */
+
+    onAuthStateChanged(auth, async function(user) {
+        if (!user) {
+            window.location.replace("../../index.html");
+            return;
+        }
+
+        try {
+            const userSnapshot = await get(
+                ref(database, `users/${user.uid}`)
+            );
+
+            if (!userSnapshot.exists()) {
+                await goToLogin();
+                return;
+            }
+
+            const profile = userSnapshot.val();
+
+            if (
+                String(profile.role).toLowerCase() !== "user" ||
+                profile.active === false
+            ) {
+                await goToLogin();
+                return;
+            }
+
+            currentUser = user;
+
+            /*
+             * Start the Firebase realtime list immediately.
+             * OneSignal setup is independent from loading the page.
+             */
+            startNotificationsListener();
+
+            /*
+             * Connect this browser/device to this Firebase UID.
+             * This UID becomes the OneSignal external_id.
+             */
+            try {
+                await setupOneSignal(user);
+            }
+            catch (error) {
+                console.error("OneSignal setup error:", error);
+                updateNotificationButton(false, "default");
+            }
+        }
+        catch (error) {
+            console.error("User verification error:", error);
+
+            showToast(
+                "هەڵە د بارکرنا هەژمارێ تە.",
+                "error"
+            );
+        }
+    });
+
+
+    async function goToLogin() {
+        /*
+         * If OneSignal has already loaded, detach this device
+         * from the current Firebase user's external_id before
+         * Firebase logout.
+         */
+        try {
+            if (oneSignalInstance) {
+                await oneSignalInstance.logout();
+            }
+        }
+        catch (error) {
+            console.warn("OneSignal logout warning:", error);
+        }
+
+        try {
+            await signOut(auth);
+        }
+        catch (error) {
+            console.error("Firebase sign out error:", error);
+        }
+
+        window.location.replace("../../index.html");
+    }
+
+
+    /* ========================================
+       ONESIGNAL
+    ======================================== */
+
+    window.OneSignalDeferred =
+        window.OneSignalDeferred || [];
+
+    async function cleanupOldFirebaseMessagingWorker() {
+        if (!("serviceWorker" in navigator)) {
+            return;
+        }
+
+        try {
+            const registrations =
+                await navigator.serviceWorker.getRegistrations();
+
+            for (const registration of registrations) {
+                const workerUrls = [
+                    registration.active?.scriptURL,
+                    registration.waiting?.scriptURL,
+                    registration.installing?.scriptURL
+                ].filter(Boolean);
+
+                const isOldFirebaseWorker =
+                    workerUrls.some(url =>
+                        url.includes("/firebase-messaging-sw.js")
+                    );
+
+                if (isOldFirebaseWorker) {
+                    console.log(
+                        "Removing old Firebase Messaging worker:",
+                        workerUrls
+                    );
+
+                    await registration.unregister();
+                }
+            }
+        }
+        catch (error) {
+            console.warn(
+                "Could not clean old Firebase Messaging worker:",
+                error
+            );
+        }
+    }
+
+
+    function setupOneSignal(user) {
+        if (oneSignalInitPromise) {
+            return oneSignalInitPromise;
+        }
+
+        oneSignalInitPromise = new Promise(
+            (resolve, reject) => {
+                window.OneSignalDeferred.push(
+                    async function(OneSignal) {
+                        try {
+                            await cleanupOldFirebaseMessagingWorker();
+
+                            await OneSignal.init({
+                                appId: ONESIGNAL_APP_ID,
+                                serviceWorkerPath:
+                                    "OneSignalSDKWorker.js",
+                                serviceWorkerParam: {
+                                    scope: "/"
+                                }
+                            });
+
+                            /*
+                             * Firebase UID = OneSignal external_id.
+                             * This allows the backend to send to
+                             * exactly one employee.
+                             */
+                            await OneSignal.login(user.uid);
+
+                            /*
+                             * Optional tags are useful in OneSignal
+                             * Dashboard, but do not expose secrets.
+                             */
+                            try {
+                                OneSignal.User.addTags({
+                                    role: "user",
+                                    firebase_uid: user.uid
+                                });
+                            }
+                            catch (tagError) {
+                                console.warn(
+                                    "OneSignal tag warning:",
+                                    tagError
+                                );
+                            }
+
+                            oneSignalInstance = OneSignal;
+
+                            updateNotificationButton(
+                                OneSignal.Notifications.permission,
+                                OneSignal.Notifications.permissionNative
+                            );
+
+                            /*
+                             * Update the bell automatically if the
+                             * browser permission changes.
+                             */
+                            OneSignal.Notifications.addEventListener(
+                                "permissionChange",
+                                function(granted) {
+                                    updateNotificationButton(
+                                        granted,
+                                        OneSignal.Notifications.permissionNative
+                                    );
+
+                                    if (granted) {
+                                        showToast(
+                                            "ئاگەهداری ب سەرکەفتی هاتنە چالاککرن.",
+                                            "success"
+                                        );
+                                    }
+                                }
+                            );
+
+                            /*
+                             * We do NOT prevent foreground push.
+                             * OneSignal may display it normally.
+                             */
+                            OneSignal.Notifications.addEventListener(
+                                "foregroundWillDisplay",
+                                function(event) {
+                                    console.log(
+                                        "OneSignal foreground notification:",
+                                        event.notification
+                                    );
+                                }
+                            );
+
+                            OneSignal.Notifications.addEventListener(
+                                "click",
+                                function(event) {
+                                    console.log(
+                                        "OneSignal notification clicked:",
+                                        event
+                                    );
+                                }
+                            );
+
+                            console.log(
+                                "OneSignal connected to Firebase UID:",
+                                user.uid
+                            );
+
+                            resolve(OneSignal);
+                        }
+                        catch (error) {
+                            console.error(
+                                "OneSignal initialization failed:",
+                                error
+                            );
+
+                            notifyBtn.classList.remove(
+                                "active",
+                                "need-permission"
+                            );
+
+                            notifyBtn.classList.add("denied");
+
+                            reject(error);
+                        }
+                    }
+                );
+            }
+        );
+
+        return oneSignalInitPromise;
+    }
+
+
+    function updateNotificationButton(
+        permissionGranted,
+        nativePermission = "default"
+    ) {
+        notifyBtn.classList.remove(
+            "active",
+            "need-permission",
+            "denied"
+        );
+
+        if (permissionGranted === true) {
+            notifyBtn.classList.add("active");
+            notifyBtn.title = "ئاگەهداری چالاکن";
+            return;
+        }
+
+        if (nativePermission === "denied") {
+            notifyBtn.classList.add("denied");
+            notifyBtn.title = "ئاگەهداری هاتینە بلۆککرن";
+            return;
+        }
+
+        notifyBtn.classList.add("need-permission");
+        notifyBtn.title = "چالاککرنا ئاگەهداریان";
+    }
+
+
+    function isIOSDevice() {
+        return (
+            /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (
+                navigator.platform === "MacIntel" &&
+                navigator.maxTouchPoints > 1
+            )
+        );
+    }
+
+
+    function isStandalonePWA() {
+        return (
+            window.matchMedia(
+                "(display-mode: standalone)"
+            ).matches ||
+            window.navigator.standalone === true
+        );
+    }
+
+
+    notifyBtn.addEventListener(
+        "click",
+        async function() {
+            await unlockAudio();
+
+            if (!currentUser) {
+                return;
+            }
+
+            if (!window.isSecureContext) {
+                showToast(
+                    "ئاگەهدارییا موبایلێ پێدڤی ب HTTPS هەیە.",
+                    "error"
+                );
+                return;
+            }
+
+            /*
+             * iPhone/iPad web push requires the site to be
+             * installed to the Home Screen before permission
+             * can be requested.
+             */
+            if (
+                isIOSDevice() &&
+                !isStandalonePWA()
+            ) {
+                showToast(
+                    "ل iPhone/iPad، وێبسایتێ ژ Safari بکە Add to Home Screen، پاشی ژ ئایکۆنێ Office ڤەکە و دوگمەیا ئاگەهداریێ بکلیکە.",
+                    "error"
+                );
+                return;
+            }
+
+            try {
+                const OneSignal =
+                    oneSignalInstance ||
+                    await setupOneSignal(currentUser);
+
+                if (
+                    !OneSignal.Notifications.isPushSupported()
+                ) {
+                    updateNotificationButton(
+                        false,
+                        "denied"
+                    );
+
+                    showToast(
+                        "ڤی براوزەری پشتگیریا Push Notification ناکەت.",
+                        "error"
+                    );
+                    return;
+                }
+
+                if (
+                    OneSignal.Notifications.permissionNative ===
+                    "denied"
+                ) {
+                    updateNotificationButton(
+                        false,
+                        "denied"
+                    );
+
+                    showToast(
+                        "ئاگەهداری هاتینە بلۆککرن. ژ Settings یێ براوزەرێ رێک بدە.",
+                        "error"
+                    );
+                    return;
+                }
+
+                const granted =
+                    await OneSignal.Notifications.requestPermission();
+
+                updateNotificationButton(
+                    granted ||
+                    OneSignal.Notifications.permission,
+                    OneSignal.Notifications.permissionNative
+                );
+
+                if (
+                    granted ||
+                    OneSignal.Notifications.permission
+                ) {
+                    showToast(
+                        "ئاگەهداری ب سەرکەفتی هاتنە چالاککرن.",
+                        "success"
+                    );
+
+                    await playNotificationSound();
+                }
+                else {
+                    showToast(
+                        "رێک نەهاتە دان بۆ ئاگەهداریان.",
+                        "error"
+                    );
+                }
+            }
+            catch (error) {
+                console.error(
+                    "OneSignal permission error:",
+                    error
+                );
+
+                showToast(
+                    "ئاگەهداری نەهاتنە چالاککرن.",
+                    "error"
+                );
+            }
+        }
+    );
+
+
+    /* ========================================
+       LISTEN TO THIS USER'S REQUESTS
+    ======================================== */
+
+    function startNotificationsListener() {
+        const requestsQuery = query(
+            ref(database, "leaveRequests"),
+            orderByChild("userId"),
+            equalTo(currentUser.uid)
+        );
+
+        onValue(
+            requestsQuery,
+            async function(snapshot) {
+                const data =
+                    snapshot.exists()
+                        ? snapshot.val() || {}
+                        : {};
+
+                /*
+                 * First load:
+                 * remember existing statuses without playing
+                 * sounds for old decisions.
+                 */
+                if (firstRequestsLoad) {
+                    previousStatuses = new Map();
+
+                    Object.entries(data).forEach(
+                        function([requestId, request]) {
+                            previousStatuses.set(
+                                requestId,
+                                request.status || "pending"
+                            );
+                        }
+                    );
+
+                    firstRequestsLoad = false;
+                    requestsCache = data;
+
+                    renderNotifications();
+                    return;
+                }
+
+                const changedRequests = [];
+
+                Object.entries(data).forEach(
+                    function([requestId, request]) {
+                        const oldStatus =
+                            previousStatuses.get(requestId);
+
+                        const newStatus =
+                            request.status || "pending";
+
+                        if (
+                            oldStatus &&
+                            oldStatus !== newStatus &&
+                            (
+                                newStatus === "approved" ||
+                                newStatus === "rejected"
+                            )
+                        ) {
+                            changedRequests.push({
+                                requestId,
+                                request
+                            });
+                        }
+                    }
+                );
+
+                previousStatuses = new Map();
+
+                Object.entries(data).forEach(
+                    function([requestId, request]) {
+                        previousStatuses.set(
+                            requestId,
+                            request.status || "pending"
+                        );
+                    }
+                );
+
+                requestsCache = data;
+                renderNotifications();
+
+                /*
+                 * This is only the in-page realtime feedback.
+                 * The real closed-screen mobile push will be
+                 * sent by OneSignal from the backend.
+                 */
+                for (const changed of changedRequests) {
+                    await handleDecisionNotification(
+                        changed.requestId,
+                        changed.request
+                    );
+                }
+            },
+
+            function(error) {
+                console.error(
+                    "Notification listener error:",
+                    error
+                );
+
+                recordsContainer.innerHTML = `
+                    <div class="state-box">
+                        <h3>هەڵە</h3>
+                        <p>ئاگەهداری نەهاتنە بارکرن</p>
+                    </div>
+                `;
+            }
+        );
+    }
+
+
+    /* ========================================
+       OWNER DECISION - PAGE OPEN
+    ======================================== */
+
+    async function handleDecisionNotification(
+        requestId,
+        request
+    ) {
+        /*
+         * Do not call ServiceWorker.showNotification()
+         * manually here. OneSignal owns the push worker.
+         * This prevents duplicate notifications.
+         */
+        await playNotificationSound();
+
+        if (request.status === "approved") {
+            showToast(
+                "مولەتا تە هاتە پەسەندکرن",
+                "success"
+            );
+        }
+        else {
+            showToast(
+                request.rejectReason
+                    ? `مولەتا تە هاتە رەتکرن - هۆکار: ${request.rejectReason}`
+                    : "مولەتا تە هاتە رەتکرن",
+                "error"
+            );
+        }
+    }
+
+
+    /* ========================================
+       RENDER DECISIONS
+    ======================================== */
+
+    function renderNotifications() {
+        const requests =
+            Object.entries(requestsCache)
+                .filter(
+                    ([, request]) =>
+                        request.status === "approved" ||
+                        request.status === "rejected"
+                );
+
+        if (requests.length === 0) {
+            renderEmptyState();
+            return;
+        }
+
+        requests.sort((a, b) => {
+            const first =
+                Number(
+                    a[1].reviewedAt ||
+                    a[1].createdAt
+                ) || 0;
+
+            const second =
+                Number(
+                    b[1].reviewedAt ||
+                    b[1].createdAt
+                ) || 0;
+
+            return second - first;
+        });
+
+        const seen =
+            getSeenNotifications();
+
+        recordsContainer.innerHTML = "";
+
+        requests.forEach(
+            function([requestId, request]) {
+                const approved =
+                    request.status === "approved";
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "record-card";
+
+                card.dataset.requestId =
+                    requestId;
+
+                if (!seen.includes(requestId)) {
+                    card.classList.add(
+                        "new-notification"
+                    );
+                }
+
+                const statusClass =
+                    approved
+                        ? "status-approved"
+                        : "status-rejected";
+
+                const statusText =
+                    approved
+                        ? "پەسەندکری"
+                        : "رەتکری";
+
+                const title =
+                    approved
+                        ? "داواکارییا مولەتێ هاتە پەسەندکرن"
+                        : "داواکارییا مولەتێ هاتە رەتکرن";
+
+                card.innerHTML = `
+                    <div class="card-header">
+
+                        <span
+                            class="status-badge ${statusClass}"
+                        >
+                            ${statusText}
+                        </span>
+
+                        <span class="req-date">
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                            </svg>
+
+                            <span dir="ltr">
+                                ${escapeHTML(
+                                    formatDateOnly(
+                                        request.reviewedAt ||
+                                        request.createdAt
+                                    )
+                                )}
+                            </span>
+
+                        </span>
+                    </div>
+
+                    <div class="user-info">
+
+                        <div class="user-icon">
+                            ${
+                                approved
+                                    ? `
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="2.5"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M5 13l4 4L19 7"
+                                            />
+                                        </svg>
+                                    `
+                                    : `
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="2.5"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M6 18L18 6M6 6l12 12"
+                                            />
+                                        </svg>
+                                    `
+                            }
+                        </div>
+
+                        <div class="user-details">
+                            <h3>
+                                ${escapeHTML(title)}
+                            </h3>
+
+                            <p>
+                                مولەتا رێکەفتا
+                                <span dir="ltr">
+                                    ${escapeHTML(
+                                        formatLeaveDate(
+                                            request.leaveDate
+                                        )
+                                    )}
+                                </span>
+                            </p>
+                        </div>
+
+                    </div>
+                `;
+
+                card.addEventListener(
+                    "click",
+                    function() {
+                        openNotification(
+                            requestId
+                        );
+                    }
+                );
+
+                recordsContainer.appendChild(card);
+            }
+        );
+    }
+
+
+    /* ========================================
+       EMPTY
+    ======================================== */
+
+    function renderEmptyState() {
+        recordsContainer.innerHTML = `
+            <div class="state-box">
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341A6 6 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1"
+                    />
+                </svg>
+
+                <h3>
+                    ئاگەهداری نینن
+                </h3>
+
+                <p>
+                    ل دەمێ رێڤەبەر داواکارییا تە پەسەند یان رەت بکەت، ل ڤێرێ دێ دیار بیت.
+                </p>
+
+            </div>
+        `;
+    }
+
+
+    /* ========================================
+       OPEN NOTIFICATION
+    ======================================== */
+
+    function openNotification(requestId) {
+        const request =
+            requestsCache[requestId];
+
+        if (!request) {
+            return;
+        }
+
+        const approved =
+            request.status === "approved";
+
+        mdlDecisionBox.classList.remove(
+            "decision-approved",
+            "decision-rejected"
+        );
+
+        if (approved) {
+            mdlDecisionBox.classList.add(
+                "decision-approved"
+            );
+
+            mdlDecision.textContent =
+                "داواکارییا تە هاتە پەسەندکرن";
+        }
+        else {
+            mdlDecisionBox.classList.add(
+                "decision-rejected"
+            );
+
+            mdlDecision.textContent =
+                "داواکارییا تە هاتە رەتکرن";
+        }
+
+        mdlReqDate.textContent =
+            formatDateTime(
+                request.createdAt
+            );
+
+        mdlLeaveDate.textContent =
+            formatLeaveDate(
+                request.leaveDate
+            );
+
+        mdlType.textContent =
+            request.leaveTypeText ||
+            (
+                request.leaveType === "hours"
+                    ? "دەمژمێر"
+                    : "تەمامیا دەمێ کاری"
+            );
+
+        if (request.leaveType === "hours") {
+            mdlTimeBox.style.display =
+                "flex";
+
+            mdlTime.textContent =
+                `${formatTime(
+                    request.startTime
+                )} - ${formatTime(
+                    request.endTime
+                )}`;
+        }
+        else {
+            mdlTimeBox.style.display =
+                "none";
+        }
+
+        mdlReviewDate.textContent =
+            formatDateTime(
+                request.reviewedAt
+            );
+
+        if (
+            request.status === "rejected" &&
+            request.rejectReason
+        ) {
+            mdlReasonBox.style.display =
+                "flex";
+
+            mdlReason.textContent =
+                request.rejectReason;
+        }
+        else {
+            mdlReasonBox.style.display =
+                "none";
+        }
+
+        markNotificationSeen(requestId);
+
+        detailsModal.classList.add(
+            "active"
+        );
+    }
+
+
+    /* ========================================
+       SEEN NOTIFICATIONS
+    ======================================== */
+
+    function getSeenKey() {
+        return currentUser
+            ? `seenLeaveDecisions_${currentUser.uid}`
+            : "seenLeaveDecisions";
+    }
+
+
+    function getSeenNotifications() {
+        try {
+            return JSON.parse(
+                localStorage.getItem(
+                    getSeenKey()
+                ) || "[]"
+            );
+        }
+        catch {
+            return [];
+        }
+    }
+
+
+    function markNotificationSeen(requestId) {
+        const seen =
+            getSeenNotifications();
+
+        if (!seen.includes(requestId)) {
+            seen.push(requestId);
+
+            localStorage.setItem(
+                getSeenKey(),
+                JSON.stringify(seen)
+            );
+        }
+
+        const card =
+            recordsContainer.querySelector(
+                `[data-request-id="${requestId}"]`
+            );
+
+        if (card) {
+            card.classList.remove(
+                "new-notification"
+            );
+        }
+    }
+
+
+    /* ========================================
+       AUDIO
+    ======================================== */
+
+    async function unlockAudio() {
+        try {
+            const AudioContextClass =
+                window.AudioContext ||
+                window.webkitAudioContext;
+
+            if (!AudioContextClass) {
+                return false;
+            }
+
+            if (!audioContext) {
+                audioContext =
+                    new AudioContextClass();
+            }
+
+            if (
+                audioContext.state ===
+                "suspended"
+            ) {
+                await audioContext.resume();
+            }
+
+            return (
+                audioContext.state ===
+                "running"
+            );
+        }
+        catch (error) {
+            console.error(
+                "Audio error:",
+                error
+            );
+
+            return false;
+        }
+    }
+
+
+    async function playNotificationSound() {
+        const ready =
+            await unlockAudio();
+
+        if (!ready || !audioContext) {
+            return;
+        }
+
+        const now =
+            audioContext.currentTime;
+
+        playTone(
+            740,
+            now,
+            0.20
+        );
+
+        playTone(
+            980,
+            now + 0.23,
+            0.30
+        );
+    }
+
+
+    function playTone(
+        frequency,
+        start,
+        duration
+    ) {
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+        oscillator.type =
+            "sine";
+
+        oscillator.frequency
+            .setValueAtTime(
+                frequency,
+                start
+            );
+
+        gain.gain
+            .setValueAtTime(
+                0.0001,
+                start
+            );
+
+        gain.gain
+            .exponentialRampToValueAtTime(
+                0.30,
+                start + 0.02
+            );
+
+        gain.gain
+            .exponentialRampToValueAtTime(
+                0.0001,
+                start + duration
+            );
+
+        oscillator.connect(gain);
+        gain.connect(
+            audioContext.destination
+        );
+
+        oscillator.start(start);
+
+        oscillator.stop(
+            start + duration + 0.05
+        );
+    }
+
+
+    document.addEventListener(
+        "pointerdown",
+        function unlockOnce() {
+            unlockAudio();
+
+            document.removeEventListener(
+                "pointerdown",
+                unlockOnce
+            );
+        }
+    );
+
+
+    /* ========================================
+       MODAL
+    ======================================== */
+
+    closeModalBtn.addEventListener(
+        "click",
+        function() {
+            detailsModal.classList.remove(
+                "active"
+            );
+        }
+    );
+
+    detailsModal.addEventListener(
+        "click",
+        function(event) {
+            if (event.target === detailsModal) {
+                detailsModal.classList.remove(
+                    "active"
+                );
+            }
+        }
+    );
+
+
+    /* ========================================
+       DATE HELPERS
+    ======================================== */
+
+    function formatLeaveDate(value) {
+        if (!value) {
+            return "--";
+        }
+
+        const parts =
+            String(value).split("-");
+
+        if (parts.length !== 3) {
+            return value;
+        }
+
+        return (
+            `${parts[2]}/${parts[1]}/${parts[0]}`
+        );
+    }
+
+
+    function formatDateOnly(timestamp) {
+        if (
+            !timestamp ||
+            !Number(timestamp)
+        ) {
+            return "--/--/----";
+        }
+
+        const date =
+            new Date(Number(timestamp));
+
+        return (
+            `${pad(
+                date.getDate()
+            )}/${pad(
+                date.getMonth() + 1
+            )}/${date.getFullYear()}`
+        );
+    }
+
+
+    function formatDateTime(timestamp) {
+        if (
+            !timestamp ||
+            !Number(timestamp)
+        ) {
+            return "--";
+        }
+
+        const date =
+            new Date(Number(timestamp));
+
+        const rawTime =
+            `${pad(
+                date.getHours()
+            )}:${pad(
+                date.getMinutes()
+            )}`;
+
+        return (
+            `${pad(
+                date.getDate()
+            )}/${pad(
+                date.getMonth() + 1
+            )}/${date.getFullYear()} - ${formatTime(
+                rawTime
+            )}`
+        );
+    }
+
+
+    function formatTime(time) {
+        if (!time) {
+            return "--";
+        }
+
+        const parts =
+            String(time).split(":");
+
+        let hour =
+            Number(parts[0]);
+
+        const minute =
+            parts[1] || "00";
+
+        const suffix =
+            hour >= 12
+                ? "PM"
+                : "AM";
+
+        hour =
+            hour % 12 || 12;
+
+        return (
+            `${pad(hour)}:${minute} ${suffix}`
+        );
+    }
+
+
+    function pad(number) {
+        return String(number)
+            .padStart(2, "0");
+    }
+
+
+    function escapeHTML(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+</script>
+
+
+</body>
+
+</html>

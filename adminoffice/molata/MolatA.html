@@ -1,0 +1,3278 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    >
+
+    <title>Office</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family:
+                'Segoe UI',
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            background-color: #f4f7f6;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        /* ========================================
+           WRAPPER
+        ======================================== */
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+
+            min-height: 100vh;
+
+            max-width: 450px;
+
+            margin: 0 auto;
+
+            padding: 20px;
+        }
+
+
+        /* ========================================
+           TOP BAR
+        ======================================== */
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+
+            margin-top: 10px;
+            margin-bottom: 30px;
+
+            position: relative;
+
+            height: 50px;
+        }
+
+
+        .back-btn,
+        .notify-btn {
+            position: absolute;
+
+            width: 45px;
+            height: 45px;
+
+            border: none;
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+        }
+
+
+        .back-btn {
+            right: 0;
+
+            background-color:
+                rgba(255, 136, 0, 0.12);
+
+            color: #e65100;
+        }
+
+
+        .back-btn:hover {
+            background-color: #ff8c00;
+
+            color: #ffffff;
+
+            transform: scale(1.05);
+        }
+
+
+        .notify-btn {
+            left: 0;
+
+            background: #ffffff;
+
+            color: #64748b;
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.06);
+        }
+
+
+        .notify-btn:hover {
+            color: #ff8c00;
+
+            transform: scale(1.05);
+        }
+
+
+        .notify-btn.need-permission {
+            color: #ff8c00;
+
+            animation:
+                notifyPulse 1.6s infinite;
+        }
+
+
+        .notify-btn.active {
+            background:
+                rgba(16, 185, 129, 0.12);
+
+            color: #10b981;
+        }
+
+
+        .notify-btn.denied {
+            background:
+                rgba(239, 68, 68, 0.10);
+
+            color: #ef4444;
+        }
+
+
+        @keyframes notifyPulse {
+
+            0%,
+            100% {
+                box-shadow:
+                    0 0 0 0
+                    rgba(255, 140, 0, 0.30);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 0 12px
+                    rgba(255, 140, 0, 0);
+            }
+
+        }
+
+
+        .back-btn svg,
+        .notify-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+
+        .page-title {
+            margin: 0;
+
+            font-size: 22px;
+            font-weight: 800;
+
+            color: #0f172a;
+
+            text-align: center;
+        }
+
+
+        /* ========================================
+           RECORDS
+        ======================================== */
+
+        .records-container {
+            display: flex;
+            flex-direction: column;
+
+            gap: 16px;
+
+            padding-bottom: 30px;
+        }
+
+
+        .record-card {
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.04);
+
+            border:
+                1px solid #f1f5f9;
+
+            cursor: pointer;
+
+            transition:
+                all 0.3s ease;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .record-card:hover,
+        .record-card:active {
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(255, 136, 0, 0.08);
+
+            border-color:
+                rgba(255, 136, 0, 0.2);
+        }
+
+
+        /* ========================================
+           NEW REQUEST
+        ======================================== */
+
+        .record-card.new-request {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff9d22 0%,
+                    #ff7a00 100%
+                );
+
+            border-color: #ff8c00;
+
+            box-shadow:
+                0 14px 34px
+                rgba(255, 136, 0, 0.24);
+        }
+
+
+        .record-card.new-request
+        .card-header {
+            border-bottom-color:
+                rgba(255, 255, 255, 0.42);
+        }
+
+
+        .record-card.new-request
+        .status-badge {
+            background:
+                rgba(255, 255, 255, 0.20);
+
+            color: #ffffff;
+        }
+
+
+        .record-card.new-request
+        .req-date,
+
+        .record-card.new-request
+        .req-date svg,
+
+        .record-card.new-request
+        .user-details h3,
+
+        .record-card.new-request
+        .user-details p {
+            color: #ffffff;
+        }
+
+
+        .record-card.new-request
+        .user-icon {
+            background:
+                rgba(255, 255, 255, 0.20);
+
+            color: #ffffff;
+        }
+
+
+        /* ========================================
+           CARD HEADER
+        ======================================== */
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 15px;
+
+            padding-bottom: 10px;
+
+            border-bottom:
+                1px dashed #e2e8f0;
+        }
+
+
+        .status-badge {
+            padding: 6px 12px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        .status-approved {
+            background:
+                rgba(16, 185, 129, 0.1);
+
+            color: #10b981;
+        }
+
+
+        .status-pending {
+            background:
+                rgba(245, 158, 11, 0.1);
+
+            color: #d97706;
+        }
+
+
+        .status-cancelled {
+            background:
+                rgba(239, 68, 68, 0.1);
+
+            color: #ef4444;
+        }
+
+
+        .req-date {
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 700;
+
+            display: flex;
+            align-items: center;
+
+            gap: 6px;
+        }
+
+
+        .req-date svg {
+            width: 16px;
+            height: 16px;
+
+            color: #94a3b8;
+        }
+
+
+        /* ========================================
+           USER
+        ======================================== */
+
+        .user-info {
+            display: flex;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .user-icon {
+            width: 48px;
+            height: 48px;
+
+            background-color: #f8fafc;
+
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #ff8c00;
+
+            flex-shrink: 0;
+
+            box-shadow:
+                0 4px 10px rgba(0, 0, 0, 0.02);
+        }
+
+
+        .user-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+
+        .user-details h3 {
+            margin: 0 0 5px;
+
+            font-size: 16px;
+            font-weight: 800;
+
+            color: #1e293b;
+        }
+
+
+        .user-details p {
+            margin: 0;
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 500;
+
+            direction: ltr;
+
+            text-align: right;
+        }
+
+
+        /* ========================================
+           EMPTY / LOADING
+        ======================================== */
+
+        .state-box {
+            width: 100%;
+
+            background: #ffffff;
+
+            border:
+                1px solid #f1f5f9;
+
+            border-radius: 22px;
+
+            padding: 45px 20px;
+
+            text-align: center;
+
+            color: #64748b;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.03);
+        }
+
+
+        .state-box svg {
+            width: 50px;
+            height: 50px;
+
+            margin-bottom: 12px;
+
+            color: #ff8c00;
+        }
+
+
+        .state-box h3 {
+            margin: 0 0 7px;
+
+            color: #1e293b;
+
+            font-size: 18px;
+        }
+
+
+        .state-box p {
+            margin: 0;
+
+            font-size: 14px;
+        }
+
+
+        /* ========================================
+           TOAST
+        ======================================== */
+
+        .toast {
+            position: fixed;
+
+            top: 20px;
+            left: 50%;
+
+            transform:
+                translate(-50%, -30px);
+
+            z-index: 5000;
+
+            width:
+                calc(100% - 40px);
+
+            max-width: 430px;
+
+            background: #0f172a;
+
+            color: #ffffff;
+
+            padding: 15px 18px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.2);
+
+            font-size: 14px;
+            font-weight: 700;
+
+            text-align: center;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                all 0.3s ease;
+        }
+
+
+        .toast.show {
+            opacity: 1;
+
+            transform:
+                translate(-50%, 0);
+        }
+
+
+        .toast.success {
+            background: #059669;
+        }
+
+
+        .toast.error {
+            background: #dc2626;
+        }
+
+
+        .toast.warning {
+            background: #d97706;
+        }
+
+
+        /* ========================================
+           MODAL
+        ======================================== */
+
+        .modal-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background-color:
+                rgba(15, 23, 42, 0.5);
+
+            backdrop-filter: blur(5px);
+
+            display: none;
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 1000;
+
+            opacity: 0;
+
+            transition:
+                opacity 0.3s ease;
+        }
+
+
+        .modal-overlay.active {
+            display: flex;
+
+            opacity: 1;
+        }
+
+
+        .modal-content {
+            background: #ffffff;
+
+            width: 85%;
+
+            max-width: 380px;
+
+            border-radius: 28px;
+
+            padding: 30px 25px;
+
+            box-shadow:
+                0 25px 50px
+                rgba(0, 0, 0, 0.15);
+
+            position: relative;
+
+            max-height: 88vh;
+
+            overflow-y: auto;
+        }
+
+
+        .close-modal-btn {
+            position: absolute;
+
+            top: 20px;
+            left: 20px;
+
+            width: 36px;
+            height: 36px;
+
+            background-color: #f1f5f9;
+
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #64748b;
+
+            border: none;
+
+            cursor: pointer;
+
+            transition:
+                all 0.3s ease;
+        }
+
+
+        .close-modal-btn:hover {
+            background-color: #fee2e2;
+
+            color: #ef4444;
+
+            transform:
+                rotate(90deg);
+        }
+
+
+        .modal-title {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 20px;
+            font-weight: 800;
+
+            color: #0f172a;
+
+            margin-bottom: 25px;
+
+            padding-right: 12px;
+
+            border-right:
+                4px solid #ff8c00;
+        }
+
+
+        .modal-title svg {
+            width: 24px;
+            height: 24px;
+
+            color: #ff8c00;
+        }
+
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+
+            margin-bottom: 12px;
+
+            background-color: #f8fafc;
+
+            padding: 14px 16px;
+
+            border-radius: 16px;
+
+            border:
+                1px solid #f1f5f9;
+
+            transition:
+                all 0.2s ease;
+        }
+
+
+        .detail-item:hover {
+            background-color: #ffffff;
+
+            border-color: #e2e8f0;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+
+        .detail-label {
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 600;
+
+            margin-bottom: 6px;
+        }
+
+
+        .detail-value {
+            font-size: 15px;
+
+            font-weight: 800;
+
+            color: #1e293b;
+
+            word-break: break-word;
+        }
+
+
+        .detail-row {
+            display: flex;
+
+            gap: 12px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .detail-row .detail-item {
+            flex: 1;
+
+            margin-bottom: 0;
+        }
+
+
+        .time-box-special {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 136, 0, 0.05),
+                    rgba(255, 136, 0, 0.1)
+                );
+
+            border:
+                1px solid
+                rgba(255, 136, 0, 0.2);
+        }
+
+
+        /* ========================================
+           ACTION BUTTONS
+        ======================================== */
+
+        .modal-actions {
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 20px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid #e2e8f0;
+        }
+
+
+        .action-btn {
+            flex: 1;
+
+            min-height: 50px;
+
+            border: none;
+
+            border-radius: 16px;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                all 0.25s ease;
+
+            font-family: inherit;
+        }
+
+
+        .action-btn:disabled,
+        .send-reject-btn:disabled {
+            opacity: 0.55;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        .approve-btn {
+            background-color: #10b981;
+
+            color: #ffffff;
+
+            box-shadow:
+                0 8px 20px
+                rgba(16, 185, 129, 0.18);
+        }
+
+
+        .approve-btn:hover:not(:disabled) {
+            background-color: #059669;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .reject-btn {
+            background-color: #fee2e2;
+
+            color: #dc2626;
+        }
+
+
+        .reject-btn:hover:not(:disabled) {
+            background-color: #fecaca;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* ========================================
+           REJECT AREA
+        ======================================== */
+
+        .reject-area {
+            display: none;
+
+            margin-top: 14px;
+
+            padding: 16px;
+
+            background-color: #fff7f7;
+
+            border:
+                1px solid #fee2e2;
+
+            border-radius: 18px;
+        }
+
+
+        .reject-area.active {
+            display: block;
+        }
+
+
+        .reject-label {
+            display: block;
+
+            margin-bottom: 9px;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            color: #991b1b;
+        }
+
+
+        .reject-input {
+            width: 100%;
+
+            min-height: 92px;
+
+            resize: vertical;
+
+            border:
+                1.5px solid #fecaca;
+
+            border-radius: 14px;
+
+            background-color: #ffffff;
+
+            color: #1e293b;
+
+            padding: 13px 14px;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            outline: none;
+
+            font-family: inherit;
+
+            transition:
+                all 0.2s ease;
+        }
+
+
+        .reject-input:focus {
+            border-color: #ef4444;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(239, 68, 68, 0.08);
+        }
+
+
+        .send-reject-btn {
+            width: 100%;
+
+            min-height: 48px;
+
+            margin-top: 10px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background-color: #ef4444;
+
+            color: #ffffff;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            transition:
+                all 0.25s ease;
+        }
+
+
+        .send-reject-btn:hover:not(:disabled) {
+            background-color: #dc2626;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* ========================================
+           TABLET
+        ======================================== */
+
+        @media
+        (min-width: 601px)
+        and (max-width: 1023px) {
+
+            .wrapper {
+                max-width: 760px;
+
+                padding: 28px;
+            }
+
+
+            .top-bar {
+                height: 58px;
+
+                margin-bottom: 34px;
+            }
+
+
+            .back-btn,
+            .notify-btn {
+                width: 52px;
+                height: 52px;
+            }
+
+
+            .back-btn svg,
+            .notify-btn svg {
+                width: 25px;
+                height: 25px;
+            }
+
+
+            .page-title {
+                font-size: 28px;
+            }
+
+
+            .records-container {
+                gap: 20px;
+            }
+
+
+            .record-card {
+                padding: 24px;
+
+                border-radius: 24px;
+            }
+
+
+            .user-icon {
+                width: 56px;
+                height: 56px;
+            }
+
+
+            .user-icon svg {
+                width: 26px;
+                height: 26px;
+            }
+
+
+            .user-details h3 {
+                font-size: 19px;
+            }
+
+
+            .user-details p,
+            .req-date {
+                font-size: 15px;
+            }
+
+
+            .status-badge {
+                font-size: 14px;
+
+                padding: 7px 14px;
+            }
+
+
+            .modal-content {
+                max-width: 620px;
+
+                padding: 34px 30px;
+            }
+
+
+            .modal-title {
+                font-size: 24px;
+            }
+
+
+            .detail-label {
+                font-size: 15px;
+            }
+
+
+            .detail-value {
+                font-size: 17px;
+            }
+
+
+            .action-btn,
+            .send-reject-btn {
+                font-size: 17px;
+
+                min-height: 54px;
+            }
+
+
+            .reject-input {
+                font-size: 16px;
+            }
+
+        }
+
+
+        /* ========================================
+           LAPTOP / COMPUTER
+        ======================================== */
+
+        @media
+        (min-width: 1024px)
+        and (hover: hover)
+        and (pointer: fine) {
+
+            .wrapper {
+                max-width: 1220px;
+
+                padding:
+                    36px 42px 48px;
+            }
+
+
+            .top-bar {
+                height: 66px;
+
+                margin-top: 8px;
+
+                margin-bottom: 38px;
+            }
+
+
+            .back-btn,
+            .notify-btn {
+                width: 58px;
+                height: 58px;
+            }
+
+
+            .back-btn svg,
+            .notify-btn svg {
+                width: 28px;
+                height: 28px;
+            }
+
+
+            .page-title {
+                font-size: 34px;
+            }
+
+
+            .records-container {
+                display: grid;
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+                gap: 24px;
+
+                align-items: stretch;
+            }
+
+
+            .state-box {
+                grid-column:
+                    1 / -1;
+            }
+
+
+            .record-card {
+                min-height: 150px;
+
+                padding: 28px;
+
+                border-radius: 26px;
+
+                display: flex;
+                flex-direction: column;
+
+                justify-content: center;
+            }
+
+
+            .card-header {
+                margin-bottom: 20px;
+
+                padding-bottom: 14px;
+            }
+
+
+            .status-badge {
+                padding: 8px 16px;
+
+                border-radius: 12px;
+
+                font-size: 15px;
+            }
+
+
+            .req-date {
+                font-size: 16px;
+
+                gap: 8px;
+            }
+
+
+            .req-date svg {
+                width: 20px;
+                height: 20px;
+            }
+
+
+            .user-info {
+                gap: 18px;
+            }
+
+
+            .user-icon {
+                width: 64px;
+                height: 64px;
+            }
+
+
+            .user-icon svg {
+                width: 30px;
+                height: 30px;
+            }
+
+
+            .user-details h3 {
+                margin-bottom: 7px;
+
+                font-size: 22px;
+            }
+
+
+            .user-details p {
+                font-size: 16px;
+            }
+
+
+            .modal-content {
+                width: 88%;
+
+                max-width: 760px;
+
+                padding:
+                    38px 36px;
+
+                border-radius: 32px;
+            }
+
+
+            .close-modal-btn {
+                width: 44px;
+                height: 44px;
+
+                top: 24px;
+                left: 24px;
+            }
+
+
+            .modal-title {
+                font-size: 27px;
+
+                margin-bottom: 28px;
+            }
+
+
+            .modal-title svg {
+                width: 30px;
+                height: 30px;
+            }
+
+
+            .detail-item {
+                padding: 17px 19px;
+
+                border-radius: 18px;
+            }
+
+
+            .detail-label {
+                font-size: 16px;
+
+                margin-bottom: 7px;
+            }
+
+
+            .detail-value {
+                font-size: 19px;
+            }
+
+
+            .detail-row {
+                gap: 16px;
+            }
+
+
+            .modal-actions {
+                gap: 16px;
+
+                margin-top: 24px;
+
+                padding-top: 24px;
+            }
+
+
+            .action-btn {
+                min-height: 58px;
+
+                border-radius: 17px;
+
+                font-size: 18px;
+            }
+
+
+            .reject-area {
+                padding: 19px;
+
+                border-radius: 20px;
+            }
+
+
+            .reject-label {
+                font-size: 16px;
+            }
+
+
+            .reject-input {
+                min-height: 110px;
+
+                padding: 15px 16px;
+
+                font-size: 17px;
+            }
+
+
+            .send-reject-btn {
+                min-height: 56px;
+
+                font-size: 18px;
+            }
+
+        }
+
+
+        /* ========================================
+           LARGE DESKTOP
+        ======================================== */
+
+        @media
+        (min-width: 1440px)
+        and (hover: hover)
+        and (pointer: fine) {
+
+            .wrapper {
+                max-width: 1380px;
+
+                padding-left: 52px;
+                padding-right: 52px;
+            }
+
+
+            .records-container {
+                gap: 28px;
+            }
+
+
+            .record-card {
+                min-height: 165px;
+
+                padding: 32px;
+            }
+
+
+            .page-title {
+                font-size: 38px;
+            }
+
+
+            .user-details h3 {
+                font-size: 24px;
+            }
+
+
+            .user-details p,
+            .req-date {
+                font-size: 17px;
+            }
+
+        }
+
+
+        /* ========================================
+           MOBILE
+        ======================================== */
+
+        @media (max-width: 600px) {
+
+            .detail-row {
+                flex-direction: column;
+
+                gap: 0;
+            }
+
+
+            .detail-row
+            .detail-item {
+                margin-bottom: 12px;
+            }
+
+
+            .modal-actions {
+                gap: 10px;
+            }
+
+
+            .action-btn {
+                min-height: 50px;
+
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================
+     TOAST
+======================================== -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+
+<div class="wrapper">
+
+
+    <!-- ========================================
+         TOP BAR
+    ======================================== -->
+
+    <div class="top-bar">
+
+
+        <button
+            type="button"
+            class="back-btn"
+            onclick="window.history.back()"
+        >
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5l7 7-7 7"
+                />
+
+            </svg>
+
+        </button>
+
+
+
+        <h1 class="page-title">
+            داواکاریێن مولەتێ
+        </h1>
+
+
+
+        <!-- NOTIFICATION BUTTON -->
+
+        <button
+            type="button"
+            class="notify-btn"
+            id="notifyBtn"
+            title="چالاککرنا ئاگەهداریان"
+        >
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341A6 6 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1"
+                />
+
+            </svg>
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- ========================================
+         REQUESTS
+    ======================================== -->
+
+    <div
+        class="records-container"
+        id="recordsContainer"
+    >
+
+        <div class="state-box">
+
+            <h3>
+                چاڤەرێ بە...
+            </h3>
+
+            <p>
+                داواکاری دهێنە بارکرن
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ========================================
+     DETAILS MODAL
+======================================== -->
+
+<div
+    class="modal-overlay"
+    id="detailsModal"
+>
+
+    <div class="modal-content">
+
+
+        <button
+            type="button"
+            class="close-modal-btn"
+            id="closeModalBtn"
+        >
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:22px;height:22px;"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                />
+
+            </svg>
+
+        </button>
+
+
+
+        <div class="modal-title">
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+
+            </svg>
+
+            وردەکاریێن مولەتێ
+
+        </div>
+
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                ناڤێ داخوازکری
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlName"
+            >
+                --
+            </span>
+
+        </div>
+
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                ئیمەیڵ
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlEmail"
+            >
+                --
+            </span>
+
+        </div>
+
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                کەنگی داخواز کریە؟
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlReqDate"
+                dir="ltr"
+            >
+                --
+            </span>
+
+        </div>
+
+
+
+        <div class="detail-row">
+
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    بۆ کەنگی دڤێت؟
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlLeaveDate"
+                    dir="ltr"
+                    style="color:#ff8c00;"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    جۆرێ مولەتێ
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlType"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div
+            class="detail-item time-box-special"
+            id="mdlTimeBox"
+            style="display:none;"
+        >
+
+            <span
+                class="detail-label"
+                style="color:#e65100;"
+            >
+                دەمژمێرێن مولەتێ
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlTime"
+                dir="ltr"
+                style="color:#c24100;"
+            >
+                --
+            </span>
+
+        </div>
+
+
+
+        <!-- ACTIONS -->
+
+        <div class="modal-actions">
+
+
+            <button
+                type="button"
+                class="action-btn approve-btn"
+                id="approveBtn"
+            >
+                پەسەندکرن
+            </button>
+
+
+            <button
+                type="button"
+                class="action-btn reject-btn"
+                id="rejectBtn"
+            >
+                رەتکرن
+            </button>
+
+
+        </div>
+
+
+
+        <!-- REJECT REASON -->
+
+        <div
+            class="reject-area"
+            id="rejectArea"
+        >
+
+            <label
+                class="reject-label"
+                for="rejectReason"
+            >
+                هۆکارێ رەتکرنێ
+            </label>
+
+
+            <textarea
+                class="reject-input"
+                id="rejectReason"
+                placeholder="هۆکارێ رەتکرنێ بنڤیسە..."
+            ></textarea>
+
+
+            <button
+                type="button"
+                class="send-reject-btn"
+                id="sendRejectBtn"
+            >
+                هنارتن
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script type="module">
+
+    /* ========================================
+       FIREBASE IMPORTS
+    ======================================== */
+
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+    import {
+        getAuth,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+    import {
+        getDatabase,
+        ref,
+        get,
+        onValue,
+        update,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+    /* ========================================
+       FIREBASE CONFIG
+    ======================================== */
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+        authDomain: "office-8e7cb.firebaseapp.com",
+        databaseURL: "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "office-8e7cb",
+        storageBucket: "office-8e7cb.firebasestorage.app",
+        messagingSenderId: "604465845047",
+        appId: "1:604465845047:web:42004e33906c8986ee80b2",
+        measurementId: "G-LJJM71LQ0K"
+    };
+
+
+    /* ========================================
+       EMAIL BACKEND
+
+       For the current test, keep email-server
+       running on this computer:
+
+           cd email-server
+           node server.js
+
+       Later, when the email backend is deployed
+       online, replace this localhost URL with the
+       HTTPS URL of that backend.
+    ======================================== */
+
+    const EMAIL_API_URL =
+        "http://localhost:3000/api/leave-decision";
+
+
+    /* ========================================
+       INITIALIZE
+    ======================================== */
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+
+    /* ========================================
+       ELEMENTS
+    ======================================== */
+
+    const recordsContainer =
+        document.getElementById("recordsContainer");
+
+    const detailsModal =
+        document.getElementById("detailsModal");
+
+    const closeModalBtn =
+        document.getElementById("closeModalBtn");
+
+    const notifyBtn =
+        document.getElementById("notifyBtn");
+
+    const toast =
+        document.getElementById("toast");
+
+    const mdlName =
+        document.getElementById("mdlName");
+
+    const mdlEmail =
+        document.getElementById("mdlEmail");
+
+    const mdlReqDate =
+        document.getElementById("mdlReqDate");
+
+    const mdlLeaveDate =
+        document.getElementById("mdlLeaveDate");
+
+    const mdlType =
+        document.getElementById("mdlType");
+
+    const mdlTimeBox =
+        document.getElementById("mdlTimeBox");
+
+    const mdlTime =
+        document.getElementById("mdlTime");
+
+    const approveBtn =
+        document.getElementById("approveBtn");
+
+    const rejectBtn =
+        document.getElementById("rejectBtn");
+
+    const rejectArea =
+        document.getElementById("rejectArea");
+
+    const rejectReason =
+        document.getElementById("rejectReason");
+
+    const sendRejectBtn =
+        document.getElementById("sendRejectBtn");
+
+
+    /* ========================================
+       STATE
+    ======================================== */
+
+    let currentOwner = null;
+    let currentRequestId = null;
+    let requestsCache = {};
+
+    let firstRequestsLoad = true;
+    let knownRequestIds = new Set();
+
+    let audioContext = null;
+
+
+    /* ========================================
+       TOAST
+    ======================================== */
+
+    let toastTimer = null;
+
+    function showToast(text, type = "") {
+        clearTimeout(toastTimer);
+
+        toast.textContent = text;
+        toast.className = `toast ${type} show`;
+
+        toastTimer = setTimeout(() => {
+            toast.className = "toast";
+        }, 3400);
+    }
+
+
+    /* ========================================
+       AUDIO
+    ======================================== */
+
+    async function unlockNotificationSound() {
+        try {
+            const AudioContextClass =
+                window.AudioContext ||
+                window.webkitAudioContext;
+
+            if (!AudioContextClass) {
+                return false;
+            }
+
+            if (!audioContext) {
+                audioContext =
+                    new AudioContextClass();
+            }
+
+            if (
+                audioContext.state ===
+                "suspended"
+            ) {
+                await audioContext.resume();
+            }
+
+            return (
+                audioContext.state ===
+                "running"
+            );
+        }
+        catch(error) {
+            console.error(
+                "Audio unlock error:",
+                error
+            );
+
+            return false;
+        }
+    }
+
+
+    async function playNewRequestSound() {
+        const ready =
+            await unlockNotificationSound();
+
+        if (!ready || !audioContext) {
+            return;
+        }
+
+        const now =
+            audioContext.currentTime;
+
+        createNotificationTone(
+            880,
+            now,
+            0.22
+        );
+
+        createNotificationTone(
+            1175,
+            now + 0.27,
+            0.28
+        );
+    }
+
+
+    function createNotificationTone(
+        frequency,
+        startAt,
+        duration
+    ) {
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+        oscillator.type =
+            "sine";
+
+        oscillator.frequency.setValueAtTime(
+            frequency,
+            startAt
+        );
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            startAt
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.32,
+            startAt + 0.025
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            startAt + duration
+        );
+
+        oscillator.connect(gain);
+        gain.connect(
+            audioContext.destination
+        );
+
+        oscillator.start(startAt);
+
+        oscillator.stop(
+            startAt + duration + 0.05
+        );
+    }
+
+
+    document.addEventListener(
+        "pointerdown",
+        function unlockOnce() {
+            unlockNotificationSound();
+
+            document.removeEventListener(
+                "pointerdown",
+                unlockOnce
+            );
+        }
+    );
+
+
+    /* ========================================
+       OWNER AUTH
+    ======================================== */
+
+    onAuthStateChanged(
+        auth,
+        async function(user) {
+            if (!user) {
+                window.location.replace(
+                    "../login/login.html"
+                );
+                return;
+            }
+
+            try {
+                const ownerSnapshot =
+                    await get(
+                        ref(
+                            database,
+                            `users/${user.uid}`
+                        )
+                    );
+
+                if (!ownerSnapshot.exists()) {
+                    await goToLogin();
+                    return;
+                }
+
+                const profile =
+                    ownerSnapshot.val();
+
+                if (
+                    String(
+                        profile.role
+                    ).toLowerCase() !== "owner"
+                ) {
+                    await goToLogin();
+                    return;
+                }
+
+                if (
+                    profile.active === false
+                ) {
+                    await goToLogin();
+                    return;
+                }
+
+                currentOwner = user;
+
+                startRequestsListener();
+
+                /*
+                 * The bell on the owner page only
+                 * unlocks/tests the local new-request sound.
+                 * Email delivery does not require browser
+                 * notification permission or a service worker.
+                 */
+                notifyBtn.classList.add(
+                    "need-permission"
+                );
+
+                notifyBtn.title =
+                    "کلیک بکە بۆ چالاککرنا دەنگێ ئاگەهداریێ";
+            }
+            catch(error) {
+                console.error(
+                    "Owner verification error:",
+                    error
+                );
+
+                showToast(
+                    "هەڵە د پشکنینا هەژمارێ رێڤەبەری.",
+                    "error"
+                );
+            }
+        }
+    );
+
+
+    async function goToLogin() {
+        try {
+            await signOut(auth);
+        }
+        catch(error) {
+            console.error(error);
+        }
+
+        window.location.replace(
+            "../login/login.html"
+        );
+    }
+
+
+    /* ========================================
+       OWNER BELL
+    ======================================== */
+
+    notifyBtn.addEventListener(
+        "click",
+        async function() {
+            const ready =
+                await unlockNotificationSound();
+
+            if (!ready) {
+                showToast(
+                    "براوزەرێ نەشیا دەنگی چالاک بکەت.",
+                    "error"
+                );
+                return;
+            }
+
+            notifyBtn.classList.remove(
+                "need-permission",
+                "denied"
+            );
+
+            notifyBtn.classList.add(
+                "active"
+            );
+
+            notifyBtn.title =
+                "دەنگێ ئاگەهداریێ چالاکە";
+
+            await playNewRequestSound();
+
+            showToast(
+                "دەنگێ ئاگەهداریێ چالاک بوو.",
+                "success"
+            );
+        }
+    );
+
+
+    /* ========================================
+       REALTIME REQUESTS
+    ======================================== */
+
+    function startRequestsListener() {
+        const requestsRef =
+            ref(
+                database,
+                "leaveRequests"
+            );
+
+        onValue(
+            requestsRef,
+
+            async function(snapshot) {
+                const newData =
+                    snapshot.exists()
+                        ? snapshot.val() || {}
+                        : {};
+
+                const newIds =
+                    Object.keys(newData);
+
+                /*
+                 * First page load:
+                 * remember existing IDs so old requests
+                 * do not play a "new request" sound.
+                 */
+                if (firstRequestsLoad) {
+                    knownRequestIds =
+                        new Set(newIds);
+
+                    firstRequestsLoad =
+                        false;
+
+                    requestsCache =
+                        newData;
+
+                    if (newIds.length === 0) {
+                        renderEmptyState();
+                    }
+                    else {
+                        renderRequests();
+                    }
+
+                    return;
+                }
+
+                const addedRequestIds =
+                    newIds.filter(
+                        requestId =>
+                            !knownRequestIds.has(
+                                requestId
+                            )
+                    );
+
+                const newPendingRequestIds =
+                    addedRequestIds.filter(
+                        requestId => {
+                            const request =
+                                newData[requestId];
+
+                            return (
+                                request &&
+                                request.status ===
+                                "pending"
+                            );
+                        }
+                    );
+
+                requestsCache =
+                    newData;
+
+                knownRequestIds =
+                    new Set(newIds);
+
+                if (newIds.length === 0) {
+                    renderEmptyState();
+                }
+                else {
+                    renderRequests();
+                }
+
+                if (
+                    newPendingRequestIds.length >
+                    0
+                ) {
+                    await playNewRequestSound();
+
+                    const latestId =
+                        newPendingRequestIds[
+                            newPendingRequestIds.length - 1
+                        ];
+
+                    const latestRequest =
+                        newData[latestId];
+
+                    const name =
+                        latestRequest.name ||
+                        "بەکارهێنەر";
+
+                    showToast(
+                        `${name} داواکارییا مولەتێ هنارت.`,
+                        "warning"
+                    );
+                }
+            },
+
+            function(error) {
+                console.error(
+                    "Requests listener error:",
+                    error
+                );
+
+                recordsContainer.innerHTML = `
+                    <div class="state-box">
+                        <h3>هەڵە</h3>
+                        <p>داواکاری نەهاتنە بارکرن</p>
+                    </div>
+                `;
+            }
+        );
+    }
+
+
+    /* ========================================
+       RENDER REQUESTS
+    ======================================== */
+
+    function renderRequests() {
+        const requests =
+            Object.entries(
+                requestsCache
+            );
+
+        if (
+            requests.length === 0
+        ) {
+            renderEmptyState();
+            return;
+        }
+
+        requests.sort(
+            function(a, b) {
+                const first =
+                    Number(
+                        a[1].createdAt
+                    ) || 0;
+
+                const second =
+                    Number(
+                        b[1].createdAt
+                    ) || 0;
+
+                return (
+                    second -
+                    first
+                );
+            }
+        );
+
+        const seenRequests =
+            getSeenRequests();
+
+        recordsContainer.innerHTML =
+            "";
+
+        requests.forEach(
+            function([
+                requestId,
+                request
+            ]) {
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "record-card";
+
+                card.dataset.requestId =
+                    requestId;
+
+                if (
+                    request.status ===
+                    "pending" &&
+                    !seenRequests.includes(
+                        requestId
+                    )
+                ) {
+                    card.classList.add(
+                        "new-request"
+                    );
+                }
+
+                const status =
+                    getStatusData(
+                        request.status
+                    );
+
+                card.innerHTML = `
+                    <div class="card-header">
+
+                        <span
+                            class="status-badge ${status.className}"
+                        >
+                            ${status.text}
+                        </span>
+
+                        <span class="req-date">
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                            </svg>
+
+                            <span dir="ltr">
+                                ${escapeHTML(
+                                    formatDateOnly(
+                                        request.createdAt
+                                    )
+                                )}
+                            </span>
+
+                        </span>
+                    </div>
+
+                    <div class="user-info">
+
+                        <div class="user-icon">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                />
+                            </svg>
+                        </div>
+
+                        <div class="user-details">
+                            <h3>
+                                ${escapeHTML(
+                                    request.name ||
+                                    "بەکارهێنەر"
+                                )}
+                            </h3>
+
+                            <p>
+                                ${escapeHTML(
+                                    request.email ||
+                                    ""
+                                )}
+                            </p>
+                        </div>
+
+                    </div>
+                `;
+
+                card.addEventListener(
+                    "click",
+                    function() {
+                        openRequest(
+                            requestId
+                        );
+                    }
+                );
+
+                recordsContainer.appendChild(
+                    card
+                );
+            }
+        );
+    }
+
+
+    /* ========================================
+       EMPTY
+    ======================================== */
+
+    function renderEmptyState() {
+        recordsContainer.innerHTML = `
+            <div class="state-box">
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"
+                    />
+                </svg>
+
+                <h3>
+                    داواکاری نینن
+                </h3>
+
+                <p>
+                    هێشتا داواکارییا مولەتێ نەهاتیە هنارتن
+                </p>
+
+            </div>
+        `;
+    }
+
+
+    /* ========================================
+       OPEN REQUEST
+    ======================================== */
+
+    function openRequest(
+        requestId
+    ) {
+        const request =
+            requestsCache[
+                requestId
+            ];
+
+        if (!request) {
+            return;
+        }
+
+        currentRequestId =
+            requestId;
+
+        mdlName.textContent =
+            request.name ||
+            "بەکارهێنەر";
+
+        mdlEmail.textContent =
+            request.email ||
+            "--";
+
+        mdlReqDate.textContent =
+            formatDateTime(
+                request.createdAt
+            );
+
+        mdlLeaveDate.textContent =
+            formatLeaveDate(
+                request.leaveDate
+            );
+
+        mdlType.textContent =
+            request.leaveTypeText ||
+            (
+                request.leaveType ===
+                "hours"
+                    ? "دەمژمێر"
+                    : "تەمامیا دەمێ کاری"
+            );
+
+        if (
+            request.leaveType ===
+            "hours"
+        ) {
+            mdlTimeBox.style.display =
+                "flex";
+
+            mdlTime.textContent =
+                `${formatTime(
+                    request.startTime
+                )} - ${formatTime(
+                    request.endTime
+                )}`;
+        }
+        else {
+            mdlTimeBox.style.display =
+                "none";
+        }
+
+        rejectArea.classList.remove(
+            "active"
+        );
+
+        rejectReason.value =
+            "";
+
+        rejectReason.style.borderColor =
+            "";
+
+        const pending =
+            request.status ===
+            "pending";
+
+        approveBtn.disabled =
+            !pending;
+
+        rejectBtn.disabled =
+            !pending;
+
+        if (
+            request.status ===
+            "approved"
+        ) {
+            approveBtn.textContent =
+                "پەسەندکری";
+
+            rejectBtn.textContent =
+                "رەتکرن";
+        }
+        else if (
+            request.status ===
+            "rejected"
+        ) {
+            approveBtn.textContent =
+                "پەسەندکرن";
+
+            rejectBtn.textContent =
+                "رەتکری";
+        }
+        else {
+            approveBtn.textContent =
+                "پەسەندکرن";
+
+            rejectBtn.textContent =
+                "رەتکرن";
+        }
+
+        markRequestSeen(
+            requestId
+        );
+
+        detailsModal.classList.add(
+            "active"
+        );
+    }
+
+
+    /* ========================================
+       SEND LEAVE DECISION EMAIL
+    ======================================== */
+
+    async function sendLeaveDecisionEmail(
+        requestId,
+        status,
+        rejectText = null
+    ) {
+        if (!currentOwner) {
+            throw new Error(
+                "Owner is not authenticated."
+            );
+        }
+
+        const request =
+            requestsCache[requestId];
+
+        if (
+            !request ||
+            !request.userId
+        ) {
+            throw new Error(
+                "Request userId is missing."
+            );
+        }
+
+        const idToken =
+            await currentOwner.getIdToken(
+                true
+            );
+
+        const response =
+            await fetch(
+                EMAIL_API_URL,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${idToken}`
+                    },
+
+                    body: JSON.stringify({
+                        requestId:
+                            requestId,
+
+                        userId:
+                            request.userId,
+
+                        status:
+                            status,
+
+                        rejectReason:
+                            rejectText ||
+                            null
+                    })
+                }
+            );
+
+        const result =
+            await response.json()
+                .catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(
+                result.error ||
+                result.message ||
+                `Email server error ${response.status}`
+            );
+        }
+
+        if (
+            result.sent === false
+        ) {
+            throw new Error(
+                result.error ||
+                result.message ||
+                "Email was not sent."
+            );
+        }
+
+        return result;
+    }
+
+
+    /* ========================================
+       APPROVE
+    ======================================== */
+
+    approveBtn.addEventListener(
+        "click",
+        async function() {
+            if (
+                !currentRequestId ||
+                !currentOwner
+            ) {
+                return;
+            }
+
+            const requestId =
+                currentRequestId;
+
+            approveBtn.disabled =
+                true;
+
+            rejectBtn.disabled =
+                true;
+
+            approveBtn.textContent =
+                "چاڤەرێ بە...";
+
+            try {
+                /*
+                 * 1) Save the owner's decision first.
+                 */
+                await update(
+                    ref(
+                        database,
+                        `leaveRequests/${requestId}`
+                    ),
+                    {
+                        status:
+                            "approved",
+
+                        rejectReason:
+                            null,
+
+                        reviewedBy:
+                            currentOwner.uid,
+
+                        reviewedAt:
+                            serverTimestamp()
+                    }
+                );
+
+                /*
+                 * 2) Send the approval email.
+                 *
+                 * An email failure does NOT undo the
+                 * approved leave decision in Firebase.
+                 */
+                try {
+                    await sendLeaveDecisionEmail(
+                        requestId,
+                        "approved",
+                        null
+                    );
+
+                    showToast(
+                        "داواکاری هاتە پەسەندکرن و ئیمەیڵ هاتە هنارتن.",
+                        "success"
+                    );
+                }
+                catch(emailError) {
+                    console.error(
+                        "Approve email error:",
+                        emailError
+                    );
+
+                    showToast(
+                        "داواکاری هاتە پەسەندکرن، بەس ئیمەیڵ نەهاتە هنارتن.",
+                        "warning"
+                    );
+                }
+
+                detailsModal.classList.remove(
+                    "active"
+                );
+            }
+            catch(error) {
+                console.error(
+                    "Approve error:",
+                    error
+                );
+
+                showToast(
+                    "داواکاری نەهاتە پەسەندکرن.",
+                    "error"
+                );
+
+                approveBtn.disabled =
+                    false;
+
+                rejectBtn.disabled =
+                    false;
+
+                approveBtn.textContent =
+                    "پەسەندکرن";
+            }
+        }
+    );
+
+
+    /* ========================================
+       REJECT
+    ======================================== */
+
+    rejectBtn.addEventListener(
+        "click",
+        function() {
+            rejectArea.classList.add(
+                "active"
+            );
+
+            rejectReason.focus();
+        }
+    );
+
+
+    sendRejectBtn.addEventListener(
+        "click",
+        async function() {
+            if (
+                !currentRequestId ||
+                !currentOwner
+            ) {
+                return;
+            }
+
+            const requestId =
+                currentRequestId;
+
+            const reason =
+                rejectReason.value.trim();
+
+            if (!reason) {
+                rejectReason.style.borderColor =
+                    "#ef4444";
+
+                rejectReason.focus();
+                return;
+            }
+
+            sendRejectBtn.disabled =
+                true;
+
+            sendRejectBtn.textContent =
+                "چاڤەرێ بە...";
+
+            approveBtn.disabled =
+                true;
+
+            rejectBtn.disabled =
+                true;
+
+            try {
+                /*
+                 * 1) Save rejection to Firebase.
+                 */
+                await update(
+                    ref(
+                        database,
+                        `leaveRequests/${requestId}`
+                    ),
+                    {
+                        status:
+                            "rejected",
+
+                        rejectReason:
+                            reason,
+
+                        reviewedBy:
+                            currentOwner.uid,
+
+                        reviewedAt:
+                            serverTimestamp()
+                    }
+                );
+
+                /*
+                 * 2) Send the rejection email with reason.
+                 */
+                try {
+                    await sendLeaveDecisionEmail(
+                        requestId,
+                        "rejected",
+                        reason
+                    );
+
+                    showToast(
+                        "داواکاری هاتە رەتکرن و ئیمەیڵ هاتە هنارتن.",
+                        "success"
+                    );
+                }
+                catch(emailError) {
+                    console.error(
+                        "Reject email error:",
+                        emailError
+                    );
+
+                    showToast(
+                        "داواکاری هاتە رەتکرن، بەس ئیمەیڵ نەهاتە هنارتن.",
+                        "warning"
+                    );
+                }
+
+                detailsModal.classList.remove(
+                    "active"
+                );
+            }
+            catch(error) {
+                console.error(
+                    "Reject error:",
+                    error
+                );
+
+                showToast(
+                    "داواکاری نەهاتە رەتکرن.",
+                    "error"
+                );
+
+                approveBtn.disabled =
+                    false;
+
+                rejectBtn.disabled =
+                    false;
+            }
+            finally {
+                sendRejectBtn.disabled =
+                    false;
+
+                sendRejectBtn.textContent =
+                    "هنارتن";
+            }
+        }
+    );
+
+
+    rejectReason.addEventListener(
+        "input",
+        function() {
+            rejectReason.style.borderColor =
+                "";
+        }
+    );
+
+
+    /* ========================================
+       SEEN REQUESTS
+    ======================================== */
+
+    function getSeenRequests() {
+        try {
+            return JSON.parse(
+                localStorage.getItem(
+                    "ownerSeenLeaveRequests"
+                ) || "[]"
+            );
+        }
+        catch(error) {
+            return [];
+        }
+    }
+
+
+    function markRequestSeen(
+        requestId
+    ) {
+        const seen =
+            getSeenRequests();
+
+        if (
+            !seen.includes(
+                requestId
+            )
+        ) {
+            seen.push(
+                requestId
+            );
+
+            localStorage.setItem(
+                "ownerSeenLeaveRequests",
+                JSON.stringify(seen)
+            );
+        }
+
+        const card =
+            recordsContainer.querySelector(
+                `[data-request-id="${requestId}"]`
+            );
+
+        if (card) {
+            card.classList.remove(
+                "new-request"
+            );
+        }
+    }
+
+
+    /* ========================================
+       CLOSE MODAL
+    ======================================== */
+
+    closeModalBtn.addEventListener(
+        "click",
+        function() {
+            detailsModal.classList.remove(
+                "active"
+            );
+        }
+    );
+
+
+    detailsModal.addEventListener(
+        "click",
+        function(event) {
+            if (
+                event.target ===
+                detailsModal
+            ) {
+                detailsModal.classList.remove(
+                    "active"
+                );
+            }
+        }
+    );
+
+
+    /* ========================================
+       STATUS
+    ======================================== */
+
+    function getStatusData(
+        status
+    ) {
+        if (
+            status ===
+            "approved"
+        ) {
+            return {
+                className:
+                    "status-approved",
+
+                text:
+                    "پەسەندکری"
+            };
+        }
+
+        if (
+            status ===
+            "rejected"
+        ) {
+            return {
+                className:
+                    "status-cancelled",
+
+                text:
+                    "رەتکری"
+            };
+        }
+
+        return {
+            className:
+                "status-pending",
+
+            text:
+                "ل چاڤەڕێیێ یە"
+        };
+    }
+
+
+    /* ========================================
+       DATE HELPERS
+    ======================================== */
+
+    function formatLeaveDate(
+        value
+    ) {
+        if (!value) {
+            return "--";
+        }
+
+        const parts =
+            String(value).split("-");
+
+        if (
+            parts.length !==
+            3
+        ) {
+            return value;
+        }
+
+        return (
+            `${parts[2]}/${parts[1]}/${parts[0]}`
+        );
+    }
+
+
+    function formatDateOnly(
+        timestamp
+    ) {
+        if (
+            !timestamp ||
+            !Number(timestamp)
+        ) {
+            return "--/--/----";
+        }
+
+        const date =
+            new Date(
+                Number(timestamp)
+            );
+
+        return (
+            `${pad(
+                date.getDate()
+            )}/${pad(
+                date.getMonth() + 1
+            )}/${date.getFullYear()}`
+        );
+    }
+
+
+    function formatDateTime(
+        timestamp
+    ) {
+        if (
+            !timestamp ||
+            !Number(timestamp)
+        ) {
+            return "--";
+        }
+
+        const date =
+            new Date(
+                Number(timestamp)
+            );
+
+        const rawTime =
+            `${pad(
+                date.getHours()
+            )}:${pad(
+                date.getMinutes()
+            )}`;
+
+        return (
+            `${pad(
+                date.getDate()
+            )}/${pad(
+                date.getMonth() + 1
+            )}/${date.getFullYear()} - ${formatTime(
+                rawTime
+            )}`
+        );
+    }
+
+
+    function formatTime(
+        time
+    ) {
+        if (!time) {
+            return "--";
+        }
+
+        const parts =
+            String(time).split(":");
+
+        let hour =
+            Number(parts[0]);
+
+        const minute =
+            parts[1] ||
+            "00";
+
+        const suffix =
+            hour >= 12
+                ? "PM"
+                : "AM";
+
+        hour =
+            hour % 12 ||
+            12;
+
+        return (
+            `${pad(hour)}:${minute} ${suffix}`
+        );
+    }
+
+
+    function pad(
+        number
+    ) {
+        return String(number)
+            .padStart(
+                2,
+                "0"
+            );
+    }
+
+
+    function escapeHTML(
+        value
+    ) {
+        return String(
+            value ?? ""
+        )
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+    }
+
+</script>
+
+
+</body>
+</html>

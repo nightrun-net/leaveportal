@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Office Users</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #f8fafc;
+    color: #111827;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 16px;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 25px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 12px 30px rgba(0,0,0,.05);
+}
+
+.card-title {
+    margin: 0 0 24px;
+    font-size: 23px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 14px;
+    background: #f9fafb;
+    outline: none;
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    border-color: #ff7e5f;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255,126,95,.1);
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-left: 55px;
+}
+
+.eye-btn {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+.create-btn {
+    margin-top: 22px;
+    min-width: 190px;
+    padding: 15px 28px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(
+        135deg,
+        #FF9800,
+        #FF5722
+    );
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.create-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.message {
+    display: none;
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 13px;
+    font-weight: 700;
+}
+
+.message.success {
+    display: block;
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.message.error {
+    display: block;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 17px;
+    text-align: right;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+th {
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 15px;
+}
+
+td {
+    font-size: 16px;
+}
+
+.email {
+    direction: ltr;
+    text-align: right;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #ecfdf5;
+    color: #15803d;
+    font-weight: 700;
+}
+
+.empty {
+    text-align: center;
+    color: #94a3b8;
+    padding: 35px;
+}
+
+@media(max-width: 750px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 20px 15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+    <div class="header">
+
+        <h1>
+            بەکارهێنەرێن ئۆفیسێ
+        </h1>
+
+        <p>
+            دروستکرنا هەژمارێن کارمەندان
+        </p>
+
+    </div>
+
+
+    <!-- CREATE USER -->
+
+    <div class="card">
+
+        <h2 class="card-title">
+            دروستکرنا بەکارهێنەرێ نووی
+        </h2>
+
+
+        <form id="userForm">
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="name">
+                        ناڤ
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        required
+                        placeholder="ناڤێ کارمەندی"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        ئیمەیڵ
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        required
+                        placeholder="user@office.com"
+                        dir="ltr"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        پەیڤا نهێنی
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            minlength="6"
+                            required
+                            placeholder="پەیڤا نهێنی"
+                        >
+
+                        <button
+                            type="button"
+                            class="eye-btn"
+                            id="eyeBtn"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="create-btn"
+                id="createBtn"
+            >
+                دروستکرنا بەکارهێنەری
+            </button>
+
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- USERS TABLE -->
+
+    <div class="card">
+
+        <h2 class="card-title">
+            بەکارهێنەرێن تومارکری
+        </h2>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>ناڤ</th>
+
+                        <th>ئیمەیڵ</th>
+
+                        <th>رول</th>
+
+                        <th>بارودۆخ</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="usersTable">
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty"
+                        >
+                            چاڤەرێ بە...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script type="module">
+
+
+/* ==============================
+   FIREBASE IMPORTS
+============================== */
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+import {
+    getDatabase,
+    ref,
+    set,
+    get,
+    onValue,
+    serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+
+/* ==============================
+   FIREBASE CONFIG
+============================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+
+    authDomain:
+        "office-8e7cb.firebaseapp.com",
+
+    databaseURL:
+        "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+        "office-8e7cb",
+
+    storageBucket:
+        "office-8e7cb.firebasestorage.app",
+
+    messagingSenderId:
+        "604465845047",
+
+    appId:
+        "1:604465845047:web:42004e33906c8986ee80b2",
+
+    measurementId:
+        "G-LJJM71LQ0K"
+
+};
+
+
+
+/* ==============================
+   MAIN OWNER APP
+============================== */
+
+const app =
+    initializeApp(
+        firebaseConfig
+    );
+
+
+const auth =
+    getAuth(app);
+
+
+const database =
+    getDatabase(app);
+
+
+
+/* ==============================
+   SECOND FIREBASE APP
+
+   Used only to create users.
+   This keeps the owner logged in.
+============================== */
+
+const creatorApp =
+    initializeApp(
+        firebaseConfig,
+        "userCreator"
+    );
+
+
+const creatorAuth =
+    getAuth(
+        creatorApp
+    );
+
+
+
+/* ==============================
+   ELEMENTS
+============================== */
+
+const userForm =
+    document.getElementById(
+        "userForm"
+    );
+
+
+const nameInput =
+    document.getElementById(
+        "name"
+    );
+
+
+const emailInput =
+    document.getElementById(
+        "email"
+    );
+
+
+const passwordInput =
+    document.getElementById(
+        "password"
+    );
+
+
+const createBtn =
+    document.getElementById(
+        "createBtn"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+const usersTable =
+    document.getElementById(
+        "usersTable"
+    );
+
+
+
+/* ==============================
+   OWNER CHECK
+============================== */
+
+let usersListenerStarted =
+    false;
+
+
+onAuthStateChanged(
+    auth,
+    async owner => {
+
+
+        if (!owner) {
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return;
+        }
+
+
+        try {
+
+
+            const ownerSnapshot =
+                await get(
+
+                    ref(
+                        database,
+                        `users/${owner.uid}`
+                    )
+
+                );
+
+
+            if (!ownerSnapshot.exists()) {
+
+                showMessage(
+                    "پروفایلێ Owner نەهاتە دیتن.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            const ownerData =
+                ownerSnapshot.val();
+
+
+            if (
+                ownerData.role !==
+                "owner"
+            ) {
+
+
+                await signOut(auth);
+
+
+                window.location.replace(
+                    "login.html"
+                );
+
+
+                return;
+            }
+
+
+            startUsersListener();
+
+
+        }
+        catch(error) {
+
+
+            console.error(error);
+
+
+            showMessage(
+                "هەڵە د دیتنا هەژمارێ Owner.",
+                "error"
+            );
+
+
+        }
+
+
+    }
+);
+
+
+
+/* ==============================
+   CREATE USER
+============================== */
+
+userForm.addEventListener(
+    "submit",
+    async event => {
+
+
+        event.preventDefault();
+
+
+        clearMessage();
+
+
+
+        const name =
+            nameInput.value
+                .trim();
+
+
+        const email =
+            emailInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const password =
+            passwordInput.value;
+
+
+
+        if (
+            !name ||
+            !email ||
+            !password
+        ) {
+
+
+            showMessage(
+                "هیڤیە هەمی خانەیان پڕ بکە.",
+                "error"
+            );
+
+
+            return;
+        }
+
+
+
+        if (
+            password.length < 6
+        ) {
+
+
+            showMessage(
+                "پەیڤا نهێنی کێمترین 6 پیت بیت.",
+                "error"
+            );
+
+
+            return;
+        }
+
+
+
+        createBtn.disabled =
+            true;
+
+
+        createBtn.textContent =
+            "چاڤەرێ بە...";
+
+
+        try {
+
+
+            /* ======================
+               CREATE AUTH USER
+            ====================== */
+
+            const userCredential =
+                await createUserWithEmailAndPassword(
+
+                    creatorAuth,
+
+                    email,
+
+                    password
+
+                );
+
+
+            const newUser =
+                userCredential.user;
+
+
+
+            /* ======================
+               CREATE RTDB PROFILE
+            ====================== */
+
+            await set(
+
+                ref(
+                    database,
+                    `users/${newUser.uid}`
+                ),
+
+                {
+
+                    name:
+                        name,
+
+                    email:
+                        email,
+
+                    role:
+                        "user",
+
+                    active:
+                        true,
+
+                    createdBy:
+                        auth.currentUser.uid,
+
+                    createdAt:
+                        serverTimestamp()
+
+                }
+
+            );
+
+
+
+            /* Sign out only newly
+               created account */
+
+            await signOut(
+                creatorAuth
+            );
+
+
+
+            userForm.reset();
+
+
+
+            showMessage(
+                "بەکارهێنەر ب سەرکەفتی هات دروستکرن.",
+                "success"
+            );
+
+
+        }
+        catch(error) {
+
+
+            console.error(
+                error
+            );
+
+
+            let text =
+                "هەڵەیەک روو دا.";
+
+
+            if (
+                error.code ===
+                "auth/email-already-in-use"
+            ) {
+
+                text =
+                    "ئەڤ ئیمەیڵە ژ بەری نوکە هاتیە بکارئینان.";
+
+            }
+
+
+            else if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
+                text =
+                    "ئیمەیلا داخلکری یا دروست نینە.";
+
+            }
+
+
+            else if (
+                error.code ===
+                "auth/weak-password"
+            ) {
+
+                text =
+                    "پەیڤا نهێنی زەعیفە.";
+
+            }
+
+
+            else if (
+                error.code ===
+                "auth/network-request-failed"
+            ) {
+
+                text =
+                    "پەیوەندی ب ئینتەرنێتێ ڤە نینە.";
+
+            }
+
+
+            else if (
+                error.code ===
+                "PERMISSION_DENIED" ||
+                error.code ===
+                "database/permission-denied"
+            ) {
+
+                text =
+                    "دەستهەلاتا نووسینێ د Database دا نینە.";
+
+            }
+
+
+            showMessage(
+                text,
+                "error"
+            );
+
+
+        }
+        finally {
+
+
+            createBtn.disabled =
+                false;
+
+
+            createBtn.textContent =
+                "دروستکرنا بەکارهێنەری";
+
+
+        }
+
+
+    }
+);
+
+
+
+/* ==============================
+   REALTIME USER LIST
+============================== */
+
+function startUsersListener() {
+
+
+    if (
+        usersListenerStarted
+    ) {
+
+        return;
+
+    }
+
+
+    usersListenerStarted =
+        true;
+
+
+    onValue(
+
+        ref(
+            database,
+            "users"
+        ),
+
+        snapshot => {
+
+
+            usersTable.innerHTML =
+                "";
+
+
+            if (!snapshot.exists()) {
+
+
+                usersTable.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty"
+                        >
+                            بەکارهێنەر نینن
+                        </td>
+
+                    </tr>
+
+                `;
+
+
+                return;
+            }
+
+
+
+            const data =
+                snapshot.val();
+
+
+            let count =
+                0;
+
+
+
+            Object.entries(data)
+            .forEach(
+                ([uid, user]) => {
+
+
+                    /* Don't show owner */
+
+                    if (
+                        user.role !==
+                        "user"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    count++;
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${count}
+                        </td>
+
+                        <td>
+                            <strong>
+                                ${escapeHTML(
+                                    user.name || "-"
+                                )}
+                            </strong>
+                        </td>
+
+                        <td class="email">
+                            ${escapeHTML(
+                                user.email || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            User
+                        </td>
+
+                        <td>
+
+                            <span class="status">
+
+                                ${
+                                    user.active === false
+                                    ? "راگرتی"
+                                    : "چالاک"
+                                }
+
+                            </span>
+
+                        </td>
+
+                    `;
+
+
+                    usersTable.appendChild(
+                        row
+                    );
+
+
+                }
+            );
+
+
+
+            if (
+                count === 0
+            ) {
+
+
+                usersTable.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty"
+                        >
+                            هێشتا بەکارهێنەر نەهاتیە دروستکرن
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+
+        }
+
+    );
+
+
+}
+
+
+
+/* ==============================
+   SHOW PASSWORD
+============================== */
+
+document
+.getElementById(
+    "eyeBtn"
+)
+.addEventListener(
+    "click",
+    function() {
+
+
+        passwordInput.type =
+            passwordInput.type ===
+            "password"
+            ? "text"
+            : "password";
+
+
+    }
+);
+
+
+
+/* ==============================
+   MESSAGE
+============================== */
+
+function showMessage(
+    text,
+    type
+) {
+
+
+    message.textContent =
+        text;
+
+
+    message.className =
+        `message ${type}`;
+
+
+}
+
+
+function clearMessage() {
+
+
+    message.textContent =
+        "";
+
+
+    message.className =
+        "message";
+
+
+}
+
+
+
+/* ==============================
+   SAFE TEXT
+============================== */
+
+function escapeHTML(value) {
+
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+
+}
+
+
+</script>
+
+</body>
+
+</html>

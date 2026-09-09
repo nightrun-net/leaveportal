@@ -1,0 +1,2737 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    >
+
+    <title>Office</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family:
+                'Segoe UI',
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            background-color: #f4f7f6;
+
+            color: #0f172a;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        /* ========================================
+           WRAPPER
+        ======================================== */
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+
+            min-height: 100vh;
+
+            max-width: 450px;
+
+            margin: 0 auto;
+
+            padding: 20px;
+        }
+
+
+        /* ========================================
+           TOP BAR
+        ======================================== */
+
+        .top-bar {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 50px;
+
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+
+        .back-btn {
+            position: absolute;
+            right: 0;
+
+            width: 45px;
+            height: 45px;
+
+            border: none;
+            border-radius: 50%;
+
+            background-color:
+                rgba(255, 136, 0, 0.12);
+
+            color: #e65100;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            cursor: pointer;
+
+            transition:
+                all 0.3s ease;
+        }
+
+
+        .back-btn:hover {
+            background-color: #ff8c00;
+
+            color: #ffffff;
+
+            transform:
+                scale(1.05);
+        }
+
+
+        .back-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+
+        .page-title {
+            margin: 0;
+
+            font-size: 22px;
+            font-weight: 800;
+
+            color: #0f172a;
+
+            text-align: center;
+        }
+
+
+        /* ========================================
+           SEARCH
+        ======================================== */
+
+        .search-box {
+            width: 100%;
+
+            margin-bottom: 22px;
+
+            position: relative;
+        }
+
+
+        .search-box input {
+            width: 100%;
+            height: 54px;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 18px;
+
+            background-color: #ffffff;
+
+            color: #1e293b;
+
+            outline: none;
+
+            padding:
+                0 52px 0 18px;
+
+            font-size: 15px;
+            font-weight: 600;
+
+            box-shadow:
+                0 8px 24px
+                rgba(0, 0, 0, 0.035);
+
+            transition:
+                all 0.25s ease;
+        }
+
+
+        .search-box input::placeholder {
+            color: #94a3b8;
+        }
+
+
+        .search-box input:focus {
+            border-color: #ff8c00;
+
+            box-shadow:
+                0 0 0 4px
+                    rgba(255, 140, 0, 0.08),
+                0 10px 26px
+                    rgba(0, 0, 0, 0.04);
+        }
+
+
+        .search-icon {
+            position: absolute;
+
+            right: 18px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            width: 22px;
+            height: 22px;
+
+            color: #ff8c00;
+
+            pointer-events: none;
+        }
+
+
+        /* ========================================
+           RECORDS
+        ======================================== */
+
+        .records-container {
+            display: flex;
+            flex-direction: column;
+
+            gap: 16px;
+
+            padding-bottom: 30px;
+        }
+
+
+        .record-card {
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.04);
+
+            border:
+                1px solid #f1f5f9;
+
+            cursor: pointer;
+
+            transition:
+                all 0.3s ease;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .record-card:hover,
+        .record-card:active {
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(239, 68, 68, 0.08);
+
+            border-color:
+                rgba(239, 68, 68, 0.2);
+        }
+
+
+        .card-header {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 15px;
+
+            padding-bottom: 10px;
+
+            border-bottom:
+                1px dashed #e2e8f0;
+        }
+
+
+        .status-badge {
+            padding:
+                6px 12px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+
+        .status-rejected {
+            background-color:
+                rgba(239, 68, 68, 0.10);
+
+            color: #dc2626;
+        }
+
+
+        .req-date {
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 700;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+        }
+
+
+        .req-date svg {
+            width: 16px;
+            height: 16px;
+
+            color: #94a3b8;
+
+            flex-shrink: 0;
+        }
+
+
+        .user-info {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .user-icon {
+            width: 48px;
+            height: 48px;
+
+            background-color: #fff7f7;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            color: #ef4444;
+
+            flex-shrink: 0;
+
+            box-shadow:
+                0 4px 10px
+                rgba(0, 0, 0, 0.02);
+        }
+
+
+        .user-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+
+        .user-details {
+            min-width: 0;
+        }
+
+
+        .user-details h3 {
+            margin:
+                0 0 5px;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            color: #1e293b;
+        }
+
+
+        .user-details p {
+            margin: 0;
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 500;
+
+            direction: ltr;
+
+            text-align: right;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        /* ========================================
+           STATES
+        ======================================== */
+
+        .state-box {
+            width: 100%;
+
+            background: #ffffff;
+
+            border:
+                1px solid #f1f5f9;
+
+            border-radius: 22px;
+
+            padding:
+                45px 20px;
+
+            text-align: center;
+
+            color: #64748b;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.03);
+        }
+
+
+        .state-box svg {
+            width: 50px;
+            height: 50px;
+
+            margin-bottom: 12px;
+
+            color: #ef4444;
+        }
+
+
+        .state-box h3 {
+            margin:
+                0 0 7px;
+
+            color: #1e293b;
+
+            font-size: 18px;
+        }
+
+
+        .state-box p {
+            margin: 0;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+        }
+
+
+        /* ========================================
+           MODAL
+        ======================================== */
+
+        .modal-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background-color:
+                rgba(15, 23, 42, 0.5);
+
+            backdrop-filter:
+                blur(5px);
+
+            display: none;
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 1000;
+
+            opacity: 0;
+
+            transition:
+                opacity 0.3s ease;
+        }
+
+
+        .modal-overlay.active {
+            display: flex;
+
+            opacity: 1;
+        }
+
+
+        .modal-content {
+            background: #ffffff;
+
+            width: 85%;
+
+            max-width: 380px;
+
+            max-height: 88vh;
+
+            overflow-y: auto;
+
+            border-radius: 28px;
+
+            padding:
+                30px 25px;
+
+            box-shadow:
+                0 25px 50px
+                rgba(0, 0, 0, 0.15);
+
+            transform:
+                scale(0.95);
+
+            transition:
+                transform
+                0.3s
+                cubic-bezier(
+                    0.4,
+                    0,
+                    0.2,
+                    1
+                );
+
+            position: relative;
+        }
+
+
+        .modal-overlay.active
+        .modal-content {
+            transform:
+                scale(1);
+        }
+
+
+        .close-modal-btn {
+            position: absolute;
+
+            top: 20px;
+            left: 20px;
+
+            width: 36px;
+            height: 36px;
+
+            background-color: #f1f5f9;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            color: #64748b;
+
+            border: none;
+
+            cursor: pointer;
+
+            transition:
+                all 0.3s ease;
+        }
+
+
+        .close-modal-btn:hover {
+            background-color: #fee2e2;
+
+            color: #ef4444;
+
+            transform:
+                rotate(90deg);
+        }
+
+
+        .modal-title {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 20px;
+            font-weight: 800;
+
+            color: #0f172a;
+
+            margin-bottom: 25px;
+
+            padding-right: 12px;
+
+            border-right:
+                4px solid #ef4444;
+        }
+
+
+        .modal-title svg {
+            width: 24px;
+            height: 24px;
+
+            color: #ef4444;
+        }
+
+
+        .detail-item {
+            display: flex;
+
+            flex-direction: column;
+
+            margin-bottom: 12px;
+
+            background-color: #f8fafc;
+
+            padding:
+                14px 16px;
+
+            border-radius: 16px;
+
+            border:
+                1px solid #f1f5f9;
+
+            transition:
+                all 0.2s ease;
+        }
+
+
+        .detail-item:hover {
+            background-color: #ffffff;
+
+            border-color: #e2e8f0;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.03);
+        }
+
+
+        .detail-label {
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 600;
+
+            margin-bottom: 6px;
+        }
+
+
+        .detail-value {
+            font-size: 15px;
+
+            font-weight: 800;
+
+            color: #1e293b;
+
+            word-break: break-word;
+        }
+
+
+        .detail-row {
+            display: flex;
+
+            gap: 12px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .detail-row
+        .detail-item {
+            flex: 1;
+
+            margin-bottom: 0;
+        }
+
+
+        .time-box-special {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 136, 0, 0.05),
+                    rgba(255, 136, 0, 0.1)
+                );
+
+            border:
+                1px solid
+                rgba(255, 136, 0, 0.2);
+        }
+
+
+        .rejected-box {
+            background:
+                rgba(239, 68, 68, 0.06);
+
+            border-color:
+                rgba(239, 68, 68, 0.18);
+        }
+
+
+        .rejected-box
+        .detail-label {
+            color: #b91c1c;
+        }
+
+
+        .rejected-box
+        .detail-value {
+            color: #dc2626;
+        }
+
+
+        .reason-box {
+            background: #fff7f7;
+
+            border:
+                1px solid #fecaca;
+        }
+
+
+        .reason-box
+        .detail-label {
+            color: #991b1b;
+        }
+
+
+        .reason-box
+        .detail-value {
+            color: #7f1d1d;
+
+            line-height: 1.9;
+        }
+
+
+        /* ========================================
+           MOBILE
+        ======================================== */
+
+        @media
+        (max-width: 600px) {
+
+            .wrapper {
+                width: 100%;
+
+                max-width: 100%;
+
+                padding: 16px;
+            }
+
+
+            .top-bar {
+                margin-top: 6px;
+
+                margin-bottom: 22px;
+
+                height: 48px;
+            }
+
+
+            .page-title {
+                font-size: 21px;
+
+                padding:
+                    0 54px;
+            }
+
+
+            .back-btn {
+                width: 44px;
+                height: 44px;
+            }
+
+
+            .search-box {
+                margin-bottom: 18px;
+            }
+
+
+            .search-box input {
+                height: 52px;
+
+                border-radius: 16px;
+
+                font-size: 16px;
+
+                padding-right: 50px;
+            }
+
+
+            .records-container {
+                gap: 14px;
+            }
+
+
+            .record-card {
+                padding: 18px;
+
+                border-radius: 18px;
+            }
+
+
+            .modal-content {
+                width:
+                    calc(100% - 28px);
+
+                max-width: none;
+
+                padding:
+                    28px 20px 22px;
+
+                border-radius: 24px;
+            }
+
+
+            .detail-row {
+                flex-direction: column;
+
+                gap: 0;
+            }
+
+
+            .detail-row
+            .detail-item {
+                margin-bottom: 12px;
+            }
+
+        }
+
+
+        /* ========================================
+           TABLET
+        ======================================== */
+
+        @media
+        (min-width: 601px)
+        and
+        (max-width: 1023px) {
+
+            .wrapper {
+                max-width: 760px;
+
+                padding: 28px;
+            }
+
+
+            .top-bar {
+                height: 58px;
+
+                margin-bottom: 28px;
+            }
+
+
+            .back-btn {
+                width: 52px;
+                height: 52px;
+            }
+
+
+            .back-btn svg {
+                width: 25px;
+                height: 25px;
+            }
+
+
+            .page-title {
+                font-size: 28px;
+            }
+
+
+            .search-box input {
+                height: 60px;
+
+                border-radius: 19px;
+
+                font-size: 17px;
+
+                padding-right: 58px;
+            }
+
+
+            .search-icon {
+                width: 25px;
+                height: 25px;
+
+                right: 20px;
+            }
+
+
+            .records-container {
+                gap: 20px;
+            }
+
+
+            .record-card {
+                padding: 24px;
+
+                border-radius: 24px;
+            }
+
+
+            .user-icon {
+                width: 56px;
+                height: 56px;
+            }
+
+
+            .user-icon svg {
+                width: 26px;
+                height: 26px;
+            }
+
+
+            .user-details h3 {
+                font-size: 19px;
+            }
+
+
+            .user-details p,
+            .req-date {
+                font-size: 15px;
+            }
+
+
+            .status-badge {
+                padding:
+                    7px 14px;
+
+                font-size: 14px;
+            }
+
+
+            .modal-content {
+                max-width: 620px;
+
+                padding:
+                    34px 30px;
+            }
+
+
+            .modal-title {
+                font-size: 24px;
+            }
+
+
+            .detail-label {
+                font-size: 15px;
+            }
+
+
+            .detail-value {
+                font-size: 17px;
+            }
+
+        }
+
+
+        /* ========================================
+           LAPTOP / PC
+        ======================================== */
+
+        @media
+        (min-width: 1024px)
+        and
+        (hover: hover)
+        and
+        (pointer: fine) {
+
+            .wrapper {
+                max-width: 1220px;
+
+                padding:
+                    36px 42px 48px;
+            }
+
+
+            .top-bar {
+                height: 66px;
+
+                margin-top: 8px;
+
+                margin-bottom: 34px;
+            }
+
+
+            .back-btn {
+                width: 58px;
+                height: 58px;
+            }
+
+
+            .back-btn svg {
+                width: 28px;
+                height: 28px;
+            }
+
+
+            .page-title {
+                font-size: 34px;
+            }
+
+
+            .search-box {
+                margin-bottom: 30px;
+            }
+
+
+            .search-box input {
+                height: 70px;
+
+                border-radius: 22px;
+
+                padding-right: 68px;
+                padding-left: 24px;
+
+                font-size: 20px;
+
+                border-width: 1.5px;
+            }
+
+
+            .search-icon {
+                right: 24px;
+
+                width: 29px;
+                height: 29px;
+            }
+
+
+            .records-container {
+                display: grid;
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+                gap: 24px;
+
+                align-items: stretch;
+            }
+
+
+            .state-box {
+                grid-column:
+                    1 / -1;
+            }
+
+
+            .record-card {
+                min-height: 150px;
+
+                padding: 28px;
+
+                border-radius: 26px;
+
+                display: flex;
+
+                flex-direction: column;
+
+                justify-content: center;
+            }
+
+
+            .status-badge {
+                padding:
+                    8px 16px;
+
+                border-radius: 12px;
+
+                font-size: 15px;
+            }
+
+
+            .req-date {
+                font-size: 16px;
+            }
+
+
+            .user-info {
+                gap: 18px;
+            }
+
+
+            .user-icon {
+                width: 64px;
+                height: 64px;
+            }
+
+
+            .user-icon svg {
+                width: 30px;
+                height: 30px;
+            }
+
+
+            .user-details h3 {
+                font-size: 22px;
+            }
+
+
+            .user-details p {
+                font-size: 16px;
+            }
+
+
+            .modal-content {
+                width: 88%;
+
+                max-width: 760px;
+
+                padding:
+                    38px 36px;
+
+                border-radius: 32px;
+            }
+
+
+            .close-modal-btn {
+                width: 44px;
+                height: 44px;
+
+                top: 24px;
+                left: 24px;
+            }
+
+
+            .modal-title {
+                font-size: 27px;
+
+                margin-bottom: 28px;
+            }
+
+
+            .detail-item {
+                padding:
+                    17px 19px;
+
+                border-radius: 18px;
+            }
+
+
+            .detail-label {
+                font-size: 16px;
+            }
+
+
+            .detail-value {
+                font-size: 19px;
+            }
+
+        }
+
+
+        /* ========================================
+           LARGE DESKTOP
+        ======================================== */
+
+        @media
+        (min-width: 1440px)
+        and
+        (hover: hover)
+        and
+        (pointer: fine) {
+
+            .wrapper {
+                max-width: 1380px;
+
+                padding-left: 52px;
+                padding-right: 52px;
+            }
+
+
+            .page-title {
+                font-size: 38px;
+            }
+
+
+            .search-box input {
+                height: 74px;
+
+                font-size: 21px;
+            }
+
+
+            .records-container {
+                gap: 28px;
+            }
+
+
+            .record-card {
+                min-height: 165px;
+
+                padding: 32px;
+            }
+
+
+            .user-details h3 {
+                font-size: 24px;
+            }
+
+
+            .user-details p,
+            .req-date {
+                font-size: 17px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="wrapper">
+
+
+        <!-- ========================================
+             TOP BAR
+        ======================================== -->
+
+        <div class="top-bar">
+
+
+            <button
+                type="button"
+                class="back-btn"
+                onclick="window.history.back()"
+                aria-label="زڤرین"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                >
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 5l7 7-7 7"
+                    />
+
+                </svg>
+
+            </button>
+
+
+            <h1 class="page-title">
+                تومارا مولەتێن رەتکری
+            </h1>
+
+
+        </div>
+
+
+
+        <!-- ========================================
+             SEARCH
+        ======================================== -->
+
+        <div class="search-box">
+
+
+            <svg
+                class="search-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.2"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m21 21-4.35-4.35m1.35-5.15a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
+                />
+
+            </svg>
+
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="لێگەریان ب ناڤ، ئیمەیڵ یان هۆکار..."
+                autocomplete="off"
+                spellcheck="false"
+            >
+
+
+        </div>
+
+
+
+        <!-- ========================================
+             RECORDS
+        ======================================== -->
+
+        <div
+            class="records-container"
+            id="recordsContainer"
+        >
+
+            <div class="state-box">
+
+                <h3>
+                    چاڤەرێ بە...
+                </h3>
+
+                <p>
+                    مولەتێن رەتکری دهێنە بارکرن
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ========================================
+         DETAILS MODAL
+    ======================================== -->
+
+    <div
+        class="modal-overlay"
+        id="detailsModal"
+    >
+
+
+        <div class="modal-content">
+
+
+            <button
+                type="button"
+                class="close-modal-btn"
+                id="closeModalBtn"
+                aria-label="گرتن"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    style="width:22px;height:22px;"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                >
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                    />
+
+                </svg>
+
+            </button>
+
+
+
+            <div class="modal-title">
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                >
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.007v.008H12v-.008z"
+                    />
+
+                </svg>
+
+                وردەکاریێن مولەتا رەتکری
+
+            </div>
+
+
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    ناڤێ داخوازکری
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlName"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    ئیمەیڵ
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlEmail"
+                    dir="ltr"
+                    style="text-align:right;"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    کەنگی داخواز کریە؟
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlReqDate"
+                    dir="ltr"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="detail-item rejected-box"
+            >
+
+                <span class="detail-label">
+                    کەنگی هاتیە رەتکرن؟
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlRejectedDate"
+                    dir="ltr"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+
+            <div class="detail-row">
+
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        بۆ کەنگی دڤێت؟
+                    </span>
+
+                    <span
+                        class="detail-value"
+                        id="mdlLeaveDate"
+                        dir="ltr"
+                        style="color:#ff8c00;"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        جۆرێ مولەتێ
+                    </span>
+
+                    <span
+                        class="detail-value"
+                        id="mdlType"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div
+                class="detail-item time-box-special"
+                id="mdlTimeBox"
+                style="display:none;"
+            >
+
+                <span
+                    class="detail-label"
+                    style="color:#e65100;"
+                >
+                    دەمژمێرێن مولەتێ
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlTime"
+                    dir="ltr"
+                    style="color:#c24100;"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="detail-item reason-box"
+            >
+
+                <span class="detail-label">
+                    هۆکارێ رەتکرنێ
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="mdlRejectReason"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script type="module">
+
+
+        /* ========================================
+           FIREBASE IMPORTS
+        ======================================== */
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+        import {
+            getDatabase,
+            ref,
+            get,
+            query,
+            orderByChild,
+            equalTo,
+            onValue
+        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+
+        /* ========================================
+           FIREBASE CONFIG
+        ======================================== */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+
+            authDomain:
+                "office-8e7cb.firebaseapp.com",
+
+            databaseURL:
+                "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+
+            projectId:
+                "office-8e7cb",
+
+            storageBucket:
+                "office-8e7cb.firebasestorage.app",
+
+            messagingSenderId:
+                "604465845047",
+
+            appId:
+                "1:604465845047:web:42004e33906c8986ee80b2",
+
+            measurementId:
+                "G-LJJM71LQ0K"
+
+        };
+
+
+
+        /* ========================================
+           INITIALIZE
+        ======================================== */
+
+        const app =
+            initializeApp(
+                firebaseConfig
+            );
+
+
+        const auth =
+            getAuth(
+                app
+            );
+
+
+        const database =
+            getDatabase(
+                app
+            );
+
+
+
+        /* ========================================
+           ELEMENTS
+        ======================================== */
+
+        const recordsContainer =
+            document.getElementById(
+                "recordsContainer"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "searchInput"
+            );
+
+
+        const detailsModal =
+            document.getElementById(
+                "detailsModal"
+            );
+
+
+        const closeModalBtn =
+            document.getElementById(
+                "closeModalBtn"
+            );
+
+
+        const mdlName =
+            document.getElementById(
+                "mdlName"
+            );
+
+
+        const mdlEmail =
+            document.getElementById(
+                "mdlEmail"
+            );
+
+
+        const mdlReqDate =
+            document.getElementById(
+                "mdlReqDate"
+            );
+
+
+        const mdlRejectedDate =
+            document.getElementById(
+                "mdlRejectedDate"
+            );
+
+
+        const mdlLeaveDate =
+            document.getElementById(
+                "mdlLeaveDate"
+            );
+
+
+        const mdlType =
+            document.getElementById(
+                "mdlType"
+            );
+
+
+        const mdlTimeBox =
+            document.getElementById(
+                "mdlTimeBox"
+            );
+
+
+        const mdlTime =
+            document.getElementById(
+                "mdlTime"
+            );
+
+
+        const mdlRejectReason =
+            document.getElementById(
+                "mdlRejectReason"
+            );
+
+
+
+        /* ========================================
+           STATE
+        ======================================== */
+
+        let rejectedRequests = [];
+
+
+
+        /* ========================================
+           OWNER AUTH
+        ======================================== */
+
+        onAuthStateChanged(
+
+            auth,
+
+            async user => {
+
+
+                if (!user) {
+
+                    window.location.replace(
+                        "../login/login.html"
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+
+                    const ownerSnapshot =
+                        await get(
+
+                            ref(
+                                database,
+                                `users/${user.uid}`
+                            )
+
+                        );
+
+
+                    if (
+                        !ownerSnapshot.exists()
+                    ) {
+
+                        await goToLogin();
+
+                        return;
+
+                    }
+
+
+                    const owner =
+                        ownerSnapshot.val();
+
+
+                    if (
+                        String(
+                            owner.role || ""
+                        ).toLowerCase()
+                        !==
+                        "owner"
+                    ) {
+
+                        await goToLogin();
+
+                        return;
+
+                    }
+
+
+                    if (
+                        owner.active ===
+                        false
+                    ) {
+
+                        await goToLogin();
+
+                        return;
+
+                    }
+
+
+                    startRejectedRequestsListener();
+
+
+                }
+                catch(error) {
+
+
+                    console.error(
+                        "Owner verification error:",
+                        error
+                    );
+
+
+                    showErrorState(
+                        "هەڵە د پشکنینا هەژمارێ رێڤەبەری."
+                    );
+
+
+                }
+
+
+            }
+
+        );
+
+
+
+        async function goToLogin() {
+
+
+            try {
+
+                await signOut(
+                    auth
+                );
+
+            }
+            catch(error) {
+
+                console.error(
+                    error
+                );
+
+            }
+
+
+            window.location.replace(
+                "../login/login.html"
+            );
+
+
+        }
+
+
+
+        /* ========================================
+           FETCH REJECTED REQUESTS
+        ======================================== */
+
+        function startRejectedRequestsListener() {
+
+
+            const rejectedQuery =
+                query(
+
+                    ref(
+                        database,
+                        "leaveRequests"
+                    ),
+
+                    orderByChild(
+                        "status"
+                    ),
+
+                    equalTo(
+                        "rejected"
+                    )
+
+                );
+
+
+            onValue(
+
+                rejectedQuery,
+
+                snapshot => {
+
+
+                    if (
+                        !snapshot.exists()
+                    ) {
+
+                        rejectedRequests = [];
+
+                        renderRequests();
+
+                        return;
+
+                    }
+
+
+                    rejectedRequests =
+                        Object.entries(
+                            snapshot.val() || {}
+                        )
+
+                        .map(
+                            ([id, data]) => ({
+                                id,
+                                ...data
+                            })
+                        )
+
+                        .sort(
+                            (a, b) => {
+
+
+                                const aTime =
+                                    Number(
+                                        a.reviewedAt ||
+                                        a.createdAt ||
+                                        0
+                                    );
+
+
+                                const bTime =
+                                    Number(
+                                        b.reviewedAt ||
+                                        b.createdAt ||
+                                        0
+                                    );
+
+
+                                return (
+                                    bTime -
+                                    aTime
+                                );
+
+
+                            }
+                        );
+
+
+                    renderRequests();
+
+
+                },
+
+                error => {
+
+
+                    console.error(
+                        "Rejected requests error:",
+                        error
+                    );
+
+
+                    showErrorState(
+                        "مولەتێن رەتکری نەهاتنە بارکرن."
+                    );
+
+
+                }
+
+            );
+
+
+        }
+
+
+
+        /* ========================================
+           RENDER
+        ======================================== */
+
+        function renderRequests() {
+
+
+            const search =
+                searchInput
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const filtered =
+                rejectedRequests.filter(
+                    request => {
+
+
+                        const name =
+                            String(
+                                request.name || ""
+                            ).toLowerCase();
+
+
+                        const email =
+                            String(
+                                request.email || ""
+                            ).toLowerCase();
+
+
+                        const leaveDate =
+                            String(
+                                request.leaveDate || ""
+                            ).toLowerCase();
+
+
+                        const reason =
+                            String(
+                                request.rejectReason || ""
+                            ).toLowerCase();
+
+
+                        return (
+                            !search ||
+                            name.includes(search) ||
+                            email.includes(search) ||
+                            leaveDate.includes(search) ||
+                            reason.includes(search)
+                        );
+
+
+                    }
+                );
+
+
+            if (
+                rejectedRequests.length ===
+                0
+            ) {
+
+
+                recordsContainer.innerHTML = `
+                    <div class="state-box">
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.007v.008H12v-.008z"
+                            />
+                        </svg>
+
+                        <h3>
+                            مولەتێن رەتکری نینن
+                        </h3>
+
+                        <p>
+                            هێشتا هیچ داواکارییەک نەهاتیە رەتکرن
+                        </p>
+
+                    </div>
+                `;
+
+
+                return;
+
+
+            }
+
+
+            if (
+                filtered.length ===
+                0
+            ) {
+
+
+                recordsContainer.innerHTML = `
+                    <div class="state-box">
+
+                        <h3>
+                            ئەنجام نەهاتە دیتن
+                        </h3>
+
+                        <p>
+                            ناڤ، ئیمەیڵ یان هۆکارێ دی بنڤیسە
+                        </p>
+
+                    </div>
+                `;
+
+
+                return;
+
+
+            }
+
+
+            recordsContainer.innerHTML =
+                "";
+
+
+            filtered.forEach(
+                request => {
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "record-card";
+
+
+                    card.innerHTML = `
+
+                        <div class="card-header">
+
+                            <span
+                                class="status-badge status-rejected"
+                            >
+                                رەتکری
+                            </span>
+
+                            <span class="req-date">
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                    />
+                                </svg>
+
+                                <span dir="ltr">
+
+                                    ${escapeHTML(
+                                        formatDateOnly(
+                                            request.reviewedAt ||
+                                            request.createdAt
+                                        )
+                                    )}
+
+                                </span>
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="user-info">
+
+                            <div class="user-icon">
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                    />
+                                </svg>
+
+                            </div>
+
+
+                            <div class="user-details">
+
+                                <h3>
+
+                                    ${escapeHTML(
+                                        request.name ||
+                                        "بەکارهێنەر"
+                                    )}
+
+                                </h3>
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        request.email ||
+                                        ""
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                    card.addEventListener(
+
+                        "click",
+
+                        () => {
+
+                            openDetailsModal(
+                                request
+                            );
+
+                        }
+
+                    );
+
+
+                    recordsContainer.appendChild(
+                        card
+                    );
+
+
+                }
+
+            );
+
+
+        }
+
+
+
+        /* ========================================
+           SEARCH
+        ======================================== */
+
+        searchInput.addEventListener(
+
+            "input",
+
+            renderRequests
+
+        );
+
+
+
+        /* ========================================
+           MODAL
+        ======================================== */
+
+        function openDetailsModal(
+            request
+        ) {
+
+
+            mdlName.textContent =
+                request.name ||
+                "بەکارهێنەر";
+
+
+            mdlEmail.textContent =
+                request.email ||
+                "--";
+
+
+            mdlReqDate.textContent =
+                formatDateTime(
+                    request.createdAt
+                );
+
+
+            mdlRejectedDate.textContent =
+                formatDateTime(
+                    request.reviewedAt
+                );
+
+
+            mdlLeaveDate.textContent =
+                formatLeaveDate(
+                    request.leaveDate
+                );
+
+
+            mdlType.textContent =
+                request.leaveTypeText ||
+                (
+                    request.leaveType ===
+                    "hours"
+                        ?
+                        "دەمژمێر"
+                        :
+                        "تەمامیا دەمێ کاری"
+                );
+
+
+            if (
+                request.leaveType ===
+                    "hours"
+                &&
+                (
+                    request.startTime ||
+                    request.endTime
+                )
+            ) {
+
+
+                mdlTime.textContent =
+                    `${formatTime(
+                        request.startTime
+                    )} - ${formatTime(
+                        request.endTime
+                    )}`;
+
+
+                mdlTimeBox.style.display =
+                    "flex";
+
+
+            }
+            else {
+
+
+                mdlTimeBox.style.display =
+                    "none";
+
+
+                mdlTime.textContent =
+                    "--";
+
+
+            }
+
+
+            mdlRejectReason.textContent =
+                request.rejectReason ||
+                "هۆکار نەهاتیە دیارکرن";
+
+
+            detailsModal.classList.add(
+                "active"
+            );
+
+
+        }
+
+
+
+        function closeModal() {
+
+
+            detailsModal.classList.remove(
+                "active"
+            );
+
+
+        }
+
+
+
+        closeModalBtn.addEventListener(
+
+            "click",
+
+            closeModal
+
+        );
+
+
+
+        detailsModal.addEventListener(
+
+            "click",
+
+            event => {
+
+
+                if (
+                    event.target ===
+                    detailsModal
+                ) {
+
+                    closeModal();
+
+                }
+
+
+            }
+
+        );
+
+
+
+        document.addEventListener(
+
+            "keydown",
+
+            event => {
+
+
+                if (
+                    event.key ===
+                    "Escape"
+                ) {
+
+                    closeModal();
+
+                }
+
+
+            }
+
+        );
+
+
+
+        /* ========================================
+           HELPERS
+        ======================================== */
+
+        function showErrorState(
+            message
+        ) {
+
+
+            recordsContainer.innerHTML = `
+                <div class="state-box">
+
+                    <h3>
+                        هەڵە
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            message
+                        )}
+                    </p>
+
+                </div>
+            `;
+
+
+        }
+
+
+
+        function formatLeaveDate(
+            value
+        ) {
+
+
+            if (!value) {
+
+                return "--";
+
+            }
+
+
+            const parts =
+                String(
+                    value
+                )
+                .split("-");
+
+
+            if (
+                parts.length !== 3
+            ) {
+
+                return String(
+                    value
+                );
+
+            }
+
+
+            return (
+                `${parts[2]}/${parts[1]}/${parts[0]}`
+            );
+
+
+        }
+
+
+
+        function formatDateOnly(
+            timestamp
+        ) {
+
+
+            if (!timestamp) {
+
+                return "--";
+
+            }
+
+
+            const date =
+                new Date(
+                    Number(
+                        timestamp
+                    )
+                );
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "--";
+
+            }
+
+
+            return new Intl.DateTimeFormat(
+                "en-GB",
+                {
+                    day:
+                        "2-digit",
+
+                    month:
+                        "2-digit",
+
+                    year:
+                        "numeric"
+                }
+            )
+            .format(
+                date
+            );
+
+
+        }
+
+
+
+        function formatDateTime(
+            timestamp
+        ) {
+
+
+            if (!timestamp) {
+
+                return "--";
+
+            }
+
+
+            const date =
+                new Date(
+                    Number(
+                        timestamp
+                    )
+                );
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "--";
+
+            }
+
+
+            return new Intl.DateTimeFormat(
+
+                "en-GB",
+
+                {
+
+                    day:
+                        "2-digit",
+
+                    month:
+                        "2-digit",
+
+                    year:
+                        "numeric",
+
+                    hour:
+                        "2-digit",
+
+                    minute:
+                        "2-digit",
+
+                    hour12:
+                        true
+
+                }
+
+            )
+            .format(
+                date
+            );
+
+
+        }
+
+
+
+        function formatTime(
+            value
+        ) {
+
+
+            if (!value) {
+
+                return "--";
+
+            }
+
+
+            const text =
+                String(
+                    value
+                )
+                .trim();
+
+
+            const match =
+                text.match(
+                    /^(\d{1,2}):(\d{2})$/
+                );
+
+
+            if (!match) {
+
+                return text;
+
+            }
+
+
+            let hour =
+                Number(
+                    match[1]
+                );
+
+
+            const minute =
+                match[2];
+
+
+            const period =
+                hour >= 12
+                    ?
+                    "PM"
+                    :
+                    "AM";
+
+
+            hour =
+                hour % 12 ||
+                12;
+
+
+            return (
+                `${String(
+                    hour
+                ).padStart(
+                    2,
+                    "0"
+                )}:${minute} ${period}`
+            );
+
+
+        }
+
+
+
+        function escapeHTML(
+            value
+        ) {
+
+
+            return String(
+                value ?? ""
+            )
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
