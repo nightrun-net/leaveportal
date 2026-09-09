@@ -546,7 +546,7 @@
 
       try {
         await signOut(auth);
-        window.location.replace("/public/adminoffice/login/Login.html");
+        window.location.replace("/adminoffice/login/Login.html");
       } catch (error) {
         console.error("Logout error:", error);
         logoutBtn.disabled = false;
