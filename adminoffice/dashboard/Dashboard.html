@@ -336,7 +336,7 @@
         </div>
       </a>
 
-      <a href="/adminoffice/agahdari/AgahdariA.html" class="card">
+      <a href="/public/adminoffice/agahdari/AgahdariA.html" class="card">
         <div class="live-count" id="notificationCount">0</div>
         <div class="card-icon-container">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -546,7 +546,7 @@
 
       try {
         await signOut(auth);
-        window.location.replace("/adminoffice/login/Login.html");
+        window.location.replace("/public/adminoffice/login/Login.html");
       } catch (error) {
         console.error("Logout error:", error);
         logoutBtn.disabled = false;
