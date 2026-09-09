@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>ئاگەهداری</title>
+  <title>ئاگەهداری - رێڤەبەر</title>
 
   <style>
     *{box-sizing:border-box}
@@ -204,7 +204,10 @@
         </svg>
       </button>
 
-      <h1 class="page-title">ئاگەهداری</h1>
+      <div style="text-align:center">
+        <h1 class="page-title">ئاگەهداری</h1>
+        <div style="margin-top:4px;color:#64748b;font-size:12px;font-weight:700">رێڤەبەر</div>
+      </div>
       <div class="unread-count" id="unreadCount">0</div>
     </div>
 
@@ -279,7 +282,7 @@
     let readIds = new Set();
 
     function storageKey() {
-      return `office_read_alerts_${currentUser?.uid || "guest"}`;
+      return `office_admin_read_alerts_${currentUser?.uid || "guest"}`;
     }
 
     function loadReadIds() {
@@ -453,7 +456,7 @@
         const profile = snapshot.val();
 
         if (
-          String(profile.role || "").toLowerCase() !== "user" ||
+          String(profile.role || "").toLowerCase() !== "owner" ||
           profile.active === false
         ) {
           await goToLogin();

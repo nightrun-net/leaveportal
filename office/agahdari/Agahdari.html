@@ -1,823 +1,478 @@
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
-
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-    >
-
-    <title>Office</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-
-            font-family:
-                'Segoe UI',
-                Tahoma,
-                Geneva,
-                Verdana,
-                sans-serif;
-
-            background-color: #f4f7f6;
-            color: #0f172a;
-
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        button {
-            font: inherit;
-        }
-
-        /* ========================================
-           WRAPPER
-        ======================================== */
-
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-
-            min-height: 100vh;
-            max-width: 450px;
-
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* ========================================
-           TOP BAR
-        ======================================== */
-
-        .top-bar {
-            position: relative;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            width: 100%;
-            height: 50px;
-
-            margin-top: 10px;
-            margin-bottom: 30px;
-        }
-
-        .back-btn {
-            position: absolute;
-            right: 0;
-
-            width: 45px;
-            height: 45px;
-
-            background-color:
-                rgba(255, 136, 0, 0.12);
-
-            border: none;
-            border-radius: 50%;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            color: #e65100;
-
-            cursor: pointer;
-
-            transition:
-                all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background-color: #ff8c00;
-            color: #ffffff;
-
-            transform:
-                scale(1.05);
-        }
-
-        .back-btn svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .page-title {
-            margin: 0;
-
-            font-size: 22px;
-            font-weight: 800;
-
-            color: #0f172a;
-
-            text-align: center;
-        }
-
-        /* ========================================
-           NOTIFICATIONS
-        ======================================== */
-
-        .notifications-container {
-            display: flex;
-            flex-direction: column;
-
-            gap: 16px;
-
-            padding-bottom: 30px;
-        }
-
-        .noti-card {
-            background: #ffffff;
-
-            border-radius: 20px;
-
-            padding: 20px;
-
-            box-shadow:
-                0 10px 30px
-                rgba(0, 0, 0, 0.04);
-
-            border:
-                1px solid #f1f5f9;
-
-            cursor: pointer;
-
-            transition:
-                all 0.3s ease;
-
-            position: relative;
-        }
-
-        .noti-card:hover,
-        .noti-card:active {
-            transform:
-                translateY(-3px);
-
-            box-shadow:
-                0 15px 35px
-                rgba(16, 185, 129, 0.08);
-
-            border-color:
-                rgba(16, 185, 129, 0.2);
-        }
-
-        .unread-dot {
-            position: absolute;
-
-            top: 25px;
-            left: 20px;
-
-            width: 10px;
-            height: 10px;
-
-            background-color: #ff8c00;
-
-            border-radius: 50%;
-
-            box-shadow:
-                0 0 10px
-                rgba(255, 136, 0, 0.5);
-        }
-
-        .noti-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            margin-bottom: 12px;
-            padding-bottom: 12px;
-
-            border-bottom:
-                1px dashed #e2e8f0;
-        }
-
-        .sender-info {
-            display: flex;
-            align-items: center;
-
-            gap: 12px;
-        }
-
-        .sender-icon {
-            width: 42px;
-            height: 42px;
-
-            background-color:
-                rgba(16, 185, 129, 0.05);
-
-            border-radius: 50%;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            color: #10b981;
-
-            flex-shrink: 0;
-
-            border:
-                1px solid
-                rgba(16, 185, 129, 0.2);
-        }
-
-        .sender-icon svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .sender-details {
-            display: flex;
-            flex-direction: column;
-
-            gap: 3px;
-        }
-
-        .sender-name {
-            margin: 0;
-
-            font-size: 15px;
-            font-weight: 800;
-
-            color: #1e293b;
-        }
-
-        .noti-time {
-            font-size: 12px;
-
-            color: #94a3b8;
-
-            font-weight: 600;
-        }
-
-        .noti-body {
-            padding-top: 5px;
-        }
-
-        .noti-desc {
-            margin: 0;
-
-            font-size: 14px;
-
-            color: #475569;
-
-            line-height: 1.6;
-
-            font-weight: 500;
-        }
-
-        .unread .noti-desc {
-            color: #0f172a;
-
-            font-weight: 700;
-        }
-
-        /* ========================================
-           EMPTY STATE
-        ======================================== */
-
-        .empty-state {
-            width: 100%;
-
-            background: #ffffff;
-
-            border:
-                1px solid #f1f5f9;
-
-            border-radius: 24px;
-
-            padding:
-                46px 22px;
-
-            text-align: center;
-
-            box-shadow:
-                0 10px 30px
-                rgba(0, 0, 0, 0.035);
-        }
-
-        .empty-icon {
-            width: 76px;
-            height: 76px;
-
-            margin:
-                0 auto 18px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255, 140, 0, 0.10);
-
-            color: #ff8c00;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .empty-icon svg {
-            width: 34px;
-            height: 34px;
-        }
-
-        .empty-state h2 {
-            margin:
-                0 0 10px;
-
-            font-size: 20px;
-            font-weight: 800;
-
-            color: #1e293b;
-        }
-
-        .empty-state p {
-            margin: 0;
-
-            font-size: 14px;
-
-            color: #64748b;
-
-            line-height: 1.8;
-        }
-
-        /* ========================================
-           TABLET
-        ======================================== */
-
-        @media
-        (min-width: 601px)
-        and
-        (max-width: 1023px) {
-
-            .wrapper {
-                max-width: 760px;
-
-                padding: 30px;
-            }
-
-            .top-bar {
-                height: 60px;
-
-                margin-top: 12px;
-                margin-bottom: 34px;
-            }
-
-            .back-btn {
-                width: 54px;
-                height: 54px;
-            }
-
-            .back-btn svg {
-                width: 26px;
-                height: 26px;
-            }
-
-            .page-title {
-                font-size: 30px;
-            }
-
-            .notifications-container {
-                gap: 22px;
-
-                padding-bottom: 42px;
-            }
-
-            .noti-card {
-                border-radius: 25px;
-
-                padding: 26px;
-            }
-
-            .noti-header {
-                margin-bottom: 16px;
-
-                padding-bottom: 16px;
-            }
-
-            .sender-info {
-                gap: 16px;
-            }
-
-            .sender-icon {
-                width: 58px;
-                height: 58px;
-            }
-
-            .sender-icon svg {
-                width: 27px;
-                height: 27px;
-            }
-
-            .sender-name {
-                font-size: 20px;
-            }
-
-            .noti-time {
-                font-size: 15px;
-            }
-
-            .noti-desc {
-                font-size: 18px;
-
-                line-height: 1.8;
-            }
-
-            .unread-dot {
-                top: 31px;
-                left: 26px;
-
-                width: 12px;
-                height: 12px;
-            }
-
-            .empty-state {
-                padding:
-                    68px 30px;
-
-                border-radius: 28px;
-            }
-
-            .empty-icon {
-                width: 92px;
-                height: 92px;
-
-                margin-bottom: 22px;
-            }
-
-            .empty-icon svg {
-                width: 42px;
-                height: 42px;
-            }
-
-            .empty-state h2 {
-                font-size: 25px;
-            }
-
-            .empty-state p {
-                font-size: 17px;
-            }
-
-        }
-
-        /* ========================================
-           LAPTOP / DESKTOP
-        ======================================== */
-
-        @media
-        (min-width: 1024px)
-        and
-        (hover: hover)
-        and
-        (pointer: fine) {
-
-            .wrapper {
-                max-width: 1240px;
-
-                padding:
-                    42px 48px 56px;
-            }
-
-            .top-bar {
-                height: 70px;
-
-                margin-top: 10px;
-                margin-bottom: 42px;
-            }
-
-            .back-btn {
-                width: 62px;
-                height: 62px;
-            }
-
-            .back-btn svg {
-                width: 30px;
-                height: 30px;
-            }
-
-            .page-title {
-                font-size: 38px;
-            }
-
-            .notifications-container {
-                display: grid;
-
-                grid-template-columns:
-                    repeat(
-                        2,
-                        minmax(0, 1fr)
-                    );
-
-                gap: 28px;
-
-                padding-bottom: 52px;
-            }
-
-            .noti-card {
-                min-height: 210px;
-
-                border-radius: 30px;
-
-                padding: 34px;
-            }
-
-            .noti-header {
-                margin-bottom: 20px;
-
-                padding-bottom: 18px;
-            }
-
-            .sender-info {
-                gap: 18px;
-            }
-
-            .sender-icon {
-                width: 72px;
-                height: 72px;
-            }
-
-            .sender-icon svg {
-                width: 34px;
-                height: 34px;
-            }
-
-            .sender-details {
-                gap: 6px;
-            }
-
-            .sender-name {
-                font-size: 24px;
-            }
-
-            .noti-time {
-                font-size: 17px;
-            }
-
-            .noti-body {
-                padding-top: 8px;
-            }
-
-            .noti-desc {
-                font-size: 21px;
-
-                line-height: 1.85;
-            }
-
-            .unread-dot {
-                top: 38px;
-                left: 34px;
-
-                width: 14px;
-                height: 14px;
-            }
-
-            .empty-state {
-                grid-column:
-                    1 / -1;
-
-                min-height: 330px;
-
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-
-                padding:
-                    60px 40px;
-
-                border-radius: 32px;
-            }
-
-            .empty-icon {
-                width: 110px;
-                height: 110px;
-
-                margin-bottom: 26px;
-            }
-
-            .empty-icon svg {
-                width: 50px;
-                height: 50px;
-            }
-
-            .empty-state h2 {
-                font-size: 30px;
-            }
-
-            .empty-state p {
-                max-width: 560px;
-
-                font-size: 19px;
-            }
-
-        }
-
-        /* ========================================
-           LARGE DESKTOP
-        ======================================== */
-
-        @media
-        (min-width: 1440px)
-        and
-        (hover: hover)
-        and
-        (pointer: fine) {
-
-            .wrapper {
-                max-width: 1440px;
-
-                padding:
-                    50px 60px 68px;
-            }
-
-            .top-bar {
-                margin-bottom: 48px;
-            }
-
-            .back-btn {
-                width: 68px;
-                height: 68px;
-            }
-
-            .back-btn svg {
-                width: 33px;
-                height: 33px;
-            }
-
-            .page-title {
-                font-size: 42px;
-            }
-
-            .notifications-container {
-                gap: 32px;
-            }
-
-            .noti-card {
-                min-height: 235px;
-
-                padding: 38px;
-
-                border-radius: 32px;
-            }
-
-            .sender-icon {
-                width: 78px;
-                height: 78px;
-            }
-
-            .sender-icon svg {
-                width: 37px;
-                height: 37px;
-            }
-
-            .sender-name {
-                font-size: 27px;
-            }
-
-            .noti-time {
-                font-size: 18px;
-            }
-
-            .noti-desc {
-                font-size: 23px;
-
-                line-height: 1.9;
-            }
-
-            .empty-state {
-                min-height: 370px;
-            }
-
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>ئاگەهداری - رێڤەبەر</title>
+
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+      background:#f4f7f6;color:#0f172a;
+      -webkit-tap-highlight-color:transparent
+    }
+    button{font:inherit;cursor:pointer}
+
+    .wrapper{
+      min-height:100vh;
+      max-width:850px;
+      margin:auto;
+      padding:20px
+    }
+
+    .top-bar{
+      position:relative;
+      display:flex;align-items:center;justify-content:center;
+      height:54px;
+      margin:10px 0 30px
+    }
+    .back-btn{
+      position:absolute;right:0;
+      width:46px;height:46px;
+      border:0;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(255,136,0,.12);color:#e65100;
+      transition:.25s ease
+    }
+    .back-btn:hover{background:#ff8c00;color:#fff;transform:scale(1.05)}
+    .back-btn svg{width:22px;height:22px}
+    .page-title{
+      margin:0;font-size:23px;font-weight:900;color:#0f172a
+    }
+    .unread-count{
+      position:absolute;left:0;
+      min-width:42px;height:42px;padding:0 10px;
+      border-radius:999px;
+      display:flex;align-items:center;justify-content:center;
+      background:#ef4444;color:#fff;
+      border:4px solid #fff;
+      box-shadow:0 8px 20px rgba(239,68,68,.24);
+      font-size:14px;font-weight:900;direction:ltr
+    }
+
+    .alerts{
+      display:flex;flex-direction:column;gap:16px;padding-bottom:30px
+    }
+    .alert-card{
+      position:relative;
+      padding:20px;
+      border-radius:22px;
+      background:#fff;
+      border:1px solid #f1f5f9;
+      box-shadow:0 10px 30px rgba(0,0,0,.04);
+      cursor:pointer;
+      transition:.25s ease
+    }
+    .alert-card:hover{
+      transform:translateY(-3px);
+      box-shadow:0 15px 35px rgba(255,136,0,.08);
+      border-color:rgba(255,136,0,.2)
+    }
+    .alert-card.unread{
+      border-color:rgba(255,136,0,.32);
+      background:linear-gradient(135deg,#fff,#fffaf4)
+    }
+    .unread-dot{
+      position:absolute;top:18px;left:18px;
+      width:11px;height:11px;border-radius:50%;
+      background:#ff8c00;
+      box-shadow:0 0 0 5px rgba(255,140,0,.1)
+    }
+    .alert-head{
+      display:flex;align-items:flex-start;gap:13px;
+      padding-left:22px
+    }
+    .icon{
+      width:48px;height:48px;flex:0 0 auto;
+      border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(255,136,0,.12);color:#e65100
+    }
+    .icon svg{width:23px;height:23px}
+    .head-text{min-width:0;flex:1}
+    .head-text h3{
+      margin:1px 0 5px;
+      font-size:17px;font-weight:900;color:#1e293b
+    }
+    .date{
+      color:#94a3b8;font-size:12px;font-weight:700;direction:ltr
+    }
+    .preview{
+      margin:14px 0 0;
+      color:#64748b;font-size:14px;line-height:1.8;
+      white-space:pre-wrap;word-break:break-word
+    }
+
+    .state{
+      padding:55px 20px;text-align:center;
+      background:#fff;border:1px solid #f1f5f9;
+      border-radius:24px;
+      box-shadow:0 10px 30px rgba(0,0,0,.035)
+    }
+    .state svg{width:54px;height:54px;color:#ff8c00;margin-bottom:12px}
+    .state h3{margin:0 0 7px;font-size:19px}
+    .state p{margin:0;color:#64748b;font-size:14px}
+
+    .loading{
+      position:fixed;inset:0;z-index:9999;
+      display:flex;align-items:center;justify-content:center;
+      background:#f4f7f6
+    }
+    .loading.hide{display:none}
+    .loader{
+      width:46px;height:46px;border-radius:50%;
+      border:5px solid #e5e7eb;border-top-color:#ff8c00;
+      animation:spin .8s linear infinite
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .modal{
+      position:fixed;inset:0;z-index:5000;
+      display:none;align-items:center;justify-content:center;
+      padding:20px;
+      background:rgba(15,23,42,.48);
+      backdrop-filter:blur(5px)
+    }
+    .modal.active{display:flex}
+    .modal-card{
+      position:relative;
+      width:min(500px,100%);
+      max-height:85vh;overflow:auto;
+      background:#fff;border-radius:28px;
+      padding:30px;
+      box-shadow:0 28px 60px rgba(0,0,0,.2)
+    }
+    .close-btn{
+      position:absolute;top:17px;left:17px;
+      width:38px;height:38px;
+      border:0;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      background:#f1f5f9;color:#64748b
+    }
+    .close-btn svg{width:19px;height:19px}
+    .modal-icon{
+      width:64px;height:64px;
+      border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(255,136,0,.12);color:#e65100;
+      margin-bottom:18px
+    }
+    .modal-icon svg{width:30px;height:30px}
+    .modal-title{
+      margin:0 0 8px;padding-left:42px;
+      font-size:23px;font-weight:900
+    }
+    .modal-date{
+      margin-bottom:18px;
+      color:#94a3b8;font-size:12px;font-weight:700;direction:ltr;text-align:right
+    }
+    .modal-message{
+      margin:0;
+      color:#475569;font-size:15px;line-height:2;
+      white-space:pre-wrap;word-break:break-word
+    }
+
+    @media(min-width:1024px){
+      .wrapper{max-width:1100px;padding:38px 42px}
+      .top-bar{height:64px;margin-bottom:38px}
+      .back-btn{width:58px;height:58px}
+      .page-title{font-size:34px}
+      .unread-count{min-width:54px;height:54px;font-size:18px}
+      .alerts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+      .state{grid-column:1/-1}
+      .alert-card{padding:27px;border-radius:26px}
+      .icon{width:60px;height:60px}
+      .icon svg{width:29px;height:29px}
+      .head-text h3{font-size:21px}
+      .preview{font-size:16px}
+    }
+  </style>
 </head>
 
 <body>
+  <div class="loading" id="pageLoading">
+    <div class="loader"></div>
+  </div>
 
-    <div class="wrapper">
+  <div class="wrapper">
+    <div class="top-bar">
+      <button type="button" class="back-btn" onclick="window.history.back()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
 
-        <div class="top-bar">
-
-            <button
-                type="button"
-                class="back-btn"
-                onclick="window.history.back()"
-                aria-label="زڤرین"
-            >
-
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M9 5l7 7-7 7"
-                    />
-                </svg>
-
-            </button>
-
-            <h1 class="page-title">
-                ئاگەهداری
-            </h1>
-
-        </div>
-
-
-        <div
-            class="notifications-container"
-            id="notificationsContainer"
-        >
-
-            <div
-                class="empty-state"
-                id="emptyState"
-            >
-
-                <div class="empty-icon">
-
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022 23.848 23.848 0 005.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                        />
-                    </svg>
-
-                </div>
-
-                <h2>
-                    هێشتا ئاگەهداری نینن
-                </h2>
-
-                <p>
-                    دەمێ ئاگەهدارییەکا نوو هەبیت، ل ڤێرێ دێ بۆ تە دیار بیت.
-                </p>
-
-            </div>
-
-        </div>
-
+      <div style="text-align:center">
+        <h1 class="page-title">ئاگەهداری</h1>
+        <div style="margin-top:4px;color:#64748b;font-size:12px;font-weight:700">رێڤەبەر</div>
+      </div>
+      <div class="unread-count" id="unreadCount">0</div>
     </div>
 
+    <div class="alerts" id="alertsContainer">
+      <div class="state">
+        <h3>چاڤەرێ بە...</h3>
+        <p>ئاگەهداری دهێنە بارکرن</p>
+      </div>
+    </div>
+  </div>
 
-    <script>
+  <div class="modal" id="detailsModal">
+    <div class="modal-card">
+      <button class="close-btn" id="closeBtn" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
 
-        /*
-         * For now this page intentionally has no
-         * fake notifications and no Firebase fetch.
-         *
-         * Later we can connect this container to
-         * real alerts from Firebase.
-         */
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"/>
+        </svg>
+      </div>
 
-        function markAsRead(
-            cardElement
-        ) {
+      <h2 class="modal-title" id="modalTitle">ئاگەهداری</h2>
+      <div class="modal-date" id="modalDate">--</div>
+      <p class="modal-message" id="modalMessage"></p>
+    </div>
+  </div>
 
-            if (
-                !cardElement ||
-                !cardElement.classList.contains(
-                    "unread"
-                )
-            ) {
-                return;
-            }
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+    import {
+      getDatabase,
+      ref,
+      get,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-            cardElement.classList.remove(
-                "unread"
-            );
+    const firebaseConfig = {
+      apiKey: "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+      authDomain: "office-8e7cb.firebaseapp.com",
+      databaseURL: "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "office-8e7cb",
+      storageBucket: "office-8e7cb.firebasestorage.app",
+      messagingSenderId: "604465845047",
+      appId: "1:604465845047:web:42004e33906c8986ee80b2",
+      measurementId: "G-LJJM71LQ0K"
+    };
 
-            const dot =
-                cardElement.querySelector(
-                    ".unread-dot"
-                );
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
 
-            if (dot) {
-                dot.remove();
-            }
+    const pageLoading = document.getElementById("pageLoading");
+    const alertsContainer = document.getElementById("alertsContainer");
+    const unreadCount = document.getElementById("unreadCount");
+    const detailsModal = document.getElementById("detailsModal");
+    const closeBtn = document.getElementById("closeBtn");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDate = document.getElementById("modalDate");
+    const modalMessage = document.getElementById("modalMessage");
 
+    let currentUser = null;
+    let alertsCache = {};
+    let readIds = new Set();
+
+    function storageKey() {
+      return `office_admin_read_alerts_${currentUser?.uid || "guest"}`;
+    }
+
+    function loadReadIds() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey()) || "[]");
+        readIds = new Set(Array.isArray(saved) ? saved : []);
+      } catch {
+        readIds = new Set();
+      }
+    }
+
+    function saveReadIds() {
+      localStorage.setItem(storageKey(), JSON.stringify([...readIds]));
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatDate(timestamp) {
+      const value = Number(timestamp);
+      if (!value) return "--";
+
+      return new Intl.DateTimeFormat("en-GB", {
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+      }).format(new Date(value));
+    }
+
+    async function goToLogin() {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        console.error(error);
+      }
+
+      window.location.replace("/login/login.html");
+    }
+
+    function updateUnreadCount() {
+      const alerts = Object.entries(alertsCache).filter(([, alertItem]) => {
+        return (
+          alertItem &&
+          alertItem.active !== false &&
+          String(alertItem.target || "all").toLowerCase() === "all"
+        );
+      });
+
+      const count = alerts.filter(([id]) => !readIds.has(id)).length;
+      unreadCount.textContent = count > 99 ? "99+" : String(count);
+    }
+
+    function renderAlerts() {
+      const alerts = Object.entries(alertsCache)
+        .map(([id, data]) => ({ id, ...data }))
+        .filter(item => (
+          item.active !== false &&
+          String(item.target || "all").toLowerCase() === "all"
+        ))
+        .sort((a,b) => (Number(b.createdAt)||0) - (Number(a.createdAt)||0));
+
+      if (!alerts.length) {
+        alertsContainer.innerHTML = `
+          <div class="state">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"/>
+            </svg>
+            <h3>هێشتا ئاگەهداری نینن</h3>
+            <p>هەر ئاگەهدارییەکا نوێ ل ڤێرێ دێ دیار بیت</p>
+          </div>
+        `;
+        updateUnreadCount();
+        return;
+      }
+
+      alertsContainer.innerHTML = alerts.map(item => {
+        const unread = !readIds.has(item.id);
+
+        return `
+          <article class="alert-card ${unread ? "unread" : ""}" data-id="${escapeHTML(item.id)}">
+            ${unread ? '<span class="unread-dot"></span>' : ""}
+            <div class="alert-head">
+              <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"/>
+                </svg>
+              </div>
+              <div class="head-text">
+                <h3>${escapeHTML(item.title || "ئاگەهداری")}</h3>
+                <div class="date">${escapeHTML(formatDate(item.createdAt))}</div>
+              </div>
+            </div>
+            <p class="preview">${escapeHTML(item.message || "")}</p>
+          </article>
+        `;
+      }).join("");
+
+      alertsContainer.querySelectorAll(".alert-card").forEach(card => {
+        card.addEventListener("click", () => openAlert(card.dataset.id));
+      });
+
+      updateUnreadCount();
+    }
+
+    function openAlert(id) {
+      const item = alertsCache[id];
+      if (!item) return;
+
+      readIds.add(id);
+      saveReadIds();
+
+      modalTitle.textContent = item.title || "ئاگەهداری";
+      modalDate.textContent = formatDate(item.createdAt);
+      modalMessage.textContent = item.message || "";
+      detailsModal.classList.add("active");
+
+      renderAlerts();
+    }
+
+    closeBtn.addEventListener("click", () => {
+      detailsModal.classList.remove("active");
+    });
+
+    detailsModal.addEventListener("click", event => {
+      if (event.target === detailsModal) {
+        detailsModal.classList.remove("active");
+      }
+    });
+
+    function startAlertsListener() {
+      onValue(
+        ref(database, "alerts"),
+        snapshot => {
+          alertsCache = snapshot.exists() ? (snapshot.val() || {}) : {};
+          renderAlerts();
+        },
+        error => {
+          console.error("Alerts listener error:", error);
+          alertsContainer.innerHTML = `
+            <div class="state">
+              <h3>هەڵە</h3>
+              <p>ئاگەهداری نەهاتنە بارکرن</p>
+            </div>
+          `;
+        }
+      );
+    }
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.replace("/login/login.html");
+        return;
+      }
+
+      try {
+        const snapshot = await get(ref(database, `users/${user.uid}`));
+
+        if (!snapshot.exists()) {
+          await goToLogin();
+          return;
         }
 
-        window.markAsRead =
-            markAsRead;
+        const profile = snapshot.val();
 
-    </script>
+        if (
+          String(profile.role || "").toLowerCase() !== "owner" ||
+          profile.active === false
+        ) {
+          await goToLogin();
+          return;
+        }
 
+        currentUser = user;
+        loadReadIds();
+
+        pageLoading.classList.add("hide");
+        startAlertsListener();
+      } catch (error) {
+        console.error("User verification error:", error);
+        await goToLogin();
+      }
+    });
+  </script>
 </body>
 </html>
