@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>ئاگەهداری - رێڤەبەر</title>
+  <title>ئاگەهداری</title>
 
   <style>
     *{box-sizing:border-box}
@@ -204,10 +204,7 @@
         </svg>
       </button>
 
-      <div style="text-align:center">
-        <h1 class="page-title">ئاگەهداری</h1>
-        <div style="margin-top:4px;color:#64748b;font-size:12px;font-weight:700">رێڤەبەر</div>
-      </div>
+      <h1 class="page-title">ئاگەهداری</h1>
       <div class="unread-count" id="unreadCount">0</div>
     </div>
 
@@ -282,7 +279,7 @@
     let readIds = new Set();
 
     function storageKey() {
-      return `office_admin_read_alerts_${currentUser?.uid || "guest"}`;
+      return `office_read_alerts_${currentUser?.uid || "guest"}`;
     }
 
     function loadReadIds() {
@@ -327,7 +324,7 @@
         console.error(error);
       }
 
-      window.location.replace("/login/login.html");
+      window.location.replace("/office/index.html");
     }
 
     function updateUnreadCount() {
@@ -441,7 +438,7 @@
 
     onAuthStateChanged(auth, async user => {
       if (!user) {
-        window.location.replace("/login/login.html");
+        window.location.replace("/office/index.html");
         return;
       }
 
@@ -456,7 +453,7 @@
         const profile = snapshot.val();
 
         if (
-          String(profile.role || "").toLowerCase() !== "owner" ||
+          String(profile.role || "").toLowerCase() !== "user" ||
           profile.active === false
         ) {
           await goToLogin();
