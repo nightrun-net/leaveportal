@@ -296,49 +296,6 @@
     }
 
     /* =====================================
-       HISTORY STATUS COUNTS
-    ===================================== */
-
-    .status-counts {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      min-height: 32px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .status-pill strong {
-      min-width: 18px;
-      text-align: center;
-      direction: ltr;
-      font-size: 13px;
-    }
-
-    .status-pill.approved {
-      color: #047857;
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-    }
-
-    .status-pill.rejected {
-      color: #b91c1c;
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-    }
-
-    /* =====================================
        MOBILE
     ===================================== */
 
@@ -461,15 +418,6 @@
         font-size: 15px;
       }
 
-      .status-pill {
-        min-height: 38px;
-        padding: 7px 13px;
-        font-size: 14px;
-      }
-
-      .status-pill strong {
-        font-size: 15px;
-      }
     }
   </style>
 </head>
@@ -608,18 +556,6 @@
           <p>دیتنا تومار و مێژوویێن مولەتێن پێشتر</p>
         </div>
 
-        <div class="status-counts">
-          <span class="status-pill approved">
-            پەسەندکری
-            <strong id="approvedCount">0</strong>
-          </span>
-
-          <span class="status-pill rejected">
-            رەتکری
-            <strong id="rejectedCount">0</strong>
-          </span>
-        </div>
-
         <svg
           class="card-icon-bg"
           xmlns="http://www.w3.org/2000/svg"
@@ -733,8 +669,6 @@
     const logoutBtn = document.getElementById("logoutBtn");
 
     const historyCount = document.getElementById("historyCount");
-    const approvedCount = document.getElementById("approvedCount");
-    const rejectedCount = document.getElementById("rejectedCount");
     const alertsCount = document.getElementById("alertsCount");
 
     /* =========================================
@@ -910,11 +844,6 @@
             history
           );
 
-          approvedCount.textContent =
-            displayCount(approved);
-
-          rejectedCount.textContent =
-            displayCount(rejected);
         },
 
         error => {
@@ -928,11 +857,6 @@
             0
           );
 
-          approvedCount.textContent =
-            "0";
-
-          rejectedCount.textContent =
-            "0";
         }
       );
 
