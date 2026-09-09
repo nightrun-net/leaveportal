@@ -79,6 +79,7 @@
       padding: 10px 5px 20px;
       display: flex;
       align-items: center;
+      gap: 15px;
       margin-bottom: 25px;
     }
 
@@ -102,10 +103,10 @@
     }
 
     .user-info {
-      margin-right: 15px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      min-width: 0;
     }
 
     .welcome-text {
@@ -120,6 +121,51 @@
       font-weight: 800;
       color: #0f172a;
       margin: 0;
+      word-break: break-word;
+    }
+
+    /* =====================================
+       LOGOUT
+    ===================================== */
+
+    .logout-btn {
+      margin-right: auto;
+      min-width: 118px;
+      height: 48px;
+      padding: 0 17px;
+      border: 0;
+      border-radius: 16px;
+      background: #ffffff;
+      color: #dc2626;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(220, 38, 38, 0.18);
+    }
+
+    .logout-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .logout-btn svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
     }
 
     /* =====================================
@@ -307,10 +353,23 @@
 
       .profile-header {
         margin-bottom: 20px;
+        gap: 12px;
       }
 
       .user-name {
         font-size: 19px;
+      }
+
+      .logout-btn {
+        width: 48px;
+        min-width: 48px;
+        height: 48px;
+        padding: 0;
+        border-radius: 14px;
+      }
+
+      .logout-btn span {
+        display: none;
       }
     }
 
@@ -351,8 +410,17 @@
         font-size: 27px;
       }
 
-      .user-info {
-        margin-right: 18px;
+      .logout-btn {
+        min-width: 150px;
+        height: 58px;
+        padding: 0 22px;
+        border-radius: 18px;
+        font-size: 18px;
+      }
+
+      .logout-btn svg {
+        width: 24px;
+        height: 24px;
       }
 
       .cards-wrapper {
@@ -442,6 +510,29 @@
         <h2 class="user-name" id="userName">بەکارهێنەر</h2>
       </div>
 
+      <button
+        type="button"
+        class="logout-btn"
+        id="logoutBtn"
+        title="دەرکەفتن ژ هەژمارێ"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3H9m0 0l3-3m-3 3l3 3"
+          />
+        </svg>
+
+        <span>دەرکەفتن</span>
+      </button>
+
     </div>
 
     <!-- =================================
@@ -451,9 +542,7 @@
     <div class="cards-wrapper">
 
       <!-- REQUEST LEAVE -->
-      <a href="../molat/Molat.html" class="card">
-
-        <div class="live-count" id="pendingCount">0</div>
+      <a href="/office/molat/Molat.html" class="card">
 
         <div class="card-icon-container">
           <svg
@@ -494,7 +583,7 @@
       </a>
 
       <!-- HISTORY -->
-      <a href="../tomar/Tomar.html" class="card">
+      <a href="/office/tomar/Tomar.html" class="card">
 
         <div class="live-count" id="historyCount">0</div>
 
@@ -549,7 +638,7 @@
       </a>
 
       <!-- NOTIFICATIONS -->
-      <a href="../agahdari/Agahdari.html" class="card">
+      <a href="/office/agahdari/Agahdari.html" class="card">
 
         <div class="live-count" id="alertsCount">0</div>
 
@@ -641,8 +730,8 @@
 
     const userName = document.getElementById("userName");
     const pageLoading = document.getElementById("pageLoading");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-    const pendingCount = document.getElementById("pendingCount");
     const historyCount = document.getElementById("historyCount");
     const approvedCount = document.getElementById("approvedCount");
     const rejectedCount = document.getElementById("rejectedCount");
@@ -673,6 +762,10 @@
     }
 
     function updateBadge(element, value) {
+      if (!element) {
+        return;
+      }
+
       const nextValue = displayCount(value);
 
       if (element.textContent !== nextValue) {
@@ -694,6 +787,22 @@
     }
 
     /* =========================================
+       LOGOUT
+    ========================================== */
+
+    logoutBtn.addEventListener("click", async () => {
+      logoutBtn.disabled = true;
+
+      try {
+        await signOut(auth);
+        window.location.replace("/office/index.html");
+      } catch (error) {
+        console.error("Logout error:", error);
+        logoutBtn.disabled = false;
+      }
+    });
+
+    /* =========================================
        ALERT READ STATE
        SAME KEY USED BY Agahdari.html
     ========================================== */
@@ -705,13 +814,19 @@
 
       try {
         const key = `office_read_alerts_${currentUser.uid}`;
-        const stored = JSON.parse(localStorage.getItem(key) || "[]");
+        const stored = JSON.parse(
+          localStorage.getItem(key) || "[]"
+        );
 
         return new Set(
           Array.isArray(stored) ? stored : []
         );
       } catch (error) {
-        console.error("Read alerts storage error:", error);
+        console.error(
+          "Read alerts storage error:",
+          error
+        );
+
         return new Set();
       }
     }
@@ -719,21 +834,27 @@
     function updateUnreadAlertsCount() {
       const readIds = getReadAlertIds();
 
-      const activeAlerts = Object.entries(alertsCache).filter(
-        ([, alertItem]) => {
-          return (
-            alertItem &&
-            alertItem.active !== false &&
-            String(alertItem.target || "all").toLowerCase() === "all"
-          );
-        }
+      const activeAlerts = Object.entries(
+        alertsCache
+      ).filter(([, alertItem]) => {
+        return (
+          alertItem &&
+          alertItem.active !== false &&
+          String(
+            alertItem.target || "all"
+          ).toLowerCase() === "all"
+        );
+      });
+
+      const unreadTotal =
+        activeAlerts.filter(
+          ([alertId]) => !readIds.has(alertId)
+        ).length;
+
+      updateBadge(
+        alertsCount,
+        unreadTotal
       );
-
-      const unreadTotal = activeAlerts.filter(
-        ([alertId]) => !readIds.has(alertId)
-      ).length;
-
-      updateBadge(alertsCount, unreadTotal);
     }
 
     /* =========================================
@@ -748,7 +869,8 @@
       countsStarted = true;
 
       /* -----------------------------------------
-         THIS USER'S REQUESTS ONLY
+         THIS USER'S REQUEST HISTORY
+         APPROVED + REJECTED ONLY
       ----------------------------------------- */
 
       const userRequestsQuery = query(
@@ -759,12 +881,12 @@
 
       onValue(
         userRequestsQuery,
+
         snapshot => {
           const requests = snapshot.exists()
             ? Object.values(snapshot.val() || {})
             : [];
 
-          let pending = 0;
           let approved = 0;
           let rejected = 0;
 
@@ -773,31 +895,44 @@
               requestItem?.status || ""
             ).toLowerCase();
 
-            if (status === "pending") {
-              pending++;
-            } else if (status === "approved") {
+            if (status === "approved") {
               approved++;
             } else if (status === "rejected") {
               rejected++;
             }
           });
 
-          const history = approved + rejected;
+          const history =
+            approved + rejected;
 
-          updateBadge(pendingCount, pending);
-          updateBadge(historyCount, history);
+          updateBadge(
+            historyCount,
+            history
+          );
 
-          approvedCount.textContent = displayCount(approved);
-          rejectedCount.textContent = displayCount(rejected);
+          approvedCount.textContent =
+            displayCount(approved);
+
+          rejectedCount.textContent =
+            displayCount(rejected);
         },
+
         error => {
-          console.error("Leave requests count error:", error);
+          console.error(
+            "Leave requests count error:",
+            error
+          );
 
-          updateBadge(pendingCount, 0);
-          updateBadge(historyCount, 0);
+          updateBadge(
+            historyCount,
+            0
+          );
 
-          approvedCount.textContent = "0";
-          rejectedCount.textContent = "0";
+          approvedCount.textContent =
+            "0";
+
+          rejectedCount.textContent =
+            "0";
         }
       );
 
@@ -807,6 +942,7 @@
 
       onValue(
         ref(database, "alerts"),
+
         snapshot => {
           alertsCache = snapshot.exists()
             ? snapshot.val() || {}
@@ -814,10 +950,19 @@
 
           updateUnreadAlertsCount();
         },
+
         error => {
-          console.error("Alerts count error:", error);
+          console.error(
+            "Alerts count error:",
+            error
+          );
+
           alertsCache = {};
-          updateBadge(alertsCount, 0);
+
+          updateBadge(
+            alertsCount,
+            0
+          );
         }
       );
     }
@@ -827,20 +972,27 @@
        FROM Agahdari.html
     ========================================== */
 
-    window.addEventListener("pageshow", () => {
-      if (currentUser) {
-        updateUnreadAlertsCount();
+    window.addEventListener(
+      "pageshow",
+      () => {
+        if (currentUser) {
+          updateUnreadAlertsCount();
+        }
       }
-    });
+    );
 
-    window.addEventListener("storage", event => {
-      if (
-        currentUser &&
-        event.key === `office_read_alerts_${currentUser.uid}`
-      ) {
-        updateUnreadAlertsCount();
+    window.addEventListener(
+      "storage",
+      event => {
+        if (
+          currentUser &&
+          event.key ===
+            `office_read_alerts_${currentUser.uid}`
+        ) {
+          updateUnreadAlertsCount();
+        }
       }
-    });
+    );
 
     /* =========================================
        CHECK LOGGED-IN USER
@@ -848,9 +1000,13 @@
 
     onAuthStateChanged(
       auth,
+
       user => {
         if (!user) {
-            window.location.replace("/office/index.html");
+          window.location.replace(
+            "/office/index.html"
+          );
+
           return;
         }
 
@@ -864,23 +1020,37 @@
 
           async snapshot => {
             if (!snapshot.exists()) {
-              console.error("User profile not found");
+              console.error(
+                "User profile not found"
+              );
+
               await goToLogin();
               return;
             }
 
-            const profile = snapshot.val();
+            const profile =
+              snapshot.val();
 
             if (
-              String(profile.role || "").toLowerCase() !== "user"
+              String(
+                profile.role || ""
+              ).toLowerCase() !== "user"
             ) {
-              console.error("Account is not a user account");
+              console.error(
+                "Account is not a user account"
+              );
+
               await goToLogin();
               return;
             }
 
-            if (profile.active === false) {
-              console.error("Account is disabled");
+            if (
+              profile.active === false
+            ) {
+              console.error(
+                "Account is disabled"
+              );
+
               await goToLogin();
               return;
             }
@@ -888,10 +1058,14 @@
             currentUser = user;
 
             userName.textContent =
-              profile.name || "بەکارهێنەر";
+              profile.name ||
+              "بەکارهێنەر";
 
             hideLoading();
-            startDashboardCounts(user.uid);
+
+            startDashboardCounts(
+              user.uid
+            );
           },
 
           async error => {
