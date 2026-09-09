@@ -2,1139 +2,911 @@
 <html lang="ku" dir="rtl">
 
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-    >
-
-    <title>Office</title>
-
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        body {
-
-            margin: 0;
-            padding: 0;
-
-            font-family:
-                'Segoe UI',
-                Tahoma,
-                Geneva,
-                Verdana,
-                sans-serif;
-
-            background-color: #f8fafc;
-
-            -webkit-tap-highlight-color: transparent;
-        }
-
-
-        /* =====================================
-           PAGE LOADING
-        ===================================== */
-
-        .page-loading {
-
-            position: fixed;
-
-            inset: 0;
-
-            background: #f8fafc;
-
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            z-index: 9999;
-
-            transition: opacity 0.25s ease;
-        }
-
-
-        .page-loading.hide {
-
-            opacity: 0;
-
-            pointer-events: none;
-        }
-
-
-        .loader {
-
-            width: 46px;
-            height: 46px;
-
-            border-radius: 50%;
-
-            border: 5px solid #e5e7eb;
-
-            border-top-color: #ff7a22;
-
-            animation: spin 0.8s linear infinite;
-        }
-
-
-        @keyframes spin {
-
-            to {
-                transform: rotate(360deg);
-            }
-
-        }
-
-
-        /* =====================================
-           CONTAINER
-        ===================================== */
-
-        .container {
-
-            max-width: 1000px;
-
-            margin: 0 auto;
-
-            padding: 20px;
-        }
-
-
-        /* =====================================
-           PROFILE HEADER
-        ===================================== */
-
-        .profile-header {
-
-            background: transparent;
-
-            padding: 10px 5px 20px 5px;
-
-            display: flex;
-
-            align-items: center;
-
-            margin-bottom: 25px;
-        }
-
-
-        .avatar-bg {
-
-            width: 60px;
-            height: 60px;
-
-            background-color:
-                rgba(255, 136, 0, 0.12);
-
-            border-radius: 50%;
-
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            color: #e65100;
-
-            box-shadow:
-                0 5px 15px
-                rgba(255, 136, 0, 0.1);
-
-            flex-shrink: 0;
-
-            transition: all 0.3s ease;
-        }
-
-
-        .avatar-bg svg {
-
-            width: 30px;
-            height: 30px;
-        }
-
-
-        .user-info {
-
-            margin-right: 15px;
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: center;
-        }
-
-
-        .welcome-text {
-
-            font-size: 13px;
-
-            color: #64748b;
-
-            margin-bottom: 4px;
-
-            font-weight: 600;
-        }
-
-
-        .user-name {
-
-            font-size: 20px;
-
-            font-weight: 800;
-
-            color: #0f172a;
-
-            margin: 0;
-        }
-
-
-        /* =====================================
-           CARDS
-        ===================================== */
-
-        .cards-wrapper {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 20px;
-        }
-
-
-        .card {
-
-            flex: 1 1 calc(50% - 20px);
-
-            background: #ffffff;
-
-            border-radius: 24px;
-
-            padding: 25px;
-
-            text-decoration: none;
-
-            box-shadow:
-                0 12px 30px
-                rgba(0, 0, 0, 0.04);
-
-            border:
-                1px solid #f1f5f9;
-
-            transition: all 0.3s ease;
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: flex-start;
-
-            position: relative;
-
-            overflow: hidden;
-        }
-
-
-        .card:hover,
-        .card:active {
-
-            transform: translateY(-5px);
-
-            box-shadow:
-                0 20px 40px
-                rgba(255, 136, 0, 0.1);
-
-            border-color:
-                rgba(255, 136, 0, 0.2);
-        }
-
-
-        .card-icon-container,
-        .card-content {
-
-            position: relative;
-
-            z-index: 2;
-        }
-
-
-        .card-icon-container {
-
-            width: 55px;
-            height: 55px;
-
-            background-color:
-                rgba(255, 136, 0, 0.12);
-
-            border-radius: 50%;
-
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            color: #e65100;
-
-            margin-bottom: 20px;
-
-            transition: all 0.3s ease;
-        }
-
-
-        .card-icon-container svg {
-
-            width: 28px;
-            height: 28px;
-        }
-
-
-        .card:hover
-        .card-icon-container {
-
-            background-color: #ff8c00;
-
-            color: #ffffff;
-
-            transform: scale(1.05);
-        }
-
-
-        .card-content h3 {
-
-            margin: 0 0 10px 0;
-
-            font-size: 22px;
-
-            font-weight: 800;
-
-            color: #1e293b;
-        }
-
-
-        .card-content p {
-
-            margin: 0;
-
-            font-size: 15px;
-
-            color: #64748b;
-
-            line-height: 1.6;
-        }
-
-
-        .card-icon-bg {
-
-            position: absolute;
-
-            bottom: -20px;
-
-            left: -15px;
-
-            width: 140px;
-
-            height: 140px;
-
-            color: #ff8c00;
-
-            opacity: 0.05;
-
-            transform: rotate(-20deg);
-
-            z-index: 1;
-
-            pointer-events: none;
-        }
-
-
-        /* =====================================
-           MOBILE
-        ===================================== */
-
-        @media (max-width: 600px) {
-
-            .container {
-
-                padding: 18px 15px;
-            }
-
-
-            .card {
-
-                flex: 1 1 100%;
-            }
-
-
-            .profile-header {
-
-                margin-bottom: 20px;
-            }
-
-
-            .user-name {
-
-                font-size: 19px;
-            }
-
-        }
-
-
-        /* =====================================
-           LAPTOP / DESKTOP
-        ===================================== */
-
-        @media
-        (min-width: 1024px)
-        and (hover: hover)
-        and (pointer: fine) {
-
-            .container {
-
-                max-width: 1150px;
-
-                padding: 35px 30px;
-            }
-
-
-            .profile-header {
-
-                margin-bottom: 35px;
-            }
-
-
-            .avatar-bg {
-
-                width: 75px;
-                height: 75px;
-            }
-
-
-            .avatar-bg svg {
-
-                width: 37px;
-                height: 37px;
-            }
-
-
-            .welcome-text {
-
-                font-size: 16px;
-
-                margin-bottom: 5px;
-            }
-
-
-            .user-name {
-
-                font-size: 27px;
-            }
-
-
-            .user-info {
-
-                margin-right: 18px;
-            }
-
-
-            .cards-wrapper {
-
-                gap: 25px;
-            }
-
-
-            .card {
-
-                padding: 32px;
-
-                min-height: 210px;
-
-                border-radius: 28px;
-            }
-
-
-            .card-icon-container {
-
-                width: 65px;
-                height: 65px;
-
-                margin-bottom: 24px;
-            }
-
-
-            .card-icon-container svg {
-
-                width: 32px;
-                height: 32px;
-            }
-
-
-            .card-content h3 {
-
-                font-size: 27px;
-            }
-
-
-            .card-content p {
-
-                font-size: 18px;
-            }
-
-        }
-
-    </style>
-
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+  >
+
+  <title>Office</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* =====================================
+       PAGE LOADING
+    ===================================== */
+
+    .page-loading {
+      position: fixed;
+      inset: 0;
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.25s ease;
+    }
+
+    .page-loading.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 5px solid #e5e7eb;
+      border-top-color: #ff7a22;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =====================================
+       CONTAINER
+    ===================================== */
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* =====================================
+       PROFILE HEADER
+    ===================================== */
+
+    .profile-header {
+      background: transparent;
+      padding: 10px 5px 20px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .avatar-bg {
+      width: 60px;
+      height: 60px;
+      background-color: rgba(255, 136, 0, 0.12);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #e65100;
+      box-shadow: 0 5px 15px rgba(255, 136, 0, 0.1);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .avatar-bg svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .user-info {
+      margin-right: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .welcome-text {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .user-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+    }
+
+    /* =====================================
+       CARDS
+    ===================================== */
+
+    .cards-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .card {
+      flex: 1 1 calc(50% - 20px);
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 25px;
+      text-decoration: none;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+      border: 1px solid #f1f5f9;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      position: relative;
+      overflow: hidden;
+      min-height: 205px;
+    }
+
+    .card:hover,
+    .card:active {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(255, 136, 0, 0.1);
+      border-color: rgba(255, 136, 0, 0.2);
+    }
+
+    .card-icon-container,
+    .card-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-icon-container {
+      width: 55px;
+      height: 55px;
+      background-color: rgba(255, 136, 0, 0.12);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #e65100;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .card-icon-container svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .card:hover .card-icon-container {
+      background-color: #ff8c00;
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+
+    .card-content h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    .card-content p {
+      margin: 0;
+      font-size: 15px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .card-icon-bg {
+      position: absolute;
+      bottom: -20px;
+      left: -15px;
+      width: 140px;
+      height: 140px;
+      color: #ff8c00;
+      opacity: 0.05;
+      transform: rotate(-20deg);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* =====================================
+       LIVE COUNTS
+    ===================================== */
+
+    .live-count {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      z-index: 5;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 9px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ef4444;
+      color: #ffffff;
+      border: 4px solid #ffffff;
+      box-shadow: 0 7px 18px rgba(239, 68, 68, 0.25);
+      font-size: 12px;
+      font-weight: 900;
+      direction: ltr;
+      transition: transform 0.2s ease;
+    }
+
+    .live-count.count-update {
+      animation: countPulse 0.35s ease;
+    }
+
+    @keyframes countPulse {
+      50% {
+        transform: scale(1.18);
+      }
+    }
+
+    /* =====================================
+       HISTORY STATUS COUNTS
+    ===================================== */
+
+    .status-counts {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 32px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .status-pill strong {
+      min-width: 18px;
+      text-align: center;
+      direction: ltr;
+      font-size: 13px;
+    }
+
+    .status-pill.approved {
+      color: #047857;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+    }
+
+    .status-pill.rejected {
+      color: #b91c1c;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+    }
+
+    /* =====================================
+       MOBILE
+    ===================================== */
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 18px 15px;
+      }
+
+      .card {
+        flex: 1 1 100%;
+      }
+
+      .profile-header {
+        margin-bottom: 20px;
+      }
+
+      .user-name {
+        font-size: 19px;
+      }
+    }
+
+    /* =====================================
+       LAPTOP / DESKTOP
+    ===================================== */
+
+    @media
+      (min-width: 1024px)
+      and (hover: hover)
+      and (pointer: fine) {
+
+      .container {
+        max-width: 1150px;
+        padding: 35px 30px;
+      }
+
+      .profile-header {
+        margin-bottom: 35px;
+      }
+
+      .avatar-bg {
+        width: 75px;
+        height: 75px;
+      }
+
+      .avatar-bg svg {
+        width: 37px;
+        height: 37px;
+      }
+
+      .welcome-text {
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+
+      .user-name {
+        font-size: 27px;
+      }
+
+      .user-info {
+        margin-right: 18px;
+      }
+
+      .cards-wrapper {
+        gap: 25px;
+      }
+
+      .card {
+        padding: 32px;
+        min-height: 235px;
+        border-radius: 28px;
+      }
+
+      .card-icon-container {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 24px;
+      }
+
+      .card-icon-container svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      .card-content h3 {
+        font-size: 27px;
+      }
+
+      .card-content p {
+        font-size: 18px;
+      }
+
+      .live-count {
+        top: 23px;
+        left: 23px;
+        min-width: 42px;
+        height: 42px;
+        padding: 0 11px;
+        font-size: 15px;
+      }
+
+      .status-pill {
+        min-height: 38px;
+        padding: 7px 13px;
+        font-size: 14px;
+      }
+
+      .status-pill strong {
+        font-size: 15px;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
+  <!-- PAGE LOADING -->
+  <div class="page-loading" id="pageLoading">
+    <div class="loader"></div>
+  </div>
 
-    <!-- PAGE LOADING -->
+  <div class="container">
 
-    <div
-        class="page-loading"
-        id="pageLoading"
-    >
+    <!-- =================================
+         PROFILE
+    ================================== -->
 
-        <div class="loader"></div>
+    <div class="profile-header">
+
+      <div class="avatar-bg">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
+      </div>
+
+      <div class="user-info">
+        <span class="welcome-text">بخێر هاتی</span>
+        <h2 class="user-name" id="userName">بەکارهێنەر</h2>
+      </div>
 
     </div>
 
+    <!-- =================================
+         CARDS
+    ================================== -->
 
+    <div class="cards-wrapper">
 
-    <div class="container">
+      <!-- REQUEST LEAVE -->
+      <a href="../molat/Molat.html" class="card">
 
+        <div class="live-count" id="pendingCount">0</div>
 
-        <!-- =================================
-             PROFILE
-        ================================== -->
-
-        <div class="profile-header">
-
-
-            <div class="avatar-bg">
-
-
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                >
-
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-
-                </svg>
-
-
-            </div>
-
-
-
-            <div class="user-info">
-
-
-                <span class="welcome-text">
-
-                    بخێر هاتی
-
-                </span>
-
-
-                <h2
-                    class="user-name"
-                    id="userName"
-                >
-
-                    بەکارهێنەر
-
-                </h2>
-
-
-            </div>
-
-
+        <div class="card-icon-container">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
         </div>
 
-
-
-        <!-- =================================
-             CARDS
-        ================================== -->
-
-        <div class="cards-wrapper">
-
-
-            <!-- REQUEST LEAVE -->
-
-            <a
-                href="../molat/Molat.html"
-                class="card"
-            >
-
-
-                <div class="card-icon-container">
-
-
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                    >
-
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        />
-
-                    </svg>
-
-
-                </div>
-
-
-
-                <div class="card-content">
-
-
-                    <h3>
-
-                        داواكارييا مولەتێ
-
-                    </h3>
-
-
-                    <p>
-
-                        داخازکردنا مولەتا کاری
-
-                    </p>
-
-
-                </div>
-
-
-
-                <svg
-                    class="card-icon-bg"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                >
-
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-
-                </svg>
-
-
-            </a>
-
-
-
-            <!-- HISTORY -->
-
-            <a
-                href="../tomar/Tomar.html"
-                class="card"
-            >
-
-
-                <div class="card-icon-container">
-
-
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                    >
-
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-
-                    </svg>
-
-
-                </div>
-
-
-
-                <div class="card-content">
-
-
-                    <h3>
-
-                        تومار و مێژوو
-
-                    </h3>
-
-
-                    <p>
-
-                        دیتنا تومار و مێژوویێن مولەتێن پێشتر
-
-                    </p>
-
-
-                </div>
-
-
-
-                <svg
-                    class="card-icon-bg"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                >
-
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-
-                </svg>
-
-
-            </a>
-
-
-
-            <!-- NOTIFICATIONS -->
-
-            <a
-                href="../agahdari/Agahdari.html"
-                class="card"
-            >
-
-
-                <div class="card-icon-container">
-
-
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                    >
-
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                        />
-
-                    </svg>
-
-
-                </div>
-
-
-
-                <div class="card-content">
-
-
-                    <h3>
-
-                        ئاگەهداری
-
-                    </h3>
-
-
-                    <p>
-
-                        ئاگەهداری و پەیامێن نوێ
-
-                    </p>
-
-
-                </div>
-
-
-
-                <svg
-                    class="card-icon-bg"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                >
-
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                    />
-
-                </svg>
-
-
-            </a>
-
-
+        <div class="card-content">
+          <h3>داواكارييا مولەتێ</h3>
+          <p>داخازکردنا مولەتا کاری</p>
         </div>
 
+        <svg
+          class="card-icon-bg"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+
+      </a>
+
+      <!-- HISTORY -->
+      <a href="../tomar/Tomar.html" class="card">
+
+        <div class="live-count" id="historyCount">0</div>
+
+        <div class="card-icon-container">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
+
+        <div class="card-content">
+          <h3>تومار و مێژوو</h3>
+          <p>دیتنا تومار و مێژوویێن مولەتێن پێشتر</p>
+        </div>
+
+        <div class="status-counts">
+          <span class="status-pill approved">
+            پەسەندکری
+            <strong id="approvedCount">0</strong>
+          </span>
+
+          <span class="status-pill rejected">
+            رەتکری
+            <strong id="rejectedCount">0</strong>
+          </span>
+        </div>
+
+        <svg
+          class="card-icon-bg"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+
+      </a>
+
+      <!-- NOTIFICATIONS -->
+      <a href="../agahdari/Agahdari.html" class="card">
+
+        <div class="live-count" id="alertsCount">0</div>
+
+        <div class="card-icon-container">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+        </div>
+
+        <div class="card-content">
+          <h3>ئاگەهداری</h3>
+          <p>ئاگەهداری و پەیامێن نوێ</p>
+        </div>
+
+        <svg
+          class="card-icon-bg"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+          />
+        </svg>
+
+      </a>
 
     </div>
 
+  </div>
 
+  <!-- =========================================
+       FIREBASE
+  ========================================== -->
 
-    <!-- =========================================
-         FIREBASE
-    ========================================== -->
+  <script type="module">
 
-    <script type="module">
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
-        /* =========================================
-           FIREBASE IMPORTS
-        ========================================= */
+    import {
+      getDatabase,
+      ref,
+      onValue,
+      query,
+      orderByChild,
+      equalTo
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+      authDomain: "office-8e7cb.firebaseapp.com",
+      databaseURL: "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "office-8e7cb",
+      storageBucket: "office-8e7cb.firebasestorage.app",
+      messagingSenderId: "604465845047",
+      appId: "1:604465845047:web:42004e33906c8986ee80b2",
+      measurementId: "G-LJJM71LQ0K"
+    };
 
-        import {
-            initializeApp
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    /* =========================================
+       ELEMENTS
+    ========================================== */
+
+    const userName = document.getElementById("userName");
+    const pageLoading = document.getElementById("pageLoading");
+
+    const pendingCount = document.getElementById("pendingCount");
+    const historyCount = document.getElementById("historyCount");
+    const approvedCount = document.getElementById("approvedCount");
+    const rejectedCount = document.getElementById("rejectedCount");
+    const alertsCount = document.getElementById("alertsCount");
+
+    /* =========================================
+       STATE
+    ========================================== */
+
+    let currentUser = null;
+    let countsStarted = false;
+    let alertsCache = {};
+
+    /* =========================================
+       HELPERS
+    ========================================== */
+
+    function hideLoading() {
+      pageLoading.classList.add("hide");
+
+      setTimeout(() => {
+        pageLoading.style.display = "none";
+      }, 250);
+    }
+
+    function displayCount(value) {
+      return value > 99 ? "99+" : String(value);
+    }
+
+    function updateBadge(element, value) {
+      const nextValue = displayCount(value);
+
+      if (element.textContent !== nextValue) {
+        element.textContent = nextValue;
+        element.classList.remove("count-update");
+        void element.offsetWidth;
+        element.classList.add("count-update");
+      }
+    }
+
+    async function goToLogin() {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        console.error("Sign out error:", error);
+      }
+
+      window.location.replace("/office/index.html");
+    }
+
+    /* =========================================
+       ALERT READ STATE
+       SAME KEY USED BY Agahdari.html
+    ========================================== */
+
+    function getReadAlertIds() {
+      if (!currentUser) {
+        return new Set();
+      }
+
+      try {
+        const key = `office_read_alerts_${currentUser.uid}`;
+        const stored = JSON.parse(localStorage.getItem(key) || "[]");
+
+        return new Set(
+          Array.isArray(stored) ? stored : []
+        );
+      } catch (error) {
+        console.error("Read alerts storage error:", error);
+        return new Set();
+      }
+    }
+
+    function updateUnreadAlertsCount() {
+      const readIds = getReadAlertIds();
+
+      const activeAlerts = Object.entries(alertsCache).filter(
+        ([, alertItem]) => {
+          return (
+            alertItem &&
+            alertItem.active !== false &&
+            String(alertItem.target || "all").toLowerCase() === "all"
+          );
         }
-        from
-        "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+      );
 
+      const unreadTotal = activeAlerts.filter(
+        ([alertId]) => !readIds.has(alertId)
+      ).length;
 
-        import {
-            getAuth,
-            onAuthStateChanged,
-            signOut
-        }
-        from
-        "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+      updateBadge(alertsCount, unreadTotal);
+    }
 
+    /* =========================================
+       START LIVE COUNTS
+    ========================================== */
 
-        import {
-            getDatabase,
-            ref,
-            onValue
-        }
-        from
-        "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+    function startDashboardCounts(userId) {
+      if (countsStarted) {
+        return;
+      }
 
+      countsStarted = true;
 
+      /* -----------------------------------------
+         THIS USER'S REQUESTS ONLY
+      ----------------------------------------- */
 
-        /* =========================================
-           FIREBASE CONFIG
+      const userRequestsQuery = query(
+        ref(database, "leaveRequests"),
+        orderByChild("userId"),
+        equalTo(userId)
+      );
 
-           USE THE SAME CONFIG AS LOGIN.HTML
-        ========================================= */
-        const firebaseConfig = {
-        apiKey: "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
-        authDomain: "office-8e7cb.firebaseapp.com",
-        databaseURL: "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "office-8e7cb",
-        storageBucket: "office-8e7cb.firebasestorage.app",
-        messagingSenderId: "604465845047",
-        appId: "1:604465845047:web:42004e33906c8986ee80b2",
-        measurementId: "G-LJJM71LQ0K"
-        };
+      onValue(
+        userRequestsQuery,
+        snapshot => {
+          const requests = snapshot.exists()
+            ? Object.values(snapshot.val() || {})
+            : [];
 
+          let pending = 0;
+          let approved = 0;
+          let rejected = 0;
 
-        /* =========================================
-           INITIALIZE FIREBASE
-        ========================================= */
+          requests.forEach(requestItem => {
+            const status = String(
+              requestItem?.status || ""
+            ).toLowerCase();
 
-
-        const app =
-            initializeApp(
-                firebaseConfig
-            );
-
-
-        const auth =
-            getAuth(app);
-
-
-        const database =
-            getDatabase(app);
-
-
-
-        /* =========================================
-           ELEMENTS
-        ========================================= */
-
-
-        const userName =
-            document.getElementById(
-                "userName"
-            );
-
-
-        const pageLoading =
-            document.getElementById(
-                "pageLoading"
-            );
-
-
-
-        /* =========================================
-           HIDE LOADING
-        ========================================= */
-
-
-        function hideLoading() {
-
-
-            pageLoading.classList.add(
-                "hide"
-            );
-
-
-            setTimeout(
-                function() {
-
-
-                    pageLoading.style.display =
-                        "none";
-
-
-                },
-                250
-            );
-
-        }
-
-
-
-        /* =========================================
-           REDIRECT TO LOGIN
-        ========================================= */
-
-
-        async function goToLogin() {
-
-
-            try {
-
-
-                await signOut(auth);
-
-
+            if (status === "pending") {
+              pending++;
+            } else if (status === "approved") {
+              approved++;
+            } else if (status === "rejected") {
+              rejected++;
             }
-            catch(error) {
+          });
 
+          const history = approved + rejected;
 
-                console.error(
-                    "Sign out error:",
-                    error
-                );
+          updateBadge(pendingCount, pending);
+          updateBadge(historyCount, history);
 
+          approvedCount.textContent = displayCount(approved);
+          rejectedCount.textContent = displayCount(rejected);
+        },
+        error => {
+          console.error("Leave requests count error:", error);
 
-            }
+          updateBadge(pendingCount, 0);
+          updateBadge(historyCount, 0);
 
+          approvedCount.textContent = "0";
+          rejectedCount.textContent = "0";
+        }
+      );
 
-            window.location.replace(
-                "login.html"
-            );
+      /* -----------------------------------------
+         GLOBAL ALERTS
+      ----------------------------------------- */
 
+      onValue(
+        ref(database, "alerts"),
+        snapshot => {
+          alertsCache = snapshot.exists()
+            ? snapshot.val() || {}
+            : {};
+
+          updateUnreadAlertsCount();
+        },
+        error => {
+          console.error("Alerts count error:", error);
+          alertsCache = {};
+          updateBadge(alertsCount, 0);
+        }
+      );
+    }
+
+    /* =========================================
+       REFRESH ALERT COUNT AFTER RETURNING
+       FROM Agahdari.html
+    ========================================== */
+
+    window.addEventListener("pageshow", () => {
+      if (currentUser) {
+        updateUnreadAlertsCount();
+      }
+    });
+
+    window.addEventListener("storage", event => {
+      if (
+        currentUser &&
+        event.key === `office_read_alerts_${currentUser.uid}`
+      ) {
+        updateUnreadAlertsCount();
+      }
+    });
+
+    /* =========================================
+       CHECK LOGGED-IN USER
+    ========================================== */
+
+    onAuthStateChanged(
+      auth,
+      user => {
+        if (!user) {
+            window.location.replace("/office/index.html");
+          return;
         }
 
-
-
-        /* =========================================
-           CHECK LOGGED-IN USER
-        ========================================= */
-
-
-        onAuthStateChanged(
-            auth,
-            function(user) {
-
-
-                /*
-                 * NOT LOGGED IN
-                 */
-
-                if (!user) {
-
-
-                    window.location.replace(
-                        "login.html"
-                    );
-
-
-                    return;
-                }
-
-
-
-                /* =================================
-                   USER PROFILE REFERENCE
-                ================================= */
-
-
-                const userRef =
-                    ref(
-                        database,
-                        `users/${user.uid}`
-                    );
-
-
-
-                /* =================================
-                   REALTIME PROFILE LISTENER
-                ================================= */
-
-
-                onValue(
-                    userRef,
-
-
-                    async function(snapshot) {
-
-
-                        /*
-                         * PROFILE DOES NOT EXIST
-                         */
-
-                        if (!snapshot.exists()) {
-
-
-                            console.error(
-                                "User profile not found"
-                            );
-
-
-                            await goToLogin();
-
-
-                            return;
-                        }
-
-
-
-                        const profile =
-                            snapshot.val();
-
-
-
-                        /* =================================
-                           CHECK USER ROLE
-                        ================================= */
-
-
-                        if (
-                            profile.role !== "user"
-                        ) {
-
-
-                            console.error(
-                                "Account is not a user account"
-                            );
-
-
-                            await goToLogin();
-
-
-                            return;
-                        }
-
-
-
-                        /* =================================
-                           CHECK ACCOUNT ACTIVE
-                        ================================= */
-
-
-                        if (
-                            profile.active === false
-                        ) {
-
-
-                            console.error(
-                                "Account is disabled"
-                            );
-
-
-                            await goToLogin();
-
-
-                            return;
-                        }
-
-
-
-                        /* =================================
-                           SHOW REAL USER NAME
-                        ================================= */
-
-
-                        userName.textContent =
-                            profile.name ||
-                            "بەکارهێنەر";
-
-
-
-                        /* =================================
-                           DASHBOARD READY
-                        ================================= */
-
-
-                        hideLoading();
-
-
-                    },
-
-
-                    async function(error) {
-
-
-                        console.error(
-                            "Realtime Database error:",
-                            error
-                        );
-
-
-                        await goToLogin();
-
-
-                    }
-
-                );
-
-
-            }
+        const userRef = ref(
+          database,
+          `users/${user.uid}`
         );
 
+        onValue(
+          userRef,
 
-    </script>
+          async snapshot => {
+            if (!snapshot.exists()) {
+              console.error("User profile not found");
+              await goToLogin();
+              return;
+            }
 
+            const profile = snapshot.val();
+
+            if (
+              String(profile.role || "").toLowerCase() !== "user"
+            ) {
+              console.error("Account is not a user account");
+              await goToLogin();
+              return;
+            }
+
+            if (profile.active === false) {
+              console.error("Account is disabled");
+              await goToLogin();
+              return;
+            }
+
+            currentUser = user;
+
+            userName.textContent =
+              profile.name || "بەکارهێنەر";
+
+            hideLoading();
+            startDashboardCounts(user.uid);
+          },
+
+          async error => {
+            console.error(
+              "Realtime Database error:",
+              error
+            );
+
+            await goToLogin();
+          }
+        );
+      }
+    );
+
+  </script>
 
 </body>
-
 </html>
-
