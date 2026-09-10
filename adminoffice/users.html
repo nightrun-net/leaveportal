@@ -6,213 +6,820 @@
 <meta charset="UTF-8">
 
 <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
 >
 
-<title>Office Users</title>
+<title>بەکارهێنەرێن ئۆفیسێ</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
 
 <style>
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:root {
+  --orange: #ff8500;
+  --orange-dark: #e86f00;
+  --orange-soft: #fff4e8;
+
+  --dark: #0f172a;
+  --text: #334155;
+  --muted: #64748b;
+
+  --background: #f6f8fb;
+  --white: #ffffff;
+  --border: #e7ecf2;
+
+  --green: #059669;
+  --green-soft: #ecfdf5;
+
+  --red: #dc2626;
+  --red-soft: #fef2f2;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    font-family: "Segoe UI", Tahoma, sans-serif;
-    background: #f8fafc;
-    color: #111827;
+  margin: 0;
+  min-height: 100vh;
+
+  font-family:
+    "Segoe UI",
+    Tahoma,
+    sans-serif;
+
+  background: var(--background);
+  color: var(--dark);
+
+  -webkit-tap-highlight-color: transparent;
 }
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+/* ==========================================
+   CONTAINER
+========================================== */
 
 .container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 30px 20px;
+  width: min(1150px, 100%);
+  margin: auto;
+
+  padding:
+    35px
+    24px
+    60px;
 }
 
+
+/* ==========================================
+   HEADER
+========================================== */
+
 .header {
-    margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  margin-bottom: 28px;
+}
+
+.back-btn {
+  width: 55px;
+  height: 55px;
+
+  flex: 0 0 auto;
+
+  border: 0;
+  border-radius: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--orange-soft);
+  color: var(--orange-dark);
+
+  font-size: 21px;
+
+  transition: .2s ease;
+}
+
+.back-btn:hover {
+  background: var(--orange);
+  color: #fff;
+
+  transform: translateY(-2px);
+}
+
+.header-text {
+  min-width: 0;
 }
 
 .header h1 {
-    margin: 0 0 8px;
-    font-size: 32px;
-    font-weight: 800;
+  margin:
+    0
+    0
+    7px;
+
+  font-size: 32px;
+  font-weight: 900;
+
+  color: var(--dark);
 }
 
 .header p {
-    margin: 0;
-    color: #64748b;
-    font-size: 16px;
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 16px;
+  font-weight: 600;
+
+  line-height: 1.7;
 }
 
+
+/* ==========================================
+   CARD
+========================================== */
+
 .card {
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 28px;
-    margin-bottom: 25px;
-    border: 1px solid #f1f5f9;
-    box-shadow: 0 12px 30px rgba(0,0,0,.05);
+  margin-bottom: 24px;
+
+  padding: 28px;
+
+  background: var(--white);
+
+  border:
+    1px
+    solid
+    var(--border);
+
+  border-radius: 27px;
+
+  box-shadow:
+    0
+    12px
+    32px
+    rgba(15, 23, 42, .05);
 }
 
 .card-title {
-    margin: 0 0 24px;
-    font-size: 23px;
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin:
+    0
+    0
+    25px;
+
+  font-size: 23px;
+  font-weight: 900;
+
+  color: var(--dark);
 }
 
+.title-icon {
+  width: 45px;
+  height: 45px;
+
+  flex: 0 0 auto;
+
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--orange-soft);
+  color: var(--orange-dark);
+
+  font-size: 19px;
+}
+
+
+/* ==========================================
+   FORM
+========================================== */
+
 .form-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 18px;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 16px;
-    font-weight: 700;
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  color: var(--text);
+}
+
+.form-group label i {
+  width: 21px;
+
+  color: var(--orange);
+
+  text-align: center;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+
+  top: 50%;
+  right: 16px;
+
+  transform: translateY(-50%);
+
+  color: #94a3b8;
+
+  font-size: 16px;
+
+  pointer-events: none;
 }
 
 .form-group input {
-    width: 100%;
-    padding: 16px;
-    border: 2px solid #e5e7eb;
-    border-radius: 14px;
-    background: #f9fafb;
-    outline: none;
-    font-size: 16px;
+  width: 100%;
+  height: 58px;
+
+  padding:
+    0
+    46px
+    0
+    16px;
+
+  border:
+    1.5px
+    solid
+    #dfe5ec;
+
+  border-radius: 17px;
+
+  background: #f8fafc;
+  color: var(--dark);
+
+  outline: none;
+
+  font-size: 16px;
+
+  transition: .2s ease;
 }
 
 .form-group input:focus {
-    border-color: #ff7e5f;
-    background: #fff;
-    box-shadow: 0 0 0 4px rgba(255,126,95,.1);
+  border-color: var(--orange);
+
+  background: #fff;
+
+  box-shadow:
+    0
+    0
+    0
+    4px
+    rgba(255, 133, 0, .08);
 }
 
+.form-group input::placeholder {
+  color: #a0aaba;
+}
+
+
+/* ==========================================
+   PASSWORD
+========================================== */
+
 .password-wrapper {
-    position: relative;
+  position: relative;
 }
 
 .password-wrapper input {
-    padding-left: 55px;
+  padding-left: 55px;
 }
 
 .eye-btn {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 50%;
-    font-size: 18px;
+  position: absolute;
+
+  left: 9px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 42px;
+  height: 42px;
+
+  border: 0;
+  border-radius: 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  color: #64748b;
+
+  font-size: 17px;
+
+  transition: .2s ease;
 }
 
+.eye-btn:hover {
+  background: var(--orange-soft);
+  color: var(--orange-dark);
+}
+
+
+/* ==========================================
+   CREATE BUTTON
+========================================== */
+
 .create-btn {
-    margin-top: 22px;
-    min-width: 190px;
-    padding: 15px 28px;
-    border: none;
-    border-radius: 30px;
-    background: linear-gradient(
-        135deg,
-        #FF9800,
-        #FF5722
+  min-width: 220px;
+  min-height: 57px;
+
+  margin-top: 23px;
+
+  padding:
+    14px
+    26px;
+
+  border: 0;
+  border-radius: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff9b20,
+      #ff7400
     );
-    color: white;
-    font-size: 17px;
-    font-weight: 800;
-    cursor: pointer;
+
+  color: #fff;
+
+  font-size: 17px;
+  font-weight: 900;
+
+  box-shadow:
+    0
+    12px
+    26px
+    rgba(255, 116, 0, .22);
+
+  transition: .2s ease;
+}
+
+.create-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0
+    16px
+    30px
+    rgba(255, 116, 0, .27);
 }
 
 .create-btn:disabled {
-    opacity: .6;
-    cursor: not-allowed;
+  opacity: .6;
+
+  cursor: not-allowed;
+
+  transform: none;
 }
 
+
+/* ==========================================
+   MESSAGE
+========================================== */
+
 .message {
-    display: none;
-    margin-top: 18px;
-    padding: 14px 16px;
-    border-radius: 13px;
-    font-weight: 700;
+  display: none;
+
+  margin-top: 18px;
+
+  padding:
+    15px
+    17px;
+
+  border-radius: 15px;
+
+  font-size: 14px;
+  font-weight: 800;
 }
 
 .message.success {
-    display: block;
-    background: #f0fdf4;
-    color: #15803d;
-    border: 1px solid #bbf7d0;
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  background: var(--green-soft);
+  color: #047857;
+
+  border:
+    1px
+    solid
+    #a7f3d0;
 }
 
 .message.error {
-    display: block;
-    background: #fef2f2;
-    color: #dc2626;
-    border: 1px solid #fecaca;
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  background: var(--red-soft);
+  color: var(--red);
+
+  border:
+    1px
+    solid
+    #fecaca;
 }
 
+
+/* ==========================================
+   TABLE
+========================================== */
+
 .table-wrapper {
-    width: 100%;
-    overflow-x: auto;
+  width: 100%;
+
+  overflow-x: auto;
+
+  border:
+    1px
+    solid
+    var(--border);
+
+  border-radius: 20px;
 }
 
 table {
-    width: 100%;
-    min-width: 700px;
-    border-collapse: collapse;
+  width: 100%;
+
+  min-width: 780px;
+
+  border-collapse: collapse;
+
+  background: #fff;
 }
 
 th,
 td {
-    padding: 17px;
-    text-align: right;
-    border-bottom: 1px solid #f1f5f9;
+  padding:
+    17px
+    16px;
+
+  text-align: right;
+
+  border-bottom:
+    1px
+    solid
+    #edf1f5;
+
+  vertical-align: middle;
 }
 
 th {
-    background: #f8fafc;
-    color: #64748b;
-    font-size: 15px;
+  background: #f8fafc;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  font-weight: 850;
+}
+
+th i {
+  margin-left: 6px;
+
+  color: var(--orange);
 }
 
 td {
-    font-size: 16px;
+  color: var(--text);
+
+  font-size: 15px;
+  font-weight: 600;
 }
+
+tbody tr {
+  transition: .2s ease;
+}
+
+tbody tr:hover {
+  background: #fffaf5;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* ==========================================
+   USER CELL
+========================================== */
+
+.user-cell {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+}
+
+.user-avatar {
+  width: 42px;
+  height: 42px;
+
+  flex: 0 0 auto;
+
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--orange-soft);
+  color: var(--orange-dark);
+
+  font-size: 16px;
+}
+
+.user-name {
+  color: var(--dark);
+
+  font-weight: 850;
+}
+
+
+/* ==========================================
+   EMAIL
+========================================== */
 
 .email {
-    direction: ltr;
-    text-align: right;
+  direction: ltr;
+
+  text-align: right;
+
+  color: var(--muted);
 }
+
+.email i {
+  margin-right: 7px;
+
+  color: #94a3b8;
+}
+
+
+/* ==========================================
+   ROLE
+========================================== */
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding:
+    7px
+    11px;
+
+  border-radius: 100px;
+
+  background: #eff6ff;
+  color: #2563eb;
+
+  font-size: 12px;
+  font-weight: 850;
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
 
 .status {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 20px;
-    background: #ecfdf5;
-    color: #15803d;
-    font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding:
+    7px
+    12px;
+
+  border-radius: 100px;
+
+  font-size: 12px;
+  font-weight: 850;
 }
+
+.status.active {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.status.inactive {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+
+/* ==========================================
+   NUMBER
+========================================== */
+
+.row-number {
+  width: 37px;
+  height: 37px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #f1f5f9;
+
+  color: #475569;
+
+  font-weight: 900;
+
+  direction: ltr;
+}
+
+
+/* ==========================================
+   EMPTY
+========================================== */
 
 .empty {
-    text-align: center;
-    color: #94a3b8;
-    padding: 35px;
+  padding: 45px !important;
+
+  text-align: center !important;
+
+  color: #94a3b8;
+
+  font-size: 15px;
 }
 
-@media(max-width: 750px) {
+.empty i {
+  display: block;
 
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
+  margin-bottom: 12px;
 
-    .container {
-        padding: 20px 15px;
-    }
+  color: var(--orange);
+
+  font-size: 35px;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width: 760px) {
+
+  .container {
+    padding:
+      20px
+      15px
+      40px;
+  }
+
+  .header {
+    align-items: flex-start;
+
+    margin-bottom: 22px;
+  }
+
+  .back-btn {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 15px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .header p {
+    font-size: 13px;
+  }
+
+  .card {
+    padding: 20px;
+
+    border-radius: 22px;
+  }
+
+  .card-title {
+    font-size: 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .create-btn {
+    width: 100%;
+  }
+
+}
+
+
+/* ==========================================
+   DESKTOP
+========================================== */
+
+@media(min-width: 1024px) {
+
+  .container {
+    padding:
+      45px
+      30px
+      70px;
+  }
+
+  .header h1 {
+    font-size: 36px;
+  }
+
+  .header p {
+    font-size: 18px;
+  }
+
+  .card {
+    padding: 34px;
+  }
+
+  .card-title {
+    font-size: 27px;
+  }
+
+  .form-group label {
+    font-size: 17px;
+  }
+
+  .form-group input {
+    height: 62px;
+
+    font-size: 17px;
+  }
+
+  th {
+    font-size: 15px;
+  }
+
+  td {
+    font-size: 16px;
+  }
 
 }
 
@@ -220,959 +827,1315 @@ td {
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
 
-    <div class="header">
+  <!-- ======================================
+       HEADER
+  ======================================= -->
 
-        <h1>
-            بەکارهێنەرێن ئۆفیسێ
-        </h1>
+  <div class="header">
 
-        <p>
-            دروستکرنا هەژمارێن کارمەندان
-        </p>
+
+    <button
+      type="button"
+      class="back-btn"
+      id="backBtn"
+      aria-label="زڤرین"
+      title="زڤرین"
+    >
+
+      <i class="fa-solid fa-arrow-right"></i>
+
+    </button>
+
+
+    <div class="header-text">
+
+      <h1>
+        بەکارهێنەرێن ئۆفیسێ
+      </h1>
+
+      <p>
+        دروستکرنا هەژمارێن کارمەندان و دیتنا بەکارهێنەرێن تومارکری
+      </p>
 
     </div>
 
 
-    <!-- CREATE USER -->
-
-    <div class="card">
-
-        <h2 class="card-title">
-            دروستکرنا بەکارهێنەرێ نووی
-        </h2>
+  </div>
 
 
-        <form id="userForm">
+
+  <!-- ======================================
+       CREATE USER
+  ======================================= -->
+
+  <section class="card">
 
 
-            <div class="form-grid">
+    <h2 class="card-title">
+
+      <span class="title-icon">
+
+        <i class="fa-solid fa-user-plus"></i>
+
+      </span>
+
+      دروستکرنا بەکارهێنەرێ نووی
+
+    </h2>
 
 
-                <div class="form-group">
 
-                    <label for="name">
-                        ناڤ
-                    </label>
-
-                    <input
-                        type="text"
-                        id="name"
-                        required
-                        placeholder="ناڤێ کارمەندی"
-                    >
-
-                </div>
+    <form id="userForm">
 
 
-                <div class="form-group">
-
-                    <label for="email">
-                        ئیمەیڵ
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        required
-                        placeholder="user@office.com"
-                        dir="ltr"
-                    >
-
-                </div>
+      <div class="form-grid">
 
 
-                <div class="form-group">
+        <!-- NAME -->
 
-                    <label for="password">
-                        پەیڤا نهێنی
-                    </label>
+        <div class="form-group">
 
-                    <div class="password-wrapper">
+          <label for="name">
 
-                        <input
-                            type="password"
-                            id="password"
-                            minlength="6"
-                            required
-                            placeholder="پەیڤا نهێنی"
-                        >
+            <i class="fa-solid fa-user"></i>
 
-                        <button
-                            type="button"
-                            class="eye-btn"
-                            id="eyeBtn"
-                        >
-                            👁
-                        </button>
+            ناڤ
 
-                    </div>
-
-                </div>
+          </label>
 
 
-            </div>
+          <div class="input-wrapper">
 
+            <i class="fa-regular fa-user input-icon"></i>
 
-            <button
-                type="submit"
-                class="create-btn"
-                id="createBtn"
+            <input
+              type="text"
+              id="name"
+              required
+              autocomplete="off"
+              placeholder="ناڤێ کارمەندی"
             >
-                دروستکرنا بەکارهێنەری
-            </button>
 
-
-            <div
-                id="message"
-                class="message"
-            ></div>
-
-
-        </form>
-
-    </div>
-
-
-    <!-- USERS TABLE -->
-
-    <div class="card">
-
-        <h2 class="card-title">
-            بەکارهێنەرێن تومارکری
-        </h2>
-
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>#</th>
-
-                        <th>ناڤ</th>
-
-                        <th>ئیمەیڵ</th>
-
-                        <th>رول</th>
-
-                        <th>بارودۆخ</th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody id="usersTable">
-
-                    <tr>
-
-                        <td
-                            colspan="5"
-                            class="empty"
-                        >
-                            چاڤەرێ بە...
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
+          </div>
 
         </div>
 
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+          <label for="email">
+
+            <i class="fa-solid fa-envelope"></i>
+
+            ئیمەیڵ
+
+          </label>
+
+
+          <div class="input-wrapper">
+
+            <i class="fa-regular fa-envelope input-icon"></i>
+
+            <input
+              type="email"
+              id="email"
+              required
+              autocomplete="off"
+              placeholder="user@office.com"
+              dir="ltr"
+            >
+
+          </div>
+
+        </div>
+
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+          <label for="password">
+
+            <i class="fa-solid fa-lock"></i>
+
+            پەیڤا نهێنی
+
+          </label>
+
+
+          <div class="password-wrapper">
+
+            <i class="fa-solid fa-key input-icon"></i>
+
+            <input
+              type="password"
+              id="password"
+              minlength="6"
+              required
+              autocomplete="new-password"
+              placeholder="پەیڤا نهێنی"
+            >
+
+
+            <button
+              type="button"
+              class="eye-btn"
+              id="eyeBtn"
+              aria-label="نیشاندانا پەیڤا نهێنی"
+            >
+
+              <i
+                class="fa-regular fa-eye"
+                id="eyeIcon"
+              ></i>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+      <button
+        type="submit"
+        class="create-btn"
+        id="createBtn"
+      >
+
+        <i class="fa-solid fa-user-plus"></i>
+
+        <span id="createBtnText">
+          دروستکرنا بەکارهێنەری
+        </span>
+
+      </button>
+
+
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+
+    </form>
+
+
+  </section>
+
+
+
+  <!-- ======================================
+       USERS
+  ======================================= -->
+
+  <section class="card">
+
+
+    <h2 class="card-title">
+
+      <span class="title-icon">
+
+        <i class="fa-solid fa-users"></i>
+
+      </span>
+
+      بەکارهێنەرێن تومارکری
+
+    </h2>
+
+
+
+    <div class="table-wrapper">
+
+
+      <table>
+
+
+        <thead>
+
+          <tr>
+
+            <th>
+              #
+            </th>
+
+
+            <th>
+
+              <i class="fa-solid fa-user"></i>
+
+              ناڤ
+
+            </th>
+
+
+            <th>
+
+              <i class="fa-solid fa-envelope"></i>
+
+              ئیمەیڵ
+
+            </th>
+
+
+            <th>
+
+              <i class="fa-solid fa-user-shield"></i>
+
+              رول
+
+            </th>
+
+
+            <th>
+
+              <i class="fa-solid fa-circle-check"></i>
+
+              بارودۆخ
+
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="usersTable">
+
+
+          <tr>
+
+            <td
+              colspan="5"
+              class="empty"
+            >
+
+              <i class="fa-solid fa-spinner fa-spin"></i>
+
+              چاڤەرێ بە...
+
+            </td>
+
+          </tr>
+
+
+        </tbody>
+
+
+      </table>
+
+
     </div>
+
+
+  </section>
 
 
 </div>
 
 
+
 <script type="module">
 
 
-/* ==============================
-   FIREBASE IMPORTS
-============================== */
+/* ==========================================
+   FIREBASE
+========================================== */
 
 import {
-    initializeApp
+  initializeApp
 }
 from
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 
 import {
-    getAuth,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signOut
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signOut
 }
 from
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 
 import {
-    getDatabase,
-    ref,
-    set,
-    get,
-    onValue,
-    serverTimestamp
+  getDatabase,
+  ref,
+  set,
+  get,
+  onValue,
+  serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
 
-/* ==============================
-   FIREBASE CONFIG
-============================== */
+/* ==========================================
+   CONFIG
+========================================== */
 
 const firebaseConfig = {
 
-    apiKey:
-        "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+  apiKey:
+    "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
 
-    authDomain:
-        "office-8e7cb.firebaseapp.com",
+  authDomain:
+    "office-8e7cb.firebaseapp.com",
 
-    databaseURL:
-        "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+  databaseURL:
+    "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
 
-    projectId:
-        "office-8e7cb",
+  projectId:
+    "office-8e7cb",
 
-    storageBucket:
-        "office-8e7cb.firebasestorage.app",
+  storageBucket:
+    "office-8e7cb.firebasestorage.app",
 
-    messagingSenderId:
-        "604465845047",
+  messagingSenderId:
+    "604465845047",
 
-    appId:
-        "1:604465845047:web:42004e33906c8986ee80b2",
+  appId:
+    "1:604465845047:web:42004e33906c8986ee80b2",
 
-    measurementId:
-        "G-LJJM71LQ0K"
+  measurementId:
+    "G-LJJM71LQ0K"
 
 };
 
 
 
-/* ==============================
-   MAIN OWNER APP
-============================== */
+/* ==========================================
+   URLS
+========================================== */
+
+const ADMIN_LOGIN_URL =
+  "/adminoffice/login/Login.html";
+
+
+const ADMIN_DASHBOARD_URL =
+  "/adminoffice/dashboard/Dashboard.html";
+
+
+
+/* ==========================================
+   MAIN FIREBASE APP
+========================================== */
 
 const app =
-    initializeApp(
-        firebaseConfig
-    );
+  initializeApp(
+    firebaseConfig
+  );
 
 
 const auth =
-    getAuth(app);
+  getAuth(
+    app
+  );
 
 
 const database =
-    getDatabase(app);
+  getDatabase(
+    app
+  );
 
 
 
-/* ==============================
-   SECOND FIREBASE APP
+/* ==========================================
+   USER CREATOR FIREBASE APP
 
-   Used only to create users.
-   This keeps the owner logged in.
-============================== */
+   Keeps Owner logged in.
+========================================== */
 
 const creatorApp =
-    initializeApp(
-        firebaseConfig,
-        "userCreator"
-    );
+  initializeApp(
+    firebaseConfig,
+    "userCreator"
+  );
 
 
 const creatorAuth =
-    getAuth(
-        creatorApp
-    );
+  getAuth(
+    creatorApp
+  );
 
 
 
-/* ==============================
+/* ==========================================
    ELEMENTS
-============================== */
+========================================== */
 
 const userForm =
-    document.getElementById(
-        "userForm"
-    );
+  document.getElementById(
+    "userForm"
+  );
 
 
 const nameInput =
-    document.getElementById(
-        "name"
-    );
+  document.getElementById(
+    "name"
+  );
 
 
 const emailInput =
-    document.getElementById(
-        "email"
-    );
+  document.getElementById(
+    "email"
+  );
 
 
 const passwordInput =
-    document.getElementById(
-        "password"
-    );
+  document.getElementById(
+    "password"
+  );
 
 
 const createBtn =
-    document.getElementById(
-        "createBtn"
-    );
+  document.getElementById(
+    "createBtn"
+  );
+
+
+const createBtnText =
+  document.getElementById(
+    "createBtnText"
+  );
 
 
 const message =
-    document.getElementById(
-        "message"
-    );
+  document.getElementById(
+    "message"
+  );
 
 
 const usersTable =
-    document.getElementById(
-        "usersTable"
-    );
+  document.getElementById(
+    "usersTable"
+  );
+
+
+const eyeBtn =
+  document.getElementById(
+    "eyeBtn"
+  );
+
+
+const eyeIcon =
+  document.getElementById(
+    "eyeIcon"
+  );
+
+
+const backBtn =
+  document.getElementById(
+    "backBtn"
+  );
 
 
 
-/* ==============================
+/* ==========================================
+   BACK
+========================================== */
+
+backBtn.addEventListener(
+  "click",
+  () => {
+
+    window.location.href =
+      ADMIN_DASHBOARD_URL;
+
+  }
+);
+
+
+
+/* ==========================================
    OWNER CHECK
-============================== */
+========================================== */
 
 let usersListenerStarted =
-    false;
+  false;
 
 
 onAuthStateChanged(
-    auth,
-    async owner => {
+  auth,
+  async owner => {
 
 
-        if (!owner) {
+    if (!owner) {
 
-            window.location.replace(
-                "login.html"
-            );
+      window.location.replace(
+        ADMIN_LOGIN_URL
+      );
 
-            return;
-        }
-
-
-        try {
-
-
-            const ownerSnapshot =
-                await get(
-
-                    ref(
-                        database,
-                        `users/${owner.uid}`
-                    )
-
-                );
-
-
-            if (!ownerSnapshot.exists()) {
-
-                showMessage(
-                    "پروفایلێ Owner نەهاتە دیتن.",
-                    "error"
-                );
-
-                return;
-            }
-
-
-            const ownerData =
-                ownerSnapshot.val();
-
-
-            if (
-                ownerData.role !==
-                "owner"
-            ) {
-
-
-                await signOut(auth);
-
-
-                window.location.replace(
-                    "login.html"
-                );
-
-
-                return;
-            }
-
-
-            startUsersListener();
-
-
-        }
-        catch(error) {
-
-
-            console.error(error);
-
-
-            showMessage(
-                "هەڵە د دیتنا هەژمارێ Owner.",
-                "error"
-            );
-
-
-        }
-
+      return;
 
     }
+
+
+    try {
+
+      const ownerSnapshot =
+        await get(
+
+          ref(
+            database,
+            `users/${owner.uid}`
+          )
+
+        );
+
+
+      if (
+        !ownerSnapshot.exists()
+      ) {
+
+        await signOut(
+          auth
+        );
+
+
+        window.location.replace(
+          ADMIN_LOGIN_URL
+        );
+
+
+        return;
+
+      }
+
+
+      const ownerData =
+        ownerSnapshot.val();
+
+
+      if (
+        String(
+          ownerData.role || ""
+        ).toLowerCase() !==
+        "owner"
+
+        ||
+
+        ownerData.active === false
+      ) {
+
+        await signOut(
+          auth
+        );
+
+
+        window.location.replace(
+          ADMIN_LOGIN_URL
+        );
+
+
+        return;
+
+      }
+
+
+      startUsersListener();
+
+    }
+    catch(error) {
+
+      console.error(
+        "Owner verification error:",
+        error
+      );
+
+
+      showMessage(
+        "هەڵە د پشکنینا هەژمارێ رێڤەبەری.",
+        "error"
+      );
+
+    }
+
+  }
 );
 
 
 
-/* ==============================
+/* ==========================================
    CREATE USER
-============================== */
+========================================== */
 
 userForm.addEventListener(
-    "submit",
-    async event => {
+  "submit",
+  async event => {
 
 
-        event.preventDefault();
+    event.preventDefault();
 
 
-        clearMessage();
+    clearMessage();
 
 
+    const name =
+      nameInput.value
+        .trim();
 
-        const name =
-            nameInput.value
-                .trim();
 
+    const email =
+      emailInput.value
+        .trim()
+        .toLowerCase();
 
-        const email =
-            emailInput.value
-                .trim()
-                .toLowerCase();
 
+    const password =
+      passwordInput.value;
 
-        const password =
-            passwordInput.value;
 
+    if (
+      !name ||
+      !email ||
+      !password
+    ) {
 
+      showMessage(
+        "هیڤیە هەمی خانەیان پڕ بکە.",
+        "error"
+      );
 
-        if (
-            !name ||
-            !email ||
-            !password
-        ) {
 
-
-            showMessage(
-                "هیڤیە هەمی خانەیان پڕ بکە.",
-                "error"
-            );
-
-
-            return;
-        }
-
-
-
-        if (
-            password.length < 6
-        ) {
-
-
-            showMessage(
-                "پەیڤا نهێنی کێمترین 6 پیت بیت.",
-                "error"
-            );
-
-
-            return;
-        }
-
-
-
-        createBtn.disabled =
-            true;
-
-
-        createBtn.textContent =
-            "چاڤەرێ بە...";
-
-
-        try {
-
-
-            /* ======================
-               CREATE AUTH USER
-            ====================== */
-
-            const userCredential =
-                await createUserWithEmailAndPassword(
-
-                    creatorAuth,
-
-                    email,
-
-                    password
-
-                );
-
-
-            const newUser =
-                userCredential.user;
-
-
-
-            /* ======================
-               CREATE RTDB PROFILE
-            ====================== */
-
-            await set(
-
-                ref(
-                    database,
-                    `users/${newUser.uid}`
-                ),
-
-                {
-
-                    name:
-                        name,
-
-                    email:
-                        email,
-
-                    role:
-                        "user",
-
-                    active:
-                        true,
-
-                    createdBy:
-                        auth.currentUser.uid,
-
-                    createdAt:
-                        serverTimestamp()
-
-                }
-
-            );
-
-
-
-            /* Sign out only newly
-               created account */
-
-            await signOut(
-                creatorAuth
-            );
-
-
-
-            userForm.reset();
-
-
-
-            showMessage(
-                "بەکارهێنەر ب سەرکەفتی هات دروستکرن.",
-                "success"
-            );
-
-
-        }
-        catch(error) {
-
-
-            console.error(
-                error
-            );
-
-
-            let text =
-                "هەڵەیەک روو دا.";
-
-
-            if (
-                error.code ===
-                "auth/email-already-in-use"
-            ) {
-
-                text =
-                    "ئەڤ ئیمەیڵە ژ بەری نوکە هاتیە بکارئینان.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/invalid-email"
-            ) {
-
-                text =
-                    "ئیمەیلا داخلکری یا دروست نینە.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/weak-password"
-            ) {
-
-                text =
-                    "پەیڤا نهێنی زەعیفە.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/network-request-failed"
-            ) {
-
-                text =
-                    "پەیوەندی ب ئینتەرنێتێ ڤە نینە.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "PERMISSION_DENIED" ||
-                error.code ===
-                "database/permission-denied"
-            ) {
-
-                text =
-                    "دەستهەلاتا نووسینێ د Database دا نینە.";
-
-            }
-
-
-            showMessage(
-                text,
-                "error"
-            );
-
-
-        }
-        finally {
-
-
-            createBtn.disabled =
-                false;
-
-
-            createBtn.textContent =
-                "دروستکرنا بەکارهێنەری";
-
-
-        }
-
+      return;
 
     }
+
+
+    if (
+      password.length < 6
+    ) {
+
+      showMessage(
+        "پەیڤا نهێنی کێمترین 6 پیت بیت.",
+        "error"
+      );
+
+
+      return;
+
+    }
+
+
+    if (
+      !auth.currentUser
+    ) {
+
+      showMessage(
+        "هەژمارێ رێڤەبەری نەهاتە ناسین.",
+        "error"
+      );
+
+
+      return;
+
+    }
+
+
+    createBtn.disabled =
+      true;
+
+
+    createBtnText.textContent =
+      "چاڤەرێ بە...";
+
+
+    try {
+
+
+      /* CREATE FIREBASE AUTH USER */
+
+      const userCredential =
+        await createUserWithEmailAndPassword(
+
+          creatorAuth,
+
+          email,
+
+          password
+
+        );
+
+
+      const newUser =
+        userCredential.user;
+
+
+
+      /* CREATE DATABASE PROFILE */
+
+      await set(
+
+        ref(
+          database,
+          `users/${newUser.uid}`
+        ),
+
+        {
+
+          name,
+
+          email,
+
+          role:
+            "user",
+
+          active:
+            true,
+
+          createdBy:
+            auth.currentUser.uid,
+
+          createdAt:
+            serverTimestamp()
+
+        }
+
+      );
+
+
+
+      /* LOGOUT ONLY CREATED USER */
+
+      await signOut(
+        creatorAuth
+      );
+
+
+      userForm.reset();
+
+
+      passwordInput.type =
+        "password";
+
+
+      eyeIcon.className =
+        "fa-regular fa-eye";
+
+
+      showMessage(
+        "بەکارهێنەر ب سەرکەفتی هات دروستکرن.",
+        "success"
+      );
+
+    }
+    catch(error) {
+
+      console.error(
+        "Create user error:",
+        error
+      );
+
+
+      let text =
+        "هەڵەیەک روو دا.";
+
+
+      if (
+        error.code ===
+        "auth/email-already-in-use"
+      ) {
+
+        text =
+          "ئەڤ ئیمەیڵە ژ بەری نوکە هاتیە بکارئینان.";
+
+      }
+
+
+      else if (
+        error.code ===
+        "auth/invalid-email"
+      ) {
+
+        text =
+          "ئیمەیلا داخلکری یا دروست نینە.";
+
+      }
+
+
+      else if (
+        error.code ===
+        "auth/weak-password"
+      ) {
+
+        text =
+          "پەیڤا نهێنی زەعیفە.";
+
+      }
+
+
+      else if (
+        error.code ===
+        "auth/network-request-failed"
+      ) {
+
+        text =
+          "پەیوەندی ب ئینتەرنێتێ ڤە نینە.";
+
+      }
+
+
+      else if (
+        error.code ===
+        "PERMISSION_DENIED"
+
+        ||
+
+        error.code ===
+        "database/permission-denied"
+      ) {
+
+        text =
+          "دەستهەلاتا نووسینێ د Database دا نینە.";
+
+      }
+
+
+      showMessage(
+        text,
+        "error"
+      );
+
+    }
+    finally {
+
+      createBtn.disabled =
+        false;
+
+
+      createBtnText.textContent =
+        "دروستکرنا بەکارهێنەری";
+
+    }
+
+  }
 );
 
 
 
-/* ==============================
-   REALTIME USER LIST
-============================== */
+/* ==========================================
+   REALTIME USERS
+========================================== */
 
 function startUsersListener() {
 
 
-    if (
-        usersListenerStarted
-    ) {
+  if (
+    usersListenerStarted
+  ) {
+
+    return;
+
+  }
+
+
+  usersListenerStarted =
+    true;
+
+
+  onValue(
+
+    ref(
+      database,
+      "users"
+    ),
+
+    snapshot => {
+
+
+      usersTable.innerHTML =
+        "";
+
+
+      if (
+        !snapshot.exists()
+      ) {
+
+        renderEmptyUsers();
 
         return;
 
-    }
+      }
 
 
-    usersListenerStarted =
-        true;
+      const data =
+        snapshot.val();
 
 
-    onValue(
+      const users =
+        Object.entries(
+          data
+        )
 
-        ref(
-            database,
-            "users"
-        ),
+        .map(
+          ([uid, user]) => ({
+            uid,
+            ...(user || {})
+          })
+        )
 
-        snapshot => {
+        .filter(
+          user =>
 
+            String(
+              user.role || ""
+            ).toLowerCase() ===
+            "user"
+        )
 
-            usersTable.innerHTML =
-                "";
+        .sort(
+          (a, b) =>
 
+            String(
+              a.name || ""
+            )
 
-            if (!snapshot.exists()) {
-
-
-                usersTable.innerHTML = `
-
-                    <tr>
-
-                        <td
-                            colspan="5"
-                            class="empty"
-                        >
-                            بەکارهێنەر نینن
-                        </td>
-
-                    </tr>
-
-                `;
-
-
-                return;
-            }
-
+            .localeCompare(
+              String(
+                b.name || ""
+              )
+            )
+        );
 
 
-            const data =
-                snapshot.val();
+      if (
+        users.length === 0
+      ) {
+
+        renderEmptyUsers();
+
+        return;
+
+      }
 
 
-            let count =
-                0;
+      users.forEach(
+        (
+          user,
+          index
+        ) => {
 
 
-
-            Object.entries(data)
-            .forEach(
-                ([uid, user]) => {
+          const active =
+            user.active !== false;
 
 
-                    /* Don't show owner */
-
-                    if (
-                        user.role !==
-                        "user"
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    count++;
-
-
-                    const row =
-                        document.createElement(
-                            "tr"
-                        );
-
-
-                    row.innerHTML = `
-
-                        <td>
-                            ${count}
-                        </td>
-
-                        <td>
-                            <strong>
-                                ${escapeHTML(
-                                    user.name || "-"
-                                )}
-                            </strong>
-                        </td>
-
-                        <td class="email">
-                            ${escapeHTML(
-                                user.email || "-"
-                            )}
-                        </td>
-
-                        <td>
-                            User
-                        </td>
-
-                        <td>
-
-                            <span class="status">
-
-                                ${
-                                    user.active === false
-                                    ? "راگرتی"
-                                    : "چالاک"
-                                }
-
-                            </span>
-
-                        </td>
-
-                    `;
-
-
-                    usersTable.appendChild(
-                        row
-                    );
-
-
-                }
+          const row =
+            document.createElement(
+              "tr"
             );
 
 
+          row.innerHTML = `
 
-            if (
-                count === 0
-            ) {
+            <td>
+
+              <span class="row-number">
+
+                ${index + 1}
+
+              </span>
+
+            </td>
 
 
-                usersTable.innerHTML = `
+            <td>
 
-                    <tr>
+              <div class="user-cell">
 
-                        <td
-                            colspan="5"
-                            class="empty"
-                        >
-                            هێشتا بەکارهێنەر نەهاتیە دروستکرن
-                        </td>
+                <div class="user-avatar">
 
-                    </tr>
+                  <i class="fa-solid fa-user"></i>
 
-                `;
+                </div>
 
-            }
+                <div class="user-name">
 
+                  ${escapeHTML(
+                    user.name || "-"
+                  )}
+
+                </div>
+
+              </div>
+
+            </td>
+
+
+            <td class="email">
+
+              <i class="fa-regular fa-envelope"></i>
+
+              ${escapeHTML(
+                user.email || "-"
+              )}
+
+            </td>
+
+
+            <td>
+
+              <span class="role-badge">
+
+                <i class="fa-solid fa-user"></i>
+
+                User
+
+              </span>
+
+            </td>
+
+
+            <td>
+
+              <span
+                class="
+                  status
+                  ${
+                    active
+                      ?
+                      "active"
+                      :
+                      "inactive"
+                  }
+                "
+              >
+
+                <span class="status-dot"></span>
+
+                ${
+                  active
+                    ?
+                    "چالاک"
+                    :
+                    "راگرتی"
+                }
+
+              </span>
+
+            </td>
+
+          `;
+
+
+          usersTable.appendChild(
+            row
+          );
 
         }
+      );
 
-    );
+    },
 
+    error => {
+
+      console.error(
+        "Users listener error:",
+        error
+      );
+
+
+      usersTable.innerHTML = `
+
+        <tr>
+
+          <td
+            colspan="5"
+            class="empty"
+          >
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+            هەڵە د بارکرنا بەکارهێنەران
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+
+  );
 
 }
 
 
 
-/* ==============================
-   SHOW PASSWORD
-============================== */
+/* ==========================================
+   EMPTY USERS
+========================================== */
 
-document
-.getElementById(
-    "eyeBtn"
-)
-.addEventListener(
-    "click",
-    function() {
+function renderEmptyUsers() {
+
+  usersTable.innerHTML = `
+
+    <tr>
+
+      <td
+        colspan="5"
+        class="empty"
+      >
+
+        <i class="fa-solid fa-users-slash"></i>
+
+        هێشتا بەکارهێنەر نەهاتیە دروستکرن
+
+      </td>
+
+    </tr>
+
+  `;
+
+}
 
 
-        passwordInput.type =
-            passwordInput.type ===
-            "password"
-            ? "text"
-            : "password";
+
+/* ==========================================
+   SHOW / HIDE PASSWORD
+========================================== */
+
+eyeBtn.addEventListener(
+  "click",
+  () => {
 
 
-    }
+    const hidden =
+      passwordInput.type ===
+      "password";
+
+
+    passwordInput.type =
+      hidden
+        ?
+        "text"
+        :
+        "password";
+
+
+    eyeIcon.className =
+      hidden
+        ?
+        "fa-regular fa-eye-slash"
+        :
+        "fa-regular fa-eye";
+
+  }
 );
 
 
 
-/* ==============================
+/* ==========================================
    MESSAGE
-============================== */
+========================================== */
 
 function showMessage(
-    text,
-    type
+  text,
+  type
 ) {
 
+  const icon =
+    type === "success"
+      ?
+      "fa-circle-check"
+      :
+      "fa-circle-exclamation";
 
-    message.textContent =
-        text;
+
+  message.innerHTML = `
+
+    <i class="fa-solid ${icon}"></i>
+
+    <span>
+
+      ${escapeHTML(text)}
+
+    </span>
+
+  `;
 
 
-    message.className =
-        `message ${type}`;
-
+  message.className =
+    `message ${type}`;
 
 }
+
 
 
 function clearMessage() {
 
+  message.innerHTML =
+    "";
 
-    message.textContent =
-        "";
 
-
-    message.className =
-        "message";
-
+  message.className =
+    "message";
 
 }
 
 
 
-/* ==============================
-   SAFE TEXT
-============================== */
+/* ==========================================
+   SAFE HTML
+========================================== */
 
-function escapeHTML(value) {
+function escapeHTML(
+  value
+) {
 
+  return String(
+    value ?? ""
+  )
 
-    return String(value)
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
 
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
 
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
 
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
 
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
 
 }
 
 
 </script>
+
 
 </body>
 
