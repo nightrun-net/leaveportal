@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-
+  <meta charset="UTF-8" />
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-  >
-
+  />
   <title>هنارتنا ئاگەهداریێ</title>
 
   <style>
@@ -49,12 +47,12 @@
     }
 
     .loader {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       border: 5px solid #e5e7eb;
       border-top-color: #ff8c00;
-      animation: spin .8s linear infinite;
+      animation: spin 0.8s linear infinite;
     }
 
     @keyframes spin {
@@ -64,33 +62,30 @@
     }
 
     .wrapper {
-      width: min(1180px, 100%);
+      width: min(760px, 100%);
       margin: auto;
-      padding: 24px;
+      padding: 20px;
     }
 
-    /* TOP BAR */
-
     .top-bar {
-      min-height: 70px;
-      margin-bottom: 28px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
+      margin-bottom: 22px;
     }
 
     .back-btn {
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       flex: 0 0 auto;
       border: 0;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 136, 0, .12);
+      background: rgba(255, 136, 0, 0.12);
       color: #e65100;
-      transition: .25s ease;
+      transition: 0.25s ease;
     }
 
     .back-btn:hover {
@@ -104,92 +99,96 @@
       height: 24px;
     }
 
+    .heading {
+      min-width: 0;
+      flex: 1;
+    }
+
     .heading h1 {
       margin: 0 0 6px;
       font-size: 28px;
       font-weight: 900;
+      color: #0f172a;
     }
 
     .heading p {
       margin: 0;
       color: #64748b;
       font-size: 15px;
+      line-height: 1.8;
       font-weight: 600;
     }
-
-    /* STATS */
 
     .stats {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-bottom: 22px;
+      gap: 16px;
+      margin-bottom: 20px;
     }
 
     .stat-card {
-      min-height: 125px;
-      padding: 22px;
-      background: #fff;
-      border: 1px solid #f1f5f9;
-      border-radius: 24px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, .04);
+      min-height: 170px;
+      padding: 22px 18px;
+      background: #ffffff;
+      border: 1px solid #eef2f7;
+      border-radius: 26px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 17px;
+      justify-content: center;
+      text-align: center;
     }
 
     .stat-icon {
-      width: 60px;
-      height: 60px;
-      flex: 0 0 auto;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 136, 0, .12);
+      background: rgba(255, 136, 0, 0.12);
       color: #e65100;
+      margin-bottom: 14px;
     }
 
     .stat-icon svg {
-      width: 29px;
-      height: 29px;
+      width: 32px;
+      height: 32px;
     }
 
     .stat-label {
       color: #64748b;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
+      line-height: 1.7;
+      margin-bottom: 8px;
     }
 
     .stat-value {
-      margin-top: 4px;
-      font-size: 30px;
+      color: #0f172a;
+      font-size: 42px;
       font-weight: 900;
+      line-height: 1;
       direction: ltr;
-    }
-
-    /* CONTENT */
-
-    .content-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
-      gap: 22px;
+      text-align: center;
     }
 
     .panel {
-      background: #fff;
-      border: 1px solid #f1f5f9;
-      border-radius: 28px;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, .045);
-      padding: 28px;
+      background: #ffffff;
+      border: 1px solid #eef2f7;
+      border-radius: 30px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.05);
+      padding: 26px;
     }
 
     .panel-title {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 10px;
       margin: 0 0 24px;
-      font-size: 22px;
+      color: #0f172a;
+      font-size: 24px;
       font-weight: 900;
     }
 
@@ -197,146 +196,11 @@
       width: 26px;
       height: 26px;
       color: #ff8c00;
-    }
-
-    /* AUDIENCE MODE */
-
-    .audience-title {
-      margin-bottom: 10px;
-      font-size: 15px;
-      font-weight: 800;
-      color: #334155;
-    }
-
-    .audience-options {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .audience-option {
-      min-height: 76px;
-      border: 2px solid #e2e8f0;
-      border-radius: 18px;
-      background: #f8fafc;
-      padding: 14px;
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      text-align: right;
-      transition: .2s ease;
-    }
-
-    .audience-option:hover {
-      border-color: #fdba74;
-    }
-
-    .audience-option.active {
-      border-color: #ff8c00;
-      background: #fff7ed;
-      box-shadow: 0 0 0 4px rgba(255, 140, 0, .07);
-    }
-
-    .audience-option-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fff;
-      color: #e65100;
       flex: 0 0 auto;
     }
 
-    .audience-option-icon svg {
-      width: 22px;
-      height: 22px;
-    }
-
-    .audience-option strong {
-      display: block;
-      font-size: 14px;
-      color: #0f172a;
-    }
-
-    .audience-option span {
-      display: block;
-      margin-top: 3px;
-      font-size: 11px;
-      color: #64748b;
-    }
-
-    /* SELECT USER */
-
-    .user-selector {
-      display: none;
-      margin-bottom: 20px;
-      padding: 17px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 18px;
-    }
-
-    .user-selector.show {
-      display: block;
-    }
-
-    .user-selector label {
-      display: block;
-      margin-bottom: 9px;
-      color: #334155;
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .select {
-      width: 100%;
-      height: 55px;
-      padding: 0 15px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 15px;
-      background: #fff;
-      color: #0f172a;
-      outline: none;
-    }
-
-    .select:focus {
-      border-color: #ff8c00;
-      box-shadow: 0 0 0 4px rgba(255, 140, 0, .08);
-    }
-
-    .selected-user-info {
-      display: none;
-      margin-top: 13px;
-      padding: 13px;
-      border-radius: 14px;
-      background: #fff;
-      border: 1px solid #f1f5f9;
-    }
-
-    .selected-user-info.show {
-      display: block;
-    }
-
-    .selected-name {
-      font-size: 14px;
-      font-weight: 900;
-    }
-
-    .selected-email {
-      margin-top: 4px;
-      color: #64748b;
-      font-size: 12px;
-      direction: ltr;
-      text-align: right;
-    }
-
-    /* FIELDS */
-
     .field {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .field label {
@@ -348,92 +212,206 @@
     }
 
     .input,
-    .textarea {
+    .textarea,
+    .select {
       width: 100%;
       border: 1.5px solid #e2e8f0;
-      border-radius: 17px;
+      border-radius: 18px;
       background: #f8fafc;
       color: #0f172a;
       outline: none;
-      padding: 15px 16px;
-      transition: .2s ease;
+      transition: 0.2s ease;
     }
 
-    .input {
-      height: 54px;
+    .input,
+    .select {
+      height: 56px;
+      padding: 0 16px;
     }
 
     .textarea {
-      min-height: 180px;
+      min-height: 170px;
       resize: vertical;
-      line-height: 1.8;
+      padding: 15px 16px;
+      line-height: 1.9;
     }
 
     .input:focus,
-    .textarea:focus {
+    .textarea:focus,
+    .select:focus {
       border-color: #ff8c00;
       background: #fff;
-      box-shadow: 0 0 0 4px rgba(255, 140, 0, .08);
+      box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.08);
     }
 
     .char-row {
       margin-top: 7px;
       display: flex;
       justify-content: space-between;
+      gap: 10px;
       color: #94a3b8;
       font-size: 12px;
       font-weight: 700;
     }
 
-    /* AUDIENCE INFO */
+    .segment-wrap {
+      margin-bottom: 18px;
+    }
 
-    .audience {
-      margin: 8px 0 22px;
-      padding: 16px 17px;
-      border-radius: 17px;
-      border: 1px solid rgba(255, 136, 0, .18);
-      background: rgba(255, 136, 0, .06);
+    .segment-label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #334155;
+    }
+
+    .segment {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .segment input {
+      display: none;
+    }
+
+    .segment label {
+      min-height: 56px;
+      border-radius: 18px;
+      border: 1.5px solid #e2e8f0;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #475569;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .segment input:checked + label {
+      background: rgba(255, 140, 0, 0.1);
+      border-color: #ff8c00;
+      color: #e65100;
+      box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.06);
+    }
+
+    .audience-box {
+      margin: 8px 0 18px;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 136, 0, 0.18);
+      background: rgba(255, 136, 0, 0.06);
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .audience svg {
+    .audience-box svg {
       width: 24px;
       height: 24px;
       color: #e65100;
       flex: 0 0 auto;
     }
 
-    .audience strong {
+    .audience-box strong {
       display: block;
+      color: #0f172a;
       font-size: 15px;
+      margin-bottom: 3px;
     }
 
-    .audience span {
+    .audience-box span {
       display: block;
-      margin-top: 3px;
       color: #64748b;
       font-size: 13px;
+      line-height: 1.7;
     }
 
-    /* SEND */
+    .option-box {
+      margin: 0 0 22px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .option-text strong {
+      display: block;
+      color: #0f172a;
+      font-size: 15px;
+      margin-bottom: 3px;
+    }
+
+    .option-text span {
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .switch {
+      position: relative;
+      width: 58px;
+      height: 32px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      display: none;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: #cbd5e1;
+      transition: 0.25s ease;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      transition: 0.25s ease;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .switch input:checked + .slider {
+      background: #ff8c00;
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(-26px);
+    }
 
     .send-btn {
       width: 100%;
-      min-height: 56px;
+      min-height: 58px;
       border: 0;
-      border-radius: 18px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       background: linear-gradient(135deg, #ff9d22, #ff7a00);
       color: #fff;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 900;
-      box-shadow: 0 12px 26px rgba(255, 122, 0, .22);
-      transition: .25s ease;
+      box-shadow: 0 14px 28px rgba(255, 122, 0, 0.22);
+      transition: 0.25s ease;
     }
 
     .send-btn:hover {
@@ -441,7 +419,7 @@
     }
 
     .send-btn:disabled {
-      opacity: .55;
+      opacity: 0.6;
       cursor: not-allowed;
       transform: none;
     }
@@ -451,105 +429,13 @@
       height: 22px;
     }
 
-    /* ALERT LIST */
-
-    .alerts-list {
-      display: flex;
-      flex-direction: column;
-      gap: 13px;
-      max-height: 650px;
-      overflow: auto;
-      padding-left: 3px;
-    }
-
-    .alert-item {
-      padding: 17px;
-      border: 1px solid #f1f5f9;
-      border-radius: 18px;
-      background: #f8fafc;
-    }
-
-    .alert-item-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-
-    .alert-item h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 900;
-    }
-
-    .alert-date {
-      flex: 0 0 auto;
-      color: #94a3b8;
-      font-size: 11px;
-      font-weight: 700;
-      direction: ltr;
-    }
-
-    .alert-item p {
-      margin: 0;
-      color: #64748b;
-      font-size: 13px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .alert-meta {
-      margin-top: 11px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .badge {
-      padding: 6px 9px;
-      border-radius: 100px;
-      font-size: 10px;
-      font-weight: 800;
-      background: #fff;
-      color: #64748b;
-      border: 1px solid #e2e8f0;
-    }
-
-    .badge.orange {
-      background: #fff7ed;
-      color: #c2410c;
-      border-color: #fed7aa;
-    }
-
-    .badge.green {
-      background: #ecfdf5;
-      color: #047857;
-      border-color: #a7f3d0;
-    }
-
-    .empty {
-      padding: 42px 18px;
-      text-align: center;
-      color: #64748b;
-    }
-
-    .empty h3 {
-      margin: 0 0 5px;
-      color: #1e293b;
-      font-size: 18px;
-    }
-
-    /* TOAST */
-
     .toast {
       position: fixed;
-      top: 20px;
+      top: 18px;
       left: 50%;
       z-index: 6000;
       width: calc(100% - 40px);
-      max-width: 480px;
+      max-width: 460px;
       transform: translate(-50%, -25px);
       opacity: 0;
       pointer-events: none;
@@ -560,8 +446,8 @@
       background: #0f172a;
       font-size: 14px;
       font-weight: 800;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, .18);
-      transition: .25s ease;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
+      transition: 0.25s ease;
     }
 
     .toast.show {
@@ -577,12 +463,6 @@
       background: #dc2626;
     }
 
-    .toast.warning {
-      background: #d97706;
-    }
-
-    /* MODAL */
-
     .modal {
       position: fixed;
       inset: 0;
@@ -591,7 +471,7 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      background: rgba(15, 23, 42, .48);
+      background: rgba(15, 23, 42, 0.48);
       backdrop-filter: blur(5px);
     }
 
@@ -600,22 +480,22 @@
     }
 
     .modal-card {
-      width: min(440px, 100%);
+      width: min(430px, 100%);
       background: #fff;
       border-radius: 28px;
       padding: 28px;
-      box-shadow: 0 28px 60px rgba(0, 0, 0, .2);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.2);
     }
 
     .modal-icon {
       width: 66px;
       height: 66px;
-      margin: 0 auto 17px;
+      margin: 0 auto 16px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 136, 0, .12);
+      background: rgba(255, 136, 0, 0.12);
       color: #e65100;
     }
 
@@ -636,12 +516,12 @@
       text-align: center;
       color: #64748b;
       font-size: 14px;
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     .modal-actions {
       display: flex;
-      gap: 11px;
+      gap: 10px;
       margin-top: 23px;
     }
 
@@ -664,57 +544,137 @@
     }
 
     .confirm-btn:disabled {
-      opacity: .55;
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
-    @media(max-width: 800px) {
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
+    .hidden {
+      display: none !important;
     }
 
-    @media(max-width: 600px) {
+    @media (max-width: 640px) {
       .wrapper {
-        padding: 18px;
+        padding: 16px;
+      }
+
+      .heading h1 {
+        font-size: 23px;
+      }
+
+      .heading p {
+        font-size: 13px;
       }
 
       .stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
       }
 
-      .audience-options {
-        grid-template-columns: 1fr;
+      .stat-card {
+        min-height: 150px;
+        padding: 18px 14px;
+        border-radius: 22px;
+      }
+
+      .stat-icon {
+        width: 58px;
+        height: 58px;
+      }
+
+      .stat-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .stat-label {
+        font-size: 13px;
+      }
+
+      .stat-value {
+        font-size: 34px;
       }
 
       .panel {
         padding: 20px;
-        border-radius: 22px;
+        border-radius: 24px;
+      }
+
+      .panel-title {
+        font-size: 20px;
+      }
+
+      .segment {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-actions {
+        flex-direction: column;
       }
     }
 
-    @media(min-width: 1024px) {
+    @media (min-width: 1024px) {
       .wrapper {
-        padding: 38px 42px 55px;
+        padding: 36px 34px 55px;
       }
 
       .heading h1 {
         font-size: 34px;
       }
 
+      .heading p {
+        font-size: 18px;
+      }
+
+      .back-btn {
+        width: 58px;
+        height: 58px;
+      }
+
+      .stat-card {
+        min-height: 190px;
+      }
+
+      .stat-label {
+        font-size: 17px;
+      }
+
       .stat-value {
-        font-size: 38px;
+        font-size: 48px;
       }
 
       .panel {
         padding: 34px;
       }
+
+      .panel-title {
+        font-size: 28px;
+      }
+
+      .field label,
+      .segment-label {
+        font-size: 17px;
+      }
+
+      .input,
+      .textarea,
+      .select,
+      .segment label {
+        font-size: 17px;
+      }
+
+      .input,
+      .select {
+        height: 60px;
+      }
+
+      .send-btn {
+        min-height: 64px;
+        font-size: 20px;
+      }
     }
   </style>
 </head>
-
 <body>
-
   <div class="loading" id="pageLoading">
     <div class="loader"></div>
   </div>
@@ -722,419 +682,158 @@
   <div class="toast" id="toast"></div>
 
   <div class="wrapper">
-
     <div class="top-bar">
-
-      <button
-        class="back-btn"
-        type="button"
-        onclick="window.history.back()"
-        aria-label="زڤرین"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2.4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9 5l7 7-7 7"
-          />
+      <button class="back-btn" type="button" onclick="window.history.back()" aria-label="زڤرین">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
       <div class="heading">
         <h1>هنارتنا ئاگەهداریێ</h1>
-        <p>
-          ئاگەهداری و ئیمەیڵێ بۆ هەمی یان بەکارهێنەرەکێ هەلبژارتی بهنێرە
-        </p>
+        <p>ئاگەهداری و پەیام بۆ هەمی بەکارهێنەران یان بۆ بەکارهێنەرێکی دیاریکری بهنێرە.</p>
       </div>
-
     </div>
 
     <div class="stats">
-
       <div class="stat-card">
-
         <div class="stat-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="1.9"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198A9.755 9.755 0 0112 21.75a9.755 9.755 0 01-5.66-1.635A3 3 0 016 18.72m9-11.97a3 3 0 11-6 0 3 3 0 016 0z"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198A9.755 9.755 0 0112 21.75a9.755 9.755 0 01-5.66-1.635A3 3 0 016 18.72m9-11.97a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
         </div>
-
-        <div>
-          <div class="stat-label">وەرگرێن ئاگەهداریێ</div>
-          <div
-            class="stat-value"
-            id="recipientCount"
-          >
-            0
-          </div>
-        </div>
-
+        <div class="stat-label">وەرگرێن ئاگەهداریێ</div>
+        <div class="stat-value" id="recipientCount">0</div>
       </div>
 
       <div class="stat-card">
-
         <div class="stat-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="1.9"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0" />
           </svg>
         </div>
-
-        <div>
-          <div class="stat-label">
-            کۆی ئاگەهداریێن هنارتی
-          </div>
-
-          <div
-            class="stat-value"
-            id="alertsCount"
-          >
-            0
-          </div>
-        </div>
-
+        <div class="stat-label">کۆی ئاگەهداریێن هنارتی</div>
+        <div class="stat-value" id="alertsCount">0</div>
       </div>
-
     </div>
 
-    <div class="content-grid">
-
-      <section class="panel">
-
-        <h2 class="panel-title">
-          ئاگەهدارییا نوێ
-        </h2>
-
-        <!-- AUDIENCE -->
-
-        <div class="audience-title">
-          ئاگەهداری بۆ کی بهێتە هنارتن؟
-        </div>
-
-        <div class="audience-options">
-
-          <button
-            type="button"
-            class="audience-option active"
-            id="allUsersBtn"
-          >
-
-            <div class="audience-option-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198A9.755 9.755 0 0112 21.75a9.755 9.755 0 01-5.66-1.635A3 3 0 016 18.72m9-11.97a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-            </div>
-
-            <div>
-              <strong>
-                هەمی بەکارهێنەر
-              </strong>
-
-              <span>
-                ئاگەهداری و ئیمەیڵ بۆ هەمی
-              </span>
-            </div>
-
-          </button>
-
-          <button
-            type="button"
-            class="audience-option"
-            id="selectedUserBtn"
-          >
-
-            <div class="audience-option-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766v-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0z"
-                />
-              </svg>
-            </div>
-
-            <div>
-              <strong>
-                بەکارهێنەرەک
-              </strong>
-
-              <span>
-                تەنێ بۆ کەسەکێ هەلبژارتی
-              </span>
-            </div>
-
-          </button>
-
-        </div>
-
-        <!-- USER SELECT -->
-
-        <div
-          class="user-selector"
-          id="userSelector"
-        >
-
-          <label for="selectedUser">
-            بەکارهێنەر هەلبژێرە
-          </label>
-
-          <select
-            class="select"
-            id="selectedUser"
-          >
-            <option value="">
-              -- بەکارهێنەر هەلبژێرە --
-            </option>
-          </select>
-
-          <div
-            class="selected-user-info"
-            id="selectedUserInfo"
-          >
-            <div
-              class="selected-name"
-              id="selectedUserName"
-            ></div>
-
-            <div
-              class="selected-email"
-              id="selectedUserEmail"
-            ></div>
-          </div>
-
-        </div>
-
-        <!-- TITLE -->
-
-        <div class="field">
-
-          <label for="alertTitle">
-            ناڤونیشان
-          </label>
-
-          <input
-            class="input"
-            id="alertTitle"
-            type="text"
-            maxlength="80"
-            autocomplete="off"
-            placeholder="ناڤونیشانێ ئاگەهداریێ بنڤیسە"
-          >
-
-          <div class="char-row">
-            <span>پێدڤیە</span>
-
-            <span
-              id="titleChars"
-              dir="ltr"
-            >
-              0 / 80
-            </span>
-          </div>
-
-        </div>
-
-        <!-- MESSAGE -->
-
-        <div class="field">
-
-          <label for="alertMessage">
-            پەیام
-          </label>
-
-          <textarea
-            class="textarea"
-            id="alertMessage"
-            maxlength="1000"
-            placeholder="ناڤەڕۆکا ئاگەهداریێ ل ڤێرێ بنڤیسە..."
-          ></textarea>
-
-          <div class="char-row">
-
-            <span>
-              پێدڤیە
-            </span>
-
-            <span
-              id="messageChars"
-              dir="ltr"
-            >
-              0 / 1000
-            </span>
-
-          </div>
-
-        </div>
-
-        <!-- SUMMARY -->
-
-        <div class="audience">
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21.75 6.75v10.5A2.25 2.25 0 0119.5 19.5h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0l-7.5-4.615a2.25 2.25 0 01-1.07-1.916V6.75"
-            />
-          </svg>
-
-          <div>
-
-            <strong id="audienceTitle">
-              وەرگر: هەمی بەکارهێنەرێن چالاک
-            </strong>
-
-            <span id="audienceText">
-              0 بەکارهێنەر دێ ئاگەهداری و ئیمەیڵێ وەرگرن
-            </span>
-
-          </div>
-
-        </div>
-
-        <button
-          class="send-btn"
-          id="sendBtn"
-          type="button"
-        >
-          هنارتنا ئاگەهداری و ئیمەیڵێ
-        </button>
-
-      </section>
-
-      <!-- HISTORY -->
-
-      <section class="panel">
-
-        <h2 class="panel-title">
-          دوماهیک ئاگەهداری
-        </h2>
-
-        <div
-          class="alerts-list"
-          id="alertsList"
-        >
-
-          <div class="empty">
-            <h3>
-              چاڤەرێ بە...
-            </h3>
-
-            <p>
-              ئاگەهداری دهێنە بارکرن
-            </p>
-          </div>
-
-        </div>
-
-      </section>
-
-    </div>
-
-  </div>
-
-  <!-- CONFIRM -->
-
-  <div
-    class="modal"
-    id="confirmModal"
-  >
-
-    <div class="modal-card">
-
-      <div class="modal-icon">
-        ✉
-      </div>
-
-      <h2>
-        ئاگەهداری بهێتە هنارتن؟
+    <section class="panel">
+      <h2 class="panel-title">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+        </svg>
+        ئاگەهدارییا نوێ
       </h2>
 
-      <p id="confirmText"></p>
-
-      <div class="modal-actions">
-
-        <button
-          class="cancel-btn"
-          id="cancelBtn"
-          type="button"
-        >
-          نەخێر
-        </button>
-
-        <button
-          class="confirm-btn"
-          id="confirmBtn"
-          type="button"
-        >
-          بەلێ، بهنێرە
-        </button>
-
+      <div class="field">
+        <label for="alertTitle">ناڤونیشان</label>
+        <input
+          class="input"
+          id="alertTitle"
+          type="text"
+          maxlength="80"
+          autocomplete="off"
+          placeholder="ناڤونیشانێ ئاگەهداریێ بنڤیسە"
+        />
+        <div class="char-row">
+          <span>پێدڤیە</span>
+          <span id="titleChars" dir="ltr">0 / 80</span>
+        </div>
       </div>
 
-    </div>
+      <div class="field">
+        <label for="alertMessage">پەیام</label>
+        <textarea
+          class="textarea"
+          id="alertMessage"
+          maxlength="1000"
+          placeholder="ناڤەڕۆکا ئاگەهداریێ ل ڤێرێ بنڤیسە..."
+        ></textarea>
+        <div class="char-row">
+          <span>پێدڤیە</span>
+          <span id="messageChars" dir="ltr">0 / 1000</span>
+        </div>
+      </div>
 
+      <div class="segment-wrap">
+        <span class="segment-label">جۆرێ وەرگر</span>
+
+        <div class="segment">
+          <div>
+            <input type="radio" id="modeAll" name="sendMode" value="all" checked />
+            <label for="modeAll">هەمی بەکارهێنەرێن چالاک</label>
+          </div>
+
+          <div>
+            <input type="radio" id="modeSelected" name="sendMode" value="selected" />
+            <label for="modeSelected">بەکارهێنەرێکی دیاریکری</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field hidden" id="selectedUserField">
+        <label for="userSelect">هەلبژێرە بەکارهێنەر</label>
+        <select class="select" id="userSelect">
+          <option value="">-- بەکارهێنەر هەلبژێرە --</option>
+        </select>
+      </div>
+
+      <div class="audience-box">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198A9.755 9.755 0 0112 21.75a9.755 9.755 0 01-5.66-1.635A3 3 0 016 18.72m9-11.97a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        <div>
+          <strong id="audienceTitle">وەرگر: هەمی بەکارهێنەرێن چالاک</strong>
+          <span id="audienceText">0 بەکارهێنەر دێ ئاگەهداریێ وەرگرن</span>
+        </div>
+      </div>
+
+      <div class="option-box">
+        <div class="option-text">
+          <strong>هنارتنا ئیمەیڵیش</strong>
+          <span>ئەگەر بەکارهێنەر ئیمەیڵ هەبیت، هەمان پەیام ژی بۆی دێ بهێتە هنارتن</span>
+        </div>
+
+        <label class="switch">
+          <input type="checkbox" id="sendEmailCheckbox" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <button class="send-btn" id="sendBtn" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+        </svg>
+        هنارتنا ئاگەهداریێ
+      </button>
+    </section>
+  </div>
+
+  <div class="modal" id="confirmModal">
+    <div class="modal-card">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+        </svg>
+      </div>
+
+      <h2>ئاگەهداری بهێتە هنارتن؟</h2>
+      <p id="confirmText">ئەم ئاگەهدارییە دێ بهێتە هنارتن.</p>
+
+      <div class="modal-actions">
+        <button class="cancel-btn" id="cancelBtn" type="button">نەخێر</button>
+        <button class="confirm-btn" id="confirmBtn" type="button">بەلێ، بهنێرە</button>
+      </div>
+    </div>
   </div>
 
   <script type="module">
-
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
     import {
       getAuth,
       onAuthStateChanged,
       signOut
     } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-
     import {
       getDatabase,
       ref,
@@ -1142,1229 +841,340 @@
       onValue
     } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-
-    /* ==========================================
-       CONFIG
-    ========================================== */
-
     const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
-
-      authDomain:
-        "office-8e7cb.firebaseapp.com",
-
-      databaseURL:
-        "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
-
-      projectId:
-        "office-8e7cb",
-
-      storageBucket:
-        "office-8e7cb.firebasestorage.app",
-
-      messagingSenderId:
-        "604465845047",
-
-      appId:
-        "1:604465845047:web:42004e33906c8986ee80b2",
-
-      measurementId:
-        "G-LJJM71LQ0K"
-
+      apiKey: "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+      authDomain: "office-8e7cb.firebaseapp.com",
+      databaseURL: "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "office-8e7cb",
+      storageBucket: "office-8e7cb.firebasestorage.app",
+      messagingSenderId: "604465845047",
+      appId: "1:604465845047:web:42004e33906c8986ee80b2",
+      measurementId: "G-LJJM71LQ0K"
     };
 
+    const OWNER_LOGIN_URL = "/adminoffice/login/login.html";
+    const ALERT_API_URL = "https://api.leaveportal.io/api/send-alert";
 
-    const EMAIL_API_URL =
-      "https://api.leaveportal.io/api/send-alert";
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
 
-
-    const app =
-      initializeApp(firebaseConfig);
-
-    const auth =
-      getAuth(app);
-
-    const database =
-      getDatabase(app);
-
-
-    /* ==========================================
-       ELEMENTS
-    ========================================== */
-
-    const pageLoading =
-      document.getElementById("pageLoading");
-
-    const toast =
-      document.getElementById("toast");
-
-    const alertTitle =
-      document.getElementById("alertTitle");
-
-    const alertMessage =
-      document.getElementById("alertMessage");
-
-    const titleChars =
-      document.getElementById("titleChars");
-
-    const messageChars =
-      document.getElementById("messageChars");
-
-    const recipientCount =
-      document.getElementById("recipientCount");
-
-    const alertsCount =
-      document.getElementById("alertsCount");
-
-    const audienceTitle =
-      document.getElementById("audienceTitle");
-
-    const audienceText =
-      document.getElementById("audienceText");
-
-    const alertsList =
-      document.getElementById("alertsList");
-
-    const sendBtn =
-      document.getElementById("sendBtn");
-
-    const allUsersBtn =
-      document.getElementById("allUsersBtn");
-
-    const selectedUserBtn =
-      document.getElementById("selectedUserBtn");
-
-    const userSelector =
-      document.getElementById("userSelector");
-
-    const selectedUser =
-      document.getElementById("selectedUser");
-
-    const selectedUserInfo =
-      document.getElementById("selectedUserInfo");
-
-    const selectedUserName =
-      document.getElementById("selectedUserName");
-
-    const selectedUserEmail =
-      document.getElementById("selectedUserEmail");
-
-    const confirmModal =
-      document.getElementById("confirmModal");
-
-    const confirmText =
-      document.getElementById("confirmText");
-
-    const cancelBtn =
-      document.getElementById("cancelBtn");
-
-    const confirmBtn =
-      document.getElementById("confirmBtn");
-
-
-    /* ==========================================
-       STATE
-    ========================================== */
+    const pageLoading = document.getElementById("pageLoading");
+    const toast = document.getElementById("toast");
+    const alertTitle = document.getElementById("alertTitle");
+    const alertMessage = document.getElementById("alertMessage");
+    const titleChars = document.getElementById("titleChars");
+    const messageChars = document.getElementById("messageChars");
+    const recipientCount = document.getElementById("recipientCount");
+    const alertsCount = document.getElementById("alertsCount");
+    const audienceTitle = document.getElementById("audienceTitle");
+    const audienceText = document.getElementById("audienceText");
+    const sendBtn = document.getElementById("sendBtn");
+    const confirmModal = document.getElementById("confirmModal");
+    const confirmText = document.getElementById("confirmText");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const confirmBtn = document.getElementById("confirmBtn");
+    const selectedUserField = document.getElementById("selectedUserField");
+    const userSelect = document.getElementById("userSelect");
+    const sendEmailCheckbox = document.getElementById("sendEmailCheckbox");
 
     let currentOwner = null;
-
-    let activeUsers = [];
-
-    let audienceMode =
-      "all";
-
+    let currentOwnerName = "رێڤەبەر";
     let toastTimer = null;
+    let activeUsers = [];
+    let totalAlerts = 0;
 
+    function showToast(text, type = "") {
+      clearTimeout(toastTimer);
+      toast.textContent = text;
+      toast.className = `toast ${type} show`;
 
-    /* ==========================================
-       TOAST
-    ========================================== */
-
-    function showToast(
-      text,
-      type = ""
-    ) {
-
-      clearTimeout(
-        toastTimer
-      );
-
-      toast.textContent =
-        text;
-
-      toast.className =
-        `toast ${type} show`;
-
-      toastTimer =
-        setTimeout(() => {
-
-          toast.className =
-            "toast";
-
-        }, 3500);
-
+      toastTimer = setTimeout(() => {
+        toast.className = "toast";
+      }, 3300);
     }
 
-
-    /* ==========================================
-       ESCAPE
-    ========================================== */
-
-    function escapeHTML(
-      value
-    ) {
-
-      return String(
-        value ?? ""
-      )
-
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
-
+    function displayCount(value) {
+      return value > 99 ? "99+" : String(value);
     }
-
-
-    /* ==========================================
-       DATE
-    ========================================== */
-
-    function formatDate(
-      timestamp
-    ) {
-
-      const value =
-        Number(timestamp);
-
-      if (!value) {
-        return "--";
-      }
-
-      return new Intl.DateTimeFormat(
-        "en-GB",
-        {
-          day:
-            "2-digit",
-
-          month:
-            "2-digit",
-
-          year:
-            "numeric",
-
-          hour:
-            "2-digit",
-
-          minute:
-            "2-digit"
-        }
-      ).format(
-        new Date(value)
-      );
-
-    }
-
-
-    /* ==========================================
-       LOGIN
-    ========================================== */
 
     async function goToLogin() {
-
       try {
         await signOut(auth);
-      }
-      catch(error) {
+      } catch (error) {
         console.error(error);
       }
 
-      window.location.replace(
-        "/adminoffice/login/Login.html"
-      );
-
+      window.location.replace(OWNER_LOGIN_URL);
     }
 
+    function updateCounters() {
+      alertsCount.textContent = displayCount(totalAlerts);
+    }
 
-    /* ==========================================
-       USERS
-    ========================================== */
+    function getSendMode() {
+      const checked = document.querySelector('input[name="sendMode"]:checked');
+      return checked ? checked.value : "all";
+    }
+
+    function getSelectedUserProfile() {
+      const selectedId = userSelect.value;
+      return activeUsers.find(user => user.uid === selectedId) || null;
+    }
+
+    function populateUsers(users) {
+      userSelect.innerHTML = `<option value="">-- بەکارهێنەر هەلبژێرە --</option>`;
+
+      users.forEach(user => {
+        const option = document.createElement("option");
+        option.value = user.uid;
+        option.textContent = `${user.name || "بەکارهێنەر"}${user.email ? ` - ${user.email}` : ""}`;
+        userSelect.appendChild(option);
+      });
+    }
+
+    function updateAudiencePreview() {
+      const mode = getSendMode();
+
+      if (mode === "selected") {
+        selectedUserField.classList.remove("hidden");
+
+        const selectedUser = getSelectedUserProfile();
+
+        if (selectedUser) {
+          recipientCount.textContent = "1";
+          audienceTitle.textContent = "وەرگر: بەکارهێنەرێکی دیاریکری";
+          audienceText.textContent = `${selectedUser.name || "بەکارهێنەر"} دێ ئاگەهداریێ وەرگریت`;
+        } else {
+          recipientCount.textContent = "0";
+          audienceTitle.textContent = "وەرگر: بەکارهێنەرێکی دیاریکری";
+          audienceText.textContent = "هێشتا بەکارهێنەرێک نەهاتیە هەلبژارتن";
+        }
+
+        return;
+      }
+
+      selectedUserField.classList.add("hidden");
+      recipientCount.textContent = String(activeUsers.length);
+      audienceTitle.textContent = "وەرگر: هەمی بەکارهێنەرێن چالاک";
+      audienceText.textContent = `${activeUsers.length} بەکارهێنەر دێ ئاگەهداریێ وەرگرن`;
+    }
 
     function startUsersListener() {
-
       onValue(
-
-        ref(
-          database,
-          "users"
-        ),
-
+        ref(database, "users"),
         snapshot => {
+          const entries = snapshot.exists()
+            ? Object.entries(snapshot.val() || {})
+            : [];
 
-          const entries =
-            snapshot.exists()
-              ?
-              Object.entries(
-                snapshot.val() || {}
-              )
-              :
-              [];
-
-
-          activeUsers =
-            entries
-
-              .map(
-                ([uid, profile]) => ({
-                  uid,
-                  ...profile
-                })
-              )
-
-              .filter(
-                profile => {
-
-                  return (
-                    String(
-                      profile.role || ""
-                    ).toLowerCase() ===
-                    "user"
-                    &&
-                    profile.active !== false
-                  );
-
-                }
-              )
-
-              .sort(
-                (a, b) =>
-                  String(
-                    a.name || ""
-                  ).localeCompare(
-                    String(
-                      b.name || ""
-                    )
-                  )
+          activeUsers = entries
+            .map(([uid, data]) => ({ uid, ...(data || {}) }))
+            .filter(profile => {
+              return (
+                String(profile.role || "").toLowerCase() === "user" &&
+                profile.active !== false
               );
+            })
+            .sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "ar"));
 
-
-          renderUserOptions();
-
-          updateAudience();
-
+          populateUsers(activeUsers);
+          updateAudiencePreview();
         },
-
         error => {
-
-          console.error(
-            "Users error:",
-            error
-          );
-
+          console.error("Users listener error:", error);
           activeUsers = [];
-
-          renderUserOptions();
-
-          updateAudience();
-
-        }
-
-      );
-
-    }
-
-
-    function renderUserOptions() {
-
-      const oldValue =
-        selectedUser.value;
-
-
-      selectedUser.innerHTML =
-        `
-          <option value="">
-            -- بەکارهێنەر هەلبژێرە --
-          </option>
-        `;
-
-
-      activeUsers.forEach(
-        user => {
-
-          const option =
-            document.createElement(
-              "option"
-            );
-
-          option.value =
-            user.uid;
-
-          option.textContent =
-            `${user.name || "بەکارهێنەر"}${user.email ? ` — ${user.email}` : ""}`;
-
-          selectedUser.appendChild(
-            option
-          );
-
+          populateUsers(activeUsers);
+          updateAudiencePreview();
+          showToast("لیستا بەکارهێنەران نەهاتە وەرگرتن.", "error");
         }
       );
-
-
-      if (
-        activeUsers.some(
-          user =>
-            user.uid ===
-            oldValue
-        )
-      ) {
-
-        selectedUser.value =
-          oldValue;
-
-      }
-
-
-      renderSelectedUser();
-
     }
-
-
-    /* ==========================================
-       AUDIENCE MODE
-    ========================================== */
-
-    function setAudienceMode(
-      mode
-    ) {
-
-      audienceMode =
-        mode;
-
-
-      allUsersBtn.classList.toggle(
-        "active",
-        mode === "all"
-      );
-
-
-      selectedUserBtn.classList.toggle(
-        "active",
-        mode === "user"
-      );
-
-
-      userSelector.classList.toggle(
-        "show",
-        mode === "user"
-      );
-
-
-      updateAudience();
-
-    }
-
-
-    allUsersBtn.addEventListener(
-      "click",
-      () => {
-
-        setAudienceMode(
-          "all"
-        );
-
-      }
-    );
-
-
-    selectedUserBtn.addEventListener(
-      "click",
-      () => {
-
-        setAudienceMode(
-          "user"
-        );
-
-      }
-    );
-
-
-    selectedUser.addEventListener(
-      "change",
-      () => {
-
-        renderSelectedUser();
-
-        updateAudience();
-
-      }
-    );
-
-
-    function getSelectedUser() {
-
-      return activeUsers.find(
-        user =>
-          user.uid ===
-          selectedUser.value
-      ) || null;
-
-    }
-
-
-    function renderSelectedUser() {
-
-      const user =
-        getSelectedUser();
-
-
-      if (!user) {
-
-        selectedUserInfo.classList.remove(
-          "show"
-        );
-
-        selectedUserName.textContent =
-          "";
-
-        selectedUserEmail.textContent =
-          "";
-
-        return;
-
-      }
-
-
-      selectedUserInfo.classList.add(
-        "show"
-      );
-
-
-      selectedUserName.textContent =
-        user.name ||
-        "بەکارهێنەر";
-
-
-      selectedUserEmail.textContent =
-        user.email ||
-        "ئیمەیڵ نینە";
-
-    }
-
-
-    function updateAudience() {
-
-      if (
-        audienceMode ===
-        "all"
-      ) {
-
-        recipientCount.textContent =
-          String(
-            activeUsers.length
-          );
-
-
-        audienceTitle.textContent =
-          "وەرگر: هەمی بەکارهێنەرێن چالاک";
-
-
-        audienceText.textContent =
-          `${activeUsers.length} بەکارهێنەر دێ ئاگەهداری و ئیمەیڵێ وەرگرن`;
-
-        return;
-
-      }
-
-
-      const user =
-        getSelectedUser();
-
-
-      recipientCount.textContent =
-        user
-          ? "1"
-          : "0";
-
-
-      audienceTitle.textContent =
-        "وەرگر: بەکارهێنەرێ هەلبژارتی";
-
-
-      audienceText.textContent =
-        user
-          ?
-          `${user.name || "بەکارهێنەر"} دێ ئاگەهداری و ئیمەیڵێ وەرگریت`
-          :
-          "بەکارهێنەرەک هەلبژێرە";
-
-    }
-
-
-    /* ==========================================
-       ALERT HISTORY
-    ========================================== */
 
     function startAlertsListener() {
-
       onValue(
-
-        ref(
-          database,
-          "alerts"
-        ),
-
+        ref(database, "alerts"),
         snapshot => {
+          const entries = snapshot.exists()
+            ? Object.values(snapshot.val() || {})
+            : [];
 
-          const entries =
-            snapshot.exists()
-              ?
-              Object.entries(
-                snapshot.val() || {}
-              )
-              :
-              [];
-
-
-          const alerts =
-            entries
-
-              .map(
-                ([id, data]) => ({
-                  id,
-                  ...data
-                })
-              )
-
-              .sort(
-                (a, b) =>
-                  (
-                    Number(
-                      b.createdAt
-                    ) || 0
-                  )
-                  -
-                  (
-                    Number(
-                      a.createdAt
-                    ) || 0
-                  )
-              );
-
-
-          alertsCount.textContent =
-            alerts.length > 99
-              ?
-              "99+"
-              :
-              String(
-                alerts.length
-              );
-
-
-          if (
-            !alerts.length
-          ) {
-
-            alertsList.innerHTML =
-              `
-                <div class="empty">
-                  <h3>
-                    ئاگەهداری نینن
-                  </h3>
-
-                  <p>
-                    هێشتا ئاگەهداری نەهاتیە هنارتن
-                  </p>
-                </div>
-              `;
-
-            return;
-
-          }
-
-
-          alertsList.innerHTML =
-            alerts
-
-              .slice(
-                0,
-                20
-              )
-
-              .map(
-                item => {
-
-                  const targetText =
-                    item.target ===
-                    "user"
-                      ?
-                      (
-                        item.targetUserName ||
-                        "بەکارهێنەرەک"
-                      )
-                      :
-                      "هەمی بەکارهێنەر";
-
-
-                  const sentEmails =
-                    Number(
-                      item.emailSentCount || 0
-                    );
-
-
-                  return `
-                    <article class="alert-item">
-
-                      <div class="alert-item-head">
-
-                        <h3>
-                          ${escapeHTML(
-                            item.title || "ئاگەهداری"
-                          )}
-                        </h3>
-
-                        <span class="alert-date">
-                          ${escapeHTML(
-                            formatDate(
-                              item.createdAt
-                            )
-                          )}
-                        </span>
-
-                      </div>
-
-                      <p>
-                        ${escapeHTML(
-                          item.message || ""
-                        )}
-                      </p>
-
-                      <div class="alert-meta">
-
-                        <span class="badge orange">
-                          وەرگر:
-                          ${escapeHTML(
-                            targetText
-                          )}
-                        </span>
-
-                        <span class="badge">
-                          ${Number(
-                            item.recipientCount || 0
-                          )}
-                          وەرگر
-                        </span>
-
-                        <span class="badge green">
-                          ${sentEmails}
-                          ئیمەیڵ
-                        </span>
-
-                      </div>
-
-                    </article>
-                  `;
-
-                }
-              )
-
-              .join("");
-
+          totalAlerts = entries.filter(item => item && item.active !== false).length;
+          updateCounters();
         },
-
         error => {
-
-          console.error(
-            "Alerts listener error:",
-            error
-          );
-
-
-          alertsList.innerHTML =
-            `
-              <div class="empty">
-
-                <h3>
-                  هەڵە
-                </h3>
-
-                <p>
-                  ئاگەهداری نەهاتنە بارکرن
-                </p>
-
-              </div>
-            `;
-
+          console.error("Alerts listener error:", error);
+          totalAlerts = 0;
+          updateCounters();
         }
-
       );
-
     }
 
+    alertTitle.addEventListener("input", () => {
+      titleChars.textContent = `${alertTitle.value.length} / 80`;
+    });
 
-    /* ==========================================
-       CHARACTER COUNTERS
-    ========================================== */
+    alertMessage.addEventListener("input", () => {
+      messageChars.textContent = `${alertMessage.value.length} / 1000`;
+    });
 
-    alertTitle.addEventListener(
-      "input",
-      () => {
+    document.querySelectorAll('input[name="sendMode"]').forEach(input => {
+      input.addEventListener("change", updateAudiencePreview);
+    });
 
-        titleChars.textContent =
-          `${alertTitle.value.length} / 80`;
+    userSelect.addEventListener("change", updateAudiencePreview);
 
+    sendBtn.addEventListener("click", () => {
+      const title = alertTitle.value.trim();
+      const message = alertMessage.value.trim();
+      const mode = getSendMode();
+
+      if (!title) {
+        showToast("ناڤونیشانێ ئاگەهداریێ بنڤیسە.", "error");
+        alertTitle.focus();
+        return;
       }
-    );
 
-
-    alertMessage.addEventListener(
-      "input",
-      () => {
-
-        messageChars.textContent =
-          `${alertMessage.value.length} / 1000`;
-
+      if (!message) {
+        showToast("پەیامێ ئاگەهداریێ بنڤیسە.", "error");
+        alertMessage.focus();
+        return;
       }
-    );
 
-
-    /* ==========================================
-       SEND VALIDATION
-    ========================================== */
-
-    sendBtn.addEventListener(
-      "click",
-      () => {
-
-        const title =
-          alertTitle.value.trim();
-
-        const message =
-          alertMessage.value.trim();
-
-
-        if (!title) {
-
-          showToast(
-            "ناڤونیشانێ ئاگەهداریێ بنڤیسە.",
-            "error"
-          );
-
-          alertTitle.focus();
-
-          return;
-
-        }
-
-
-        if (!message) {
-
-          showToast(
-            "پەیامێ ئاگەهداریێ بنڤیسە.",
-            "error"
-          );
-
-          alertMessage.focus();
-
-          return;
-
-        }
-
-
-        if (
-          audienceMode ===
-          "all"
-          &&
-          activeUsers.length < 1
-        ) {
-
-          showToast(
-            "بەکارهێنەرێ چالاک نینن.",
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        if (
-          audienceMode ===
-          "user"
-          &&
-          !getSelectedUser()
-        ) {
-
-          showToast(
-            "بەکارهێنەرەک هەلبژێرە.",
-            "error"
-          );
-
-          selectedUser.focus();
-
-          return;
-
-        }
-
-
-        if (
-          audienceMode ===
-          "all"
-        ) {
-
-          confirmText.textContent =
-            `ئاگەهداری و ئیمەیڵ دێ بۆ ${activeUsers.length} بەکارهێنەرێن چالاک هێتە هنارتن.`;
-
-        }
-        else {
-
-          const user =
-            getSelectedUser();
-
-
-          confirmText.textContent =
-            `ئاگەهداری و ئیمەیڵ دێ تەنێ بۆ ${user.name || "بەکارهێنەر"} هێتە هنارتن.`;
-
-        }
-
-
-        confirmModal.classList.add(
-          "active"
-        );
-
-      }
-    );
-
-
-    /* ==========================================
-       MODAL
-    ========================================== */
-
-    cancelBtn.addEventListener(
-      "click",
-      () => {
-
-        confirmModal.classList.remove(
-          "active"
-        );
-
-      }
-    );
-
-
-    confirmModal.addEventListener(
-      "click",
-      event => {
-
-        if (
-          event.target ===
-          confirmModal
-        ) {
-
-          confirmModal.classList.remove(
-            "active"
-          );
-
-        }
-
-      }
-    );
-
-
-    /* ==========================================
-       SEND API
-    ========================================== */
-
-    confirmBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (!currentOwner) {
+      if (mode === "all") {
+        if (activeUsers.length < 1) {
+          showToast("بەکارهێنەرێ چالاک نینن.", "error");
           return;
         }
 
-
-        const title =
-          alertTitle.value.trim();
-
-        const message =
-          alertMessage.value.trim();
-
-
-        const selected =
-          getSelectedUser();
-
-
-        confirmBtn.disabled =
-          true;
-
-        sendBtn.disabled =
-          true;
-
-
-        confirmBtn.textContent =
-          "دهێتە هنارتن...";
-
-
-        try {
-
-          const idToken =
-            await currentOwner.getIdToken();
-
-
-          const body = {
-
-            title,
-
-            message,
-
-            target:
-              audienceMode
-
-          };
-
-
-          if (
-            audienceMode ===
-            "user"
-          ) {
-
-            body.userId =
-              selected.uid;
-
-          }
-
-
-          const response =
-            await fetch(
-              EMAIL_API_URL,
-              {
-
-                method:
-                  "POST",
-
-                headers: {
-
-                  "Content-Type":
-                    "application/json",
-
-                  "Authorization":
-                    `Bearer ${idToken}`
-
-                },
-
-                body:
-                  JSON.stringify(
-                    body
-                  )
-
-              }
-            );
-
-
-          const result =
-            await response
-              .json()
-              .catch(
-                () => ({})
-              );
-
-
-          if (!response.ok) {
-
-            throw new Error(
-              result.error ||
-              "ئاگەهداری نەهاتە هنارتن."
-            );
-
-          }
-
-
-          alertTitle.value =
-            "";
-
-          alertMessage.value =
-            "";
-
-          titleChars.textContent =
-            "0 / 80";
-
-          messageChars.textContent =
-            "0 / 1000";
-
-
-          confirmModal.classList.remove(
-            "active"
-          );
-
-
-          if (
-            Number(
-              result.emailFailedCount || 0
-            ) > 0
-          ) {
-
-            showToast(
-              `ئاگەهداری هاتە هنارتن. ${result.emailSentCount || 0} ئیمەیڵ هاتنە هنارتن، ${result.emailFailedCount} ئیمەیڵ سەرنەکەفتن.`,
-              "warning"
-            );
-
-          }
-          else {
-
-            showToast(
-              `ئاگەهداری هاتە هنارتن و ${result.emailSentCount || 0} ئیمەیڵ ب سەرکەفتی هاتنە هنارتن.`,
-              "success"
-            );
-
-          }
-
-        }
-        catch(error) {
-
-          console.error(
-            "Send alert error:",
-            error
-          );
-
-
-          showToast(
-            error.message ||
-            "ئاگەهداری نەهاتە هنارتن.",
-            "error"
-          );
-
-        }
-        finally {
-
-          confirmBtn.disabled =
-            false;
-
-          sendBtn.disabled =
-            false;
-
-          confirmBtn.textContent =
-            "بەلێ، بهنێرە";
-
-        }
-
-      }
-    );
-
-
-    /* ==========================================
-       AUTH
-    ========================================== */
-
-    onAuthStateChanged(
-      auth,
-      async user => {
-
-        if (!user) {
-
-          window.location.replace(
-            "/adminoffice/login/Login.html"
-          );
-
+        confirmText.textContent =
+          `ئەم ئاگەهدارییە دێ بۆ ${activeUsers.length} بەکارهێنەرێن چالاک هێتە هنارتن${sendEmailCheckbox.checked ? " و ئیمەیڵ ژی دێ بهێتە هنارتن." : "."}`;
+      } else {
+        const selectedUser = getSelectedUserProfile();
+
+        if (!selectedUser) {
+          showToast("پێدڤیە بەکارهێنەرێک هەلبژێری.", "error");
+          userSelect.focus();
           return;
-
         }
 
+        confirmText.textContent =
+          `ئەم ئاگەهدارییە دێ بۆ "${selectedUser.name || "بەکارهێنەر"}" هێتە هنارتن${sendEmailCheckbox.checked ? " و ئیمەیڵ ژی بۆی دێ بهێتە هنارتن." : "."}`;
+      }
 
-        try {
+      confirmModal.classList.add("active");
+    });
 
-          const snapshot =
-            await get(
-              ref(
-                database,
-                `users/${user.uid}`
-              )
-            );
+    cancelBtn.addEventListener("click", () => {
+      confirmModal.classList.remove("active");
+    });
 
+    confirmModal.addEventListener("click", event => {
+      if (event.target === confirmModal) {
+        confirmModal.classList.remove("active");
+      }
+    });
 
-          if (
-            !snapshot.exists()
-          ) {
+    confirmBtn.addEventListener("click", async () => {
+      if (!currentOwner) {
+        showToast("رێڤەبەر نەهاتە ناسین.", "error");
+        return;
+      }
 
-            await goToLogin();
+      const title = alertTitle.value.trim();
+      const message = alertMessage.value.trim();
+      const mode = getSendMode();
+      const selectedUser = getSelectedUserProfile();
 
-            return;
+      if (mode === "selected" && !selectedUser) {
+        showToast("بەکارهێنەرێک هەلبژێرە.", "error");
+        return;
+      }
 
-          }
+      confirmBtn.disabled = true;
+      sendBtn.disabled = true;
 
+      try {
+        const token = await currentOwner.getIdToken();
 
-          const profile =
-            snapshot.val();
+        const payload = {
+          title,
+          message,
+          target: mode,                 // "all" or "selected"
+          targetUserId: mode === "selected" ? selectedUser.uid : null,
+          sendEmail: sendEmailCheckbox.checked
+        };
 
+        const response = await fetch(ALERT_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
 
-          if (
-            String(
-              profile.role || ""
-            ).toLowerCase() !==
-            "owner"
-            ||
-            profile.active === false
-          ) {
+        const result = await response.json().catch(() => ({}));
 
-            await goToLogin();
-
-            return;
-
-          }
-
-
-          currentOwner =
-            user;
-
-
-          pageLoading.classList.add(
-            "hide"
-          );
-
-
-          startUsersListener();
-
-          startAlertsListener();
-
+        if (!response.ok) {
+          throw new Error(result.error || "API error");
         }
-        catch(error) {
 
-          console.error(
-            "Owner verification error:",
-            error
-          );
+        alertTitle.value = "";
+        alertMessage.value = "";
+        titleChars.textContent = "0 / 80";
+        messageChars.textContent = "0 / 1000";
+        document.getElementById("modeAll").checked = true;
+        userSelect.value = "";
+        sendEmailCheckbox.checked = true;
+        updateAudiencePreview();
 
+        confirmModal.classList.remove("active");
+        showToast("ئاگەهداری ب سەرکەفتی هاتە هنارتن.", "success");
+      } catch (error) {
+        console.error("Send alert error:", error);
+        showToast(`ئاگەهداری نەهاتە هنارتن. ${error.message || ""}`, "error");
+      } finally {
+        confirmBtn.disabled = false;
+        sendBtn.disabled = false;
+      }
+    });
 
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.replace(OWNER_LOGIN_URL);
+        return;
+      }
+
+      try {
+        const snapshot = await get(ref(database, `users/${user.uid}`));
+
+        if (!snapshot.exists()) {
           await goToLogin();
-
+          return;
         }
 
+        const profile = snapshot.val();
+
+        if (
+          String(profile.role || "").toLowerCase() !== "owner" ||
+          profile.active === false
+        ) {
+          await goToLogin();
+          return;
+        }
+
+        currentOwner = user;
+        currentOwnerName = profile.name || "رێڤەبەر";
+
+        pageLoading.classList.add("hide");
+        startUsersListener();
+        startAlertsListener();
+      } catch (error) {
+        console.error("Owner verification error:", error);
+        await goToLogin();
       }
-    );
-
+    });
   </script>
-
 </body>
 </html>
