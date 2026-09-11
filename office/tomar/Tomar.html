@@ -1362,1281 +1362,2624 @@
 
 
 <script type="module">
-  
 
-    import {
-        initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-    import {
-        getAuth,
-        onAuthStateChanged,
-        signOut
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
-    import {
-        getDatabase,
-        ref,
-        get,
-        onValue,
-        query,
-        orderByChild,
-        equalTo
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
-
-
-    
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
-        authDomain: "office-8e7cb.firebaseapp.com",
-        databaseURL: "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "office-8e7cb",
-        storageBucket: "office-8e7cb.firebasestorage.app",
-        messagingSenderId: "604465845047",
-        appId: "1:604465845047:web:42004e33906c8986ee80b2",
-        measurementId: "G-LJJM71LQ0K"
-    };
-
-    const ONESIGNAL_APP_ID =
-        "5b331871-60c5-4e81-8679-561fabc89a05";
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const database = getDatabase(app);
+import {
+    getDatabase,
+    ref,
+    get,
+    onValue,
+    query,
+    orderByChild,
+    equalTo
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-    /* ========================================
-       ELEMENTS
-    ======================================== */
+/* ========================================
+   FIREBASE CONFIG
+======================================== */
 
-    const recordsContainer =
-        document.getElementById("recordsContainer");
+const firebaseConfig = {
 
-    const detailsModal =
-        document.getElementById("detailsModal");
+    apiKey:
+        "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
 
-    const closeModalBtn =
-        document.getElementById("closeModalBtn");
+    authDomain:
+        "office-8e7cb.firebaseapp.com",
 
-    const notifyBtn =
-        document.getElementById("notifyBtn");
+    databaseURL:
+        "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
 
-    const toast =
-        document.getElementById("toast");
+    projectId:
+        "office-8e7cb",
 
-    const mdlDecisionBox =
-        document.getElementById("mdlDecisionBox");
+    storageBucket:
+        "office-8e7cb.firebasestorage.app",
 
-    const mdlDecision =
-        document.getElementById("mdlDecision");
+    messagingSenderId:
+        "604465845047",
 
-    const mdlReqDate =
-        document.getElementById("mdlReqDate");
+    appId:
+        "1:604465845047:web:42004e33906c8986ee80b2",
 
-    const mdlLeaveDate =
-        document.getElementById("mdlLeaveDate");
-
-    const mdlType =
-        document.getElementById("mdlType");
-
-    const mdlTimeBox =
-        document.getElementById("mdlTimeBox");
-
-    const mdlTime =
-        document.getElementById("mdlTime");
-
-    const mdlReviewDate =
-        document.getElementById("mdlReviewDate");
-
-    const mdlReasonBox =
-        document.getElementById("mdlReasonBox");
-
-    const mdlReason =
-        document.getElementById("mdlReason");
+    measurementId:
+        "G-LJJM71LQ0K"
+};
 
 
-    
-
-    let currentUser = null;
-    let requestsCache = {};
-    let firstRequestsLoad = true;
-    let previousStatuses = new Map();
-    let audioContext = null;
-
-    let oneSignalInstance = null;
-    let oneSignalInitPromise = null;
+const ONESIGNAL_APP_ID =
+    "5b331871-60c5-4e81-8679-561fabc89a05";
 
 
-   
-
-    let toastTimer = null;
-
-    function showToast(text, type = "") {
-        clearTimeout(toastTimer);
-
-        toast.textContent = text;
-        toast.className = `toast ${type} show`;
-
-        toastTimer = setTimeout(() => {
-            toast.className = "toast";
-        }, 3200);
-    }
+const USER_LOGIN_URL =
+    "/index.html";
 
 
-    
+const app =
+    initializeApp(
+        firebaseConfig
+    );
 
-    onAuthStateChanged(auth, async function(user) {
+
+const auth =
+    getAuth(
+        app
+    );
+
+
+const database =
+    getDatabase(
+        app
+    );
+
+
+/* ========================================
+   ELEMENTS
+======================================== */
+
+const recordsContainer =
+    document.getElementById(
+        "recordsContainer"
+    );
+
+
+const detailsModal =
+    document.getElementById(
+        "detailsModal"
+    );
+
+
+const closeModalBtn =
+    document.getElementById(
+        "closeModalBtn"
+    );
+
+
+const notifyBtn =
+    document.getElementById(
+        "notifyBtn"
+    );
+
+
+const toast =
+    document.getElementById(
+        "toast"
+    );
+
+
+const mdlDecisionBox =
+    document.getElementById(
+        "mdlDecisionBox"
+    );
+
+
+const mdlDecision =
+    document.getElementById(
+        "mdlDecision"
+    );
+
+
+const mdlReqDate =
+    document.getElementById(
+        "mdlReqDate"
+    );
+
+
+const mdlLeaveDate =
+    document.getElementById(
+        "mdlLeaveDate"
+    );
+
+
+const mdlType =
+    document.getElementById(
+        "mdlType"
+    );
+
+
+const mdlTimeBox =
+    document.getElementById(
+        "mdlTimeBox"
+    );
+
+
+const mdlTime =
+    document.getElementById(
+        "mdlTime"
+    );
+
+
+const mdlReviewDate =
+    document.getElementById(
+        "mdlReviewDate"
+    );
+
+
+const mdlReasonBox =
+    document.getElementById(
+        "mdlReasonBox"
+    );
+
+
+const mdlReason =
+    document.getElementById(
+        "mdlReason"
+    );
+
+
+/* ========================================
+   STATE
+======================================== */
+
+let currentUser =
+    null;
+
+
+let requestsCache =
+    {};
+
+
+let firstRequestsLoad =
+    true;
+
+
+let previousStatuses =
+    new Map();
+
+
+let audioContext =
+    null;
+
+
+let oneSignalInstance =
+    null;
+
+
+let oneSignalInitPromise =
+    null;
+
+
+let toastTimer =
+    null;
+
+
+/* ========================================
+   TOAST
+======================================== */
+
+function showToast(
+    text,
+    type = ""
+) {
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toast.textContent =
+        text;
+
+
+    toast.className =
+        `toast ${type} show`;
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.className =
+                    "toast";
+
+            },
+            3200
+        );
+
+}
+
+
+/* ========================================
+   AUTH
+======================================== */
+
+onAuthStateChanged(
+    auth,
+    async function(user) {
+
+
         if (!user) {
-            window.location.replace("../../index.html");
+
+            window.location.replace(
+                USER_LOGIN_URL
+            );
+
             return;
         }
 
+
         try {
-            const userSnapshot = await get(
-                ref(database, `users/${user.uid}`)
-            );
 
-            if (!userSnapshot.exists()) {
-                await goToLogin();
-                return;
-            }
+            const userSnapshot =
+                await get(
 
-            const profile = userSnapshot.val();
+                    ref(
+                        database,
+                        `users/${user.uid}`
+                    )
+
+                );
+
 
             if (
-                String(profile.role).toLowerCase() !== "user" ||
-                profile.active === false
+                !userSnapshot.exists()
             ) {
+
                 await goToLogin();
+
                 return;
             }
 
-            currentUser = user;
 
-            
+            const profile =
+                userSnapshot.val();
+
+
+            if (
+                String(
+                    profile.role || ""
+                ).toLowerCase() !==
+                "user"
+
+                ||
+
+                profile.active ===
+                false
+            ) {
+
+                await goToLogin();
+
+                return;
+            }
+
+
+            currentUser =
+                user;
+
+
             startNotificationsListener();
 
-            
+
             try {
-                await setupOneSignal(user);
+
+                await setupOneSignal(
+                    user
+                );
+
             }
-            catch (error) {
-                console.error("OneSignal setup error:", error);
-                updateNotificationButton(false, "default");
+            catch(error) {
+
+                console.error(
+                    "OneSignal setup error:",
+                    error
+                );
+
+
+                updateNotificationButton(
+                    false,
+                    "default"
+                );
+
             }
+
         }
-        catch (error) {
-            console.error("User verification error:", error);
+        catch(error) {
+
+            console.error(
+                "User verification error:",
+                error
+            );
+
 
             showToast(
                 "هەڵە د بارکرنا هەژمارێ تە.",
                 "error"
             );
-        }
-    });
 
-
-    async function goToLogin() {
-       
-        try {
-            if (oneSignalInstance) {
-                await oneSignalInstance.logout();
-            }
-        }
-        catch (error) {
-            console.warn("OneSignal logout warning:", error);
         }
 
-        try {
-            await signOut(auth);
-        }
-        catch (error) {
-            console.error("Firebase sign out error:", error);
-        }
-
-        window.location.replace("../../index.html");
     }
+);
 
 
-    
+/* ========================================
+   LOGIN
+======================================== */
 
-    window.OneSignalDeferred =
-        window.OneSignalDeferred || [];
+async function goToLogin() {
 
-    async function cleanupOldFirebaseMessagingWorker() {
-        if (!("serviceWorker" in navigator)) {
-            return;
+    try {
+
+        if (
+            oneSignalInstance
+        ) {
+
+            await oneSignalInstance
+                .logout();
+
         }
 
-        try {
-            const registrations =
-                await navigator.serviceWorker.getRegistrations();
-
-            for (const registration of registrations) {
-                const workerUrls = [
-                    registration.active?.scriptURL,
-                    registration.waiting?.scriptURL,
-                    registration.installing?.scriptURL
-                ].filter(Boolean);
-
-                const isOldFirebaseWorker =
-                    workerUrls.some(url =>
-                        url.includes("/firebase-messaging-sw.js")
-                    );
-
-                if (isOldFirebaseWorker) {
-                    console.log(
-                        "Removing old Firebase Messaging worker:",
-                        workerUrls
-                    );
-
-                    await registration.unregister();
-                }
-            }
-        }
-        catch (error) {
-            console.warn(
-                "Could not clean old Firebase Messaging worker:",
-                error
-            );
-        }
     }
+    catch(error) {
 
-
-    function setupOneSignal(user) {
-        if (oneSignalInitPromise) {
-            return oneSignalInitPromise;
-        }
-
-        oneSignalInitPromise = new Promise(
-            (resolve, reject) => {
-                window.OneSignalDeferred.push(
-                    async function(OneSignal) {
-                        try {
-                            await cleanupOldFirebaseMessagingWorker();
-
-                            await OneSignal.init({
-                                appId: ONESIGNAL_APP_ID,
-                                serviceWorkerPath:
-                                    "OneSignalSDKWorker.js",
-                                serviceWorkerParam: {
-                                    scope: "/"
-                                }
-                            });
-
-                            
-                            await OneSignal.login(user.uid);
-
-                            
-                            try {
-                                OneSignal.User.addTags({
-                                    role: "user",
-                                    firebase_uid: user.uid
-                                });
-                            }
-                            catch (tagError) {
-                                console.warn(
-                                    "OneSignal tag warning:",
-                                    tagError
-                                );
-                            }
-
-                            oneSignalInstance = OneSignal;
-
-                            updateNotificationButton(
-                                OneSignal.Notifications.permission,
-                                OneSignal.Notifications.permissionNative
-                            );
-
-                            
-                            OneSignal.Notifications.addEventListener(
-                                "permissionChange",
-                                function(granted) {
-                                    updateNotificationButton(
-                                        granted,
-                                        OneSignal.Notifications.permissionNative
-                                    );
-
-                                    if (granted) {
-                                        showToast(
-                                            "ئاگەهداری ب سەرکەفتی هاتنە چالاککرن.",
-                                            "success"
-                                        );
-                                    }
-                                }
-                            );
-
-                            
-                            OneSignal.Notifications.addEventListener(
-                                "foregroundWillDisplay",
-                                function(event) {
-                                    console.log(
-                                        "OneSignal foreground notification:",
-                                        event.notification
-                                    );
-                                }
-                            );
-
-                            OneSignal.Notifications.addEventListener(
-                                "click",
-                                function(event) {
-                                    console.log(
-                                        "OneSignal notification clicked:",
-                                        event
-                                    );
-                                }
-                            );
-
-                            console.log(
-                                "OneSignal connected to Firebase UID:",
-                                user.uid
-                            );
-
-                            resolve(OneSignal);
-                        }
-                        catch (error) {
-                            console.error(
-                                "OneSignal initialization failed:",
-                                error
-                            );
-
-                            notifyBtn.classList.remove(
-                                "active",
-                                "need-permission"
-                            );
-
-                            notifyBtn.classList.add("denied");
-
-                            reject(error);
-                        }
-                    }
-                );
-            }
+        console.warn(
+            "OneSignal logout warning:",
+            error
         );
+
+    }
+
+
+    try {
+
+        await signOut(
+            auth
+        );
+
+    }
+    catch(error) {
+
+        console.error(
+            "Firebase sign out error:",
+            error
+        );
+
+    }
+
+
+    window.location.replace(
+        USER_LOGIN_URL
+    );
+
+}
+
+
+/* ========================================
+   ONESIGNAL
+======================================== */
+
+window.OneSignalDeferred =
+    window.OneSignalDeferred ||
+    [];
+
+
+/* ========================================
+   CLEAN OLD FIREBASE WORKER
+======================================== */
+
+async function cleanupOldFirebaseMessagingWorker() {
+
+    if (
+        !(
+            "serviceWorker"
+            in
+            navigator
+        )
+    ) {
+
+        return;
+    }
+
+
+    try {
+
+        const registrations =
+            await navigator
+                .serviceWorker
+                .getRegistrations();
+
+
+        for (
+            const registration
+            of registrations
+        ) {
+
+            const workerUrls = [
+
+                registration
+                    .active
+                    ?.scriptURL,
+
+                registration
+                    .waiting
+                    ?.scriptURL,
+
+                registration
+                    .installing
+                    ?.scriptURL
+
+            ].filter(
+                Boolean
+            );
+
+
+            const isOldFirebaseWorker =
+                workerUrls.some(
+                    url =>
+
+                        url.includes(
+                            "/firebase-messaging-sw.js"
+                        )
+                );
+
+
+            if (
+                isOldFirebaseWorker
+            ) {
+
+                console.log(
+                    "Removing old Firebase Messaging worker:",
+                    workerUrls
+                );
+
+
+                await registration
+                    .unregister();
+
+            }
+
+        }
+
+    }
+    catch(error) {
+
+        console.warn(
+            "Could not clean old Firebase Messaging worker:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ========================================
+   SETUP ONESIGNAL
+======================================== */
+
+function setupOneSignal(
+    user
+) {
+
+    if (
+        oneSignalInitPromise
+    ) {
 
         return oneSignalInitPromise;
     }
 
 
-    function updateNotificationButton(
-        permissionGranted,
-        nativePermission = "default"
-    ) {
-        notifyBtn.classList.remove(
+    oneSignalInitPromise =
+        new Promise(
+
+            (
+                resolve,
+                reject
+            ) => {
+
+
+                window
+                    .OneSignalDeferred
+                    .push(
+
+                        async function(
+                            OneSignal
+                        ) {
+
+
+                            try {
+
+                                await cleanupOldFirebaseMessagingWorker();
+
+
+                                await OneSignal.init({
+
+                                    appId:
+                                        ONESIGNAL_APP_ID,
+
+                                    serviceWorkerPath:
+                                        "OneSignalSDKWorker.js",
+
+                                    serviceWorkerParam: {
+
+                                        scope:
+                                            "/"
+
+                                    }
+
+                                });
+
+
+                                await OneSignal.login(
+                                    user.uid
+                                );
+
+
+                                try {
+
+                                    OneSignal
+                                        .User
+                                        .addTags({
+
+                                            role:
+                                                "user",
+
+                                            firebase_uid:
+                                                user.uid
+
+                                        });
+
+                                }
+                                catch(tagError) {
+
+                                    console.warn(
+                                        "OneSignal tag warning:",
+                                        tagError
+                                    );
+
+                                }
+
+
+                                oneSignalInstance =
+                                    OneSignal;
+
+
+                                updateNotificationButton(
+
+                                    OneSignal
+                                        .Notifications
+                                        .permission,
+
+                                    OneSignal
+                                        .Notifications
+                                        .permissionNative
+
+                                );
+
+
+                                OneSignal
+                                    .Notifications
+                                    .addEventListener(
+
+                                        "permissionChange",
+
+                                        function(
+                                            granted
+                                        ) {
+
+                                            updateNotificationButton(
+
+                                                granted,
+
+                                                OneSignal
+                                                    .Notifications
+                                                    .permissionNative
+
+                                            );
+
+
+                                            if (
+                                                granted
+                                            ) {
+
+                                                showToast(
+                                                    "ئاگەهداری ب سەرکەفتی هاتنە چالاککرن.",
+                                                    "success"
+                                                );
+
+                                            }
+
+                                        }
+
+                                    );
+
+
+                                OneSignal
+                                    .Notifications
+                                    .addEventListener(
+
+                                        "foregroundWillDisplay",
+
+                                        function(
+                                            event
+                                        ) {
+
+                                            console.log(
+                                                "OneSignal foreground notification:",
+                                                event.notification
+                                            );
+
+                                        }
+
+                                    );
+
+
+                                OneSignal
+                                    .Notifications
+                                    .addEventListener(
+
+                                        "click",
+
+                                        function(
+                                            event
+                                        ) {
+
+                                            console.log(
+                                                "OneSignal notification clicked:",
+                                                event
+                                            );
+
+                                        }
+
+                                    );
+
+
+                                console.log(
+                                    "OneSignal connected to Firebase UID:",
+                                    user.uid
+                                );
+
+
+                                resolve(
+                                    OneSignal
+                                );
+
+                            }
+                            catch(error) {
+
+                                console.error(
+                                    "OneSignal initialization failed:",
+                                    error
+                                );
+
+
+                                notifyBtn
+                                    .classList
+                                    .remove(
+                                        "active",
+                                        "need-permission"
+                                    );
+
+
+                                notifyBtn
+                                    .classList
+                                    .add(
+                                        "denied"
+                                    );
+
+
+                                reject(
+                                    error
+                                );
+
+                            }
+
+                        }
+
+                    );
+
+            }
+
+        );
+
+
+    return oneSignalInitPromise;
+
+}
+
+
+/* ========================================
+   NOTIFICATION BUTTON
+======================================== */
+
+function updateNotificationButton(
+    permissionGranted,
+    nativePermission = "default"
+) {
+
+    notifyBtn
+        .classList
+        .remove(
             "active",
             "need-permission",
             "denied"
         );
 
-        if (permissionGranted === true) {
-            notifyBtn.classList.add("active");
-            notifyBtn.title = "ئاگەهداری چالاکن";
-            return;
-        }
 
-        if (nativePermission === "denied") {
-            notifyBtn.classList.add("denied");
-            notifyBtn.title = "ئاگەهداری هاتینە بلۆککرن";
-            return;
-        }
+    if (
+        permissionGranted ===
+        true
+    ) {
 
-        notifyBtn.classList.add("need-permission");
-        notifyBtn.title = "چالاککرنا ئاگەهداریان";
+        notifyBtn
+            .classList
+            .add(
+                "active"
+            );
+
+
+        notifyBtn.title =
+            "ئاگەهداری چالاکن";
+
+
+        return;
     }
 
 
-    function isIOSDevice() {
-        return (
-            /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-            (
-                navigator.platform === "MacIntel" &&
-                navigator.maxTouchPoints > 1
+    if (
+        nativePermission ===
+        "denied"
+    ) {
+
+        notifyBtn
+            .classList
+            .add(
+                "denied"
+            );
+
+
+        notifyBtn.title =
+            "ئاگەهداری هاتینە بلۆککرن";
+
+
+        return;
+    }
+
+
+    notifyBtn
+        .classList
+        .add(
+            "need-permission"
+        );
+
+
+    notifyBtn.title =
+        "چالاککرنا ئاگەهداریان";
+
+}
+
+
+/* ========================================
+   DEVICE
+======================================== */
+
+function isIOSDevice() {
+
+    return (
+
+        /iPad|iPhone|iPod/
+            .test(
+                navigator.userAgent
             )
-        );
-    }
+
+        ||
+
+        (
+            navigator.platform ===
+            "MacIntel"
+
+            &&
+
+            navigator.maxTouchPoints >
+            1
+        )
+
+    );
+
+}
 
 
-    function isStandalonePWA() {
-        return (
-            window.matchMedia(
-                "(display-mode: standalone)"
-            ).matches ||
-            window.navigator.standalone === true
-        );
-    }
+function isStandalonePWA() {
+
+    return (
+
+        window.matchMedia(
+            "(display-mode: standalone)"
+        ).matches
+
+        ||
+
+        window.navigator
+            .standalone ===
+            true
+
+    );
+
+}
 
 
-    notifyBtn.addEventListener(
-        "click",
-        async function() {
-            await unlockAudio();
+/* ========================================
+   ENABLE PUSH
+======================================== */
 
-            if (!currentUser) {
-                return;
-            }
+notifyBtn.addEventListener(
+    "click",
+    async function() {
 
-            if (!window.isSecureContext) {
-                showToast(
-                    "ئاگەهدارییا موبایلێ پێدڤی ب HTTPS هەیە.",
-                    "error"
+
+        await unlockAudio();
+
+
+        if (
+            !currentUser
+        ) {
+
+            return;
+        }
+
+
+        if (
+            !window.isSecureContext
+        ) {
+
+            showToast(
+                "ئاگەهدارییا موبایلێ پێدڤی ب HTTPS هەیە.",
+                "error"
+            );
+
+
+            return;
+        }
+
+
+        if (
+            isIOSDevice()
+
+            &&
+
+            !isStandalonePWA()
+        ) {
+
+            showToast(
+                "ل iPhone/iPad، وێبسایتێ ژ Safari بکە Add to Home Screen، پاشی ژ ئایکۆنێ Office ڤەکە و دوگمەیا ئاگەهداریێ بکلیکە.",
+                "error"
+            );
+
+
+            return;
+        }
+
+
+        try {
+
+            const OneSignal =
+                oneSignalInstance
+
+                ||
+
+                await setupOneSignal(
+                    currentUser
                 );
-                return;
-            }
 
-            
+
             if (
-                isIOSDevice() &&
-                !isStandalonePWA()
+                !OneSignal
+                    .Notifications
+                    .isPushSupported()
             ) {
-                showToast(
-                    "ل iPhone/iPad، وێبسایتێ ژ Safari بکە Add to Home Screen، پاشی ژ ئایکۆنێ Office ڤەکە و دوگمەیا ئاگەهداریێ بکلیکە.",
-                    "error"
-                );
-                return;
-            }
-
-            try {
-                const OneSignal =
-                    oneSignalInstance ||
-                    await setupOneSignal(currentUser);
-
-                if (
-                    !OneSignal.Notifications.isPushSupported()
-                ) {
-                    updateNotificationButton(
-                        false,
-                        "denied"
-                    );
-
-                    showToast(
-                        "ڤی براوزەری پشتگیریا Push Notification ناکەت.",
-                        "error"
-                    );
-                    return;
-                }
-
-                if (
-                    OneSignal.Notifications.permissionNative ===
-                    "denied"
-                ) {
-                    updateNotificationButton(
-                        false,
-                        "denied"
-                    );
-
-                    showToast(
-                        "ئاگەهداری هاتینە بلۆککرن. ژ Settings یێ براوزەرێ رێک بدە.",
-                        "error"
-                    );
-                    return;
-                }
-
-                const granted =
-                    await OneSignal.Notifications.requestPermission();
 
                 updateNotificationButton(
-                    granted ||
-                    OneSignal.Notifications.permission,
-                    OneSignal.Notifications.permissionNative
+                    false,
+                    "denied"
                 );
 
-                if (
-                    granted ||
-                    OneSignal.Notifications.permission
-                ) {
-                    showToast(
-                        "ئاگەهداری ب سەرکەفتی هاتنە چالاککرن.",
-                        "success"
-                    );
-
-                    await playNotificationSound();
-                }
-                else {
-                    showToast(
-                        "رێک نەهاتە دان بۆ ئاگەهداریان.",
-                        "error"
-                    );
-                }
-            }
-            catch (error) {
-                console.error(
-                    "OneSignal permission error:",
-                    error
-                );
 
                 showToast(
-                    "ئاگەهداری نەهاتنە چالاککرن.",
+                    "ڤی براوزەری پشتگیریا Push Notification ناکەت.",
                     "error"
                 );
+
+
+                return;
             }
+
+
+            if (
+                OneSignal
+                    .Notifications
+                    .permissionNative ===
+                "denied"
+            ) {
+
+                updateNotificationButton(
+                    false,
+                    "denied"
+                );
+
+
+                showToast(
+                    "ئاگەهداری هاتینە بلۆککرن. ژ Settings یێ براوزەرێ رێک بدە.",
+                    "error"
+                );
+
+
+                return;
+            }
+
+
+            const granted =
+                await OneSignal
+                    .Notifications
+                    .requestPermission();
+
+
+            updateNotificationButton(
+
+                granted
+
+                ||
+
+                OneSignal
+                    .Notifications
+                    .permission,
+
+                OneSignal
+                    .Notifications
+                    .permissionNative
+
+            );
+
+
+            if (
+                granted
+
+                ||
+
+                OneSignal
+                    .Notifications
+                    .permission
+            ) {
+
+                showToast(
+                    "ئاگەهداری ب سەرکەفتی هاتنە چالاککرن.",
+                    "success"
+                );
+
+
+                await playNotificationSound();
+
+            }
+            else {
+
+                showToast(
+                    "رێک نەهاتە دان بۆ ئاگەهداریان.",
+                    "error"
+                );
+
+            }
+
+        }
+        catch(error) {
+
+            console.error(
+                "OneSignal permission error:",
+                error
+            );
+
+
+            showToast(
+                "ئاگەهداری نەهاتنە چالاککرن.",
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* ========================================
+   LEAVE REQUEST LISTENER
+======================================== */
+
+function startNotificationsListener() {
+
+    const requestsQuery =
+        query(
+
+            ref(
+                database,
+                "leaveRequests"
+            ),
+
+            orderByChild(
+                "userId"
+            ),
+
+            equalTo(
+                currentUser.uid
+            )
+
+        );
+
+
+    onValue(
+
+        requestsQuery,
+
+        async function(
+            snapshot
+        ) {
+
+
+            const data =
+                snapshot.exists()
+
+                    ?
+
+                    snapshot.val() ||
+                    {}
+
+                    :
+
+                    {};
+
+
+            /* ================================
+               FIRST LOAD
+            ================================ */
+
+            if (
+                firstRequestsLoad
+            ) {
+
+                previousStatuses =
+                    new Map();
+
+
+                Object.entries(
+                    data
+                ).forEach(
+
+                    function(
+                        [
+                            requestId,
+                            request
+                        ]
+                    ) {
+
+                        previousStatuses
+                            .set(
+
+                                requestId,
+
+                                request.status ||
+                                "pending"
+
+                            );
+
+                    }
+
+                );
+
+
+                firstRequestsLoad =
+                    false;
+
+
+                requestsCache =
+                    data;
+
+
+                renderNotifications();
+
+
+                return;
+            }
+
+
+            /* ================================
+               DETECT STATUS CHANGE
+            ================================ */
+
+            const changedRequests =
+                [];
+
+
+            Object.entries(
+                data
+            ).forEach(
+
+                function(
+                    [
+                        requestId,
+                        request
+                    ]
+                ) {
+
+
+                    const oldStatus =
+                        previousStatuses
+                            .get(
+                                requestId
+                            );
+
+
+                    const newStatus =
+                        request.status ||
+                        "pending";
+
+
+                    if (
+
+                        oldStatus
+
+                        &&
+
+                        oldStatus !==
+                        newStatus
+
+                        &&
+
+                        (
+                            newStatus ===
+                            "approved"
+
+                            ||
+
+                            newStatus ===
+                            "rejected"
+                        )
+
+                    ) {
+
+                        changedRequests
+                            .push({
+
+                                requestId,
+
+                                request
+
+                            });
+
+                    }
+
+                }
+
+            );
+
+
+            previousStatuses =
+                new Map();
+
+
+            Object.entries(
+                data
+            ).forEach(
+
+                function(
+                    [
+                        requestId,
+                        request
+                    ]
+                ) {
+
+                    previousStatuses
+                        .set(
+
+                            requestId,
+
+                            request.status ||
+                            "pending"
+
+                        );
+
+                }
+
+            );
+
+
+            requestsCache =
+                data;
+
+
+            renderNotifications();
+
+
+            for (
+                const changed
+                of changedRequests
+            ) {
+
+                await handleDecisionNotification(
+
+                    changed.requestId,
+
+                    changed.request
+
+                );
+
+            }
+
+        },
+
+        function(
+            error
+        ) {
+
+            console.error(
+                "Notification listener error:",
+                error
+            );
+
+
+            recordsContainer.innerHTML = `
+
+                <div class="state-box">
+
+                    <h3>
+                        ئاگەهداری
+                    </h3>
+
+                    <p>
+                        ئاگەهداری نەهاتنە بارکرن
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    );
+
+}
+
+
+/* ========================================
+   NEW DECISION
+======================================== */
+
+async function handleDecisionNotification(
+    requestId,
+    request
+) {
+
+    await playNotificationSound();
+
+
+    if (
+        request.status ===
+        "approved"
+    ) {
+
+        showToast(
+            "مولەتا تە هاتە پەسەندکرن",
+            "success"
+        );
+
+    }
+    else {
+
+        showToast(
+
+            request.rejectReason
+
+                ?
+
+                `مولەتا تە هاتە رەتکرن - هۆکار: ${request.rejectReason}`
+
+                :
+
+                "مولەتا تە هاتە رەتکرن",
+
+            "error"
+
+        );
+
+    }
+
+}
+
+
+/* ========================================
+   HISTORY READ STATE
+
+   IMPORTANT:
+   SAME KEY AS DASHBOARD:
+   office_read_history_UID
+======================================== */
+
+function getSeenKey() {
+
+    return currentUser
+
+        ?
+
+        `office_read_history_${currentUser.uid}`
+
+        :
+
+        "office_read_history_guest";
+
+}
+
+
+function getSeenNotifications() {
+
+    try {
+
+        const saved =
+            JSON.parse(
+
+                localStorage.getItem(
+                    getSeenKey()
+                )
+
+                ||
+
+                "[]"
+
+            );
+
+
+        return Array.isArray(
+            saved
+        )
+
+            ?
+
+            saved
+
+            :
+
+            [];
+
+    }
+    catch(error) {
+
+        console.error(
+            "Read history storage error:",
+            error
+        );
+
+
+        return [];
+
+    }
+
+}
+
+
+/* ========================================
+   MARK HISTORY AS READ
+======================================== */
+
+function markNotificationSeen(
+    requestId
+) {
+
+    const seen =
+        getSeenNotifications();
+
+
+    if (
+        !seen.includes(
+            requestId
+        )
+    ) {
+
+        seen.push(
+            requestId
+        );
+
+
+        localStorage.setItem(
+
+            getSeenKey(),
+
+            JSON.stringify(
+                seen
+            )
+
+        );
+
+    }
+
+
+    const card =
+        recordsContainer
+            .querySelector(
+
+                `[data-request-id="${requestId}"]`
+
+            );
+
+
+    if (
+        card
+    ) {
+
+        card
+            .classList
+            .remove(
+                "new-notification"
+            );
+
+    }
+
+}
+
+
+/* ========================================
+   RENDER HISTORY
+======================================== */
+
+function renderNotifications() {
+
+    const requests =
+        Object.entries(
+            requestsCache
+        )
+
+            .filter(
+
+                (
+                    [
+                        requestId,
+                        request
+                    ]
+                ) => {
+
+                    const status =
+                        String(
+                            request?.status ||
+                            ""
+                        )
+                            .toLowerCase();
+
+
+                    return (
+                        status ===
+                        "approved"
+
+                        ||
+
+                        status ===
+                        "rejected"
+                    );
+
+                }
+
+            );
+
+
+    if (
+        requests.length ===
+        0
+    ) {
+
+        renderEmptyState();
+
+        return;
+    }
+
+
+    requests.sort(
+        (
+            a,
+            b
+        ) => {
+
+
+            const first =
+                Number(
+
+                    a[1].reviewedAt
+
+                    ||
+
+                    a[1].createdAt
+
+                )
+
+                ||
+
+                0;
+
+
+            const second =
+                Number(
+
+                    b[1].reviewedAt
+
+                    ||
+
+                    b[1].createdAt
+
+                )
+
+                ||
+
+                0;
+
+
+            return (
+                second -
+                first
+            );
+
         }
     );
 
 
-    
+    const seen =
+        getSeenNotifications();
 
-    function startNotificationsListener() {
-        const requestsQuery = query(
-            ref(database, "leaveRequests"),
-            orderByChild("userId"),
-            equalTo(currentUser.uid)
-        );
 
-        onValue(
-            requestsQuery,
-            async function(snapshot) {
-                const data =
-                    snapshot.exists()
-                        ? snapshot.val() || {}
-                        : {};
+    recordsContainer.innerHTML =
+        "";
 
-                /*
-                 * First load:
-                 * remember existing statuses without playing
-                 * sounds for old decisions.
-                 */
-                if (firstRequestsLoad) {
-                    previousStatuses = new Map();
 
-                    Object.entries(data).forEach(
-                        function([requestId, request]) {
-                            previousStatuses.set(
-                                requestId,
-                                request.status || "pending"
-                            );
-                        }
-                    );
+    requests.forEach(
 
-                    firstRequestsLoad = false;
-                    requestsCache = data;
+        function(
+            [
+                requestId,
+                request
+            ]
+        ) {
 
-                    renderNotifications();
-                    return;
-                }
 
-                const changedRequests = [];
+            const approved =
+                String(
+                    request.status ||
+                    ""
+                ).toLowerCase() ===
+                "approved";
 
-                Object.entries(data).forEach(
-                    function([requestId, request]) {
-                        const oldStatus =
-                            previousStatuses.get(requestId);
 
-                        const newStatus =
-                            request.status || "pending";
-
-                        if (
-                            oldStatus &&
-                            oldStatus !== newStatus &&
-                            (
-                                newStatus === "approved" ||
-                                newStatus === "rejected"
-                            )
-                        ) {
-                            changedRequests.push({
-                                requestId,
-                                request
-                            });
-                        }
-                    }
+            const card =
+                document.createElement(
+                    "div"
                 );
 
-                previousStatuses = new Map();
 
-                Object.entries(data).forEach(
-                    function([requestId, request]) {
-                        previousStatuses.set(
-                            requestId,
-                            request.status || "pending"
-                        );
-                    }
+            card.className =
+                "record-card";
+
+
+            card.dataset.requestId =
+                requestId;
+
+
+            /* =================================
+               IF NOT OPENED YET
+               SHOW AS NEW
+            ================================= */
+
+            if (
+                !seen.includes(
+                    requestId
+                )
+            ) {
+
+                card.classList.add(
+                    "new-notification"
                 );
 
-                requestsCache = data;
-                renderNotifications();
-
-                
-                for (const changed of changedRequests) {
-                    await handleDecisionNotification(
-                        changed.requestId,
-                        changed.request
-                    );
-                }
-            },
-
-            function(error) {
-                console.error(
-                    "Notification listener error:",
-                    error
-                );
-
-                recordsContainer.innerHTML = `
-                    <div class="state-box">
-                        <h3>ئاگەهداری</h3>
-                        <p>ئاگەهداری نەهاتنە بارکرن</p>
-                    </div>
-                `;
             }
-        );
-    }
 
 
-    
+            const statusClass =
+                approved
 
-    async function handleDecisionNotification(
-        requestId,
-        request
-    ) {
-        
-        await playNotificationSound();
+                    ?
 
-        if (request.status === "approved") {
-            showToast(
-                "مولەتا تە هاتە پەسەندکرن",
-                "success"
-            );
-        }
-        else {
-            showToast(
-                request.rejectReason
-                    ? `مولەتا تە هاتە رەتکرن - هۆکار: ${request.rejectReason}`
-                    : "مولەتا تە هاتە رەتکرن",
-                "error"
-            );
-        }
-    }
+                    "status-approved"
+
+                    :
+
+                    "status-rejected";
 
 
-    
+            const statusText =
+                approved
 
-    function renderNotifications() {
-        const requests =
-            Object.entries(requestsCache)
-                .filter(
-                    ([, request]) =>
-                        request.status === "approved" ||
-                        request.status === "rejected"
-                );
+                    ?
 
-        if (requests.length === 0) {
-            renderEmptyState();
-            return;
-        }
+                    "پەسەندکری"
 
-        requests.sort((a, b) => {
-            const first =
-                Number(
-                    a[1].reviewedAt ||
-                    a[1].createdAt
-                ) || 0;
+                    :
 
-            const second =
-                Number(
-                    b[1].reviewedAt ||
-                    b[1].createdAt
-                ) || 0;
+                    "رەتکری";
 
-            return second - first;
-        });
 
-        const seen =
-            getSeenNotifications();
+            const title =
+                approved
 
-        recordsContainer.innerHTML = "";
+                    ?
 
-        requests.forEach(
-            function([requestId, request]) {
-                const approved =
-                    request.status === "approved";
+                    "داواکارییا مولەتێ هاتە پەسەندکرن"
 
-                const card =
-                    document.createElement("div");
+                    :
 
-                card.className =
-                    "record-card";
+                    "داواکارییا مولەتێ هاتە رەتکرن";
 
-                card.dataset.requestId =
-                    requestId;
 
-                if (!seen.includes(requestId)) {
-                    card.classList.add(
-                        "new-notification"
-                    );
-                }
+            card.innerHTML = `
 
-                const statusClass =
-                    approved
-                        ? "status-approved"
-                        : "status-rejected";
+                <div class="card-header">
 
-                const statusText =
-                    approved
-                        ? "پەسەندکری"
-                        : "رەتکری";
 
-                const title =
-                    approved
-                        ? "داواکارییا مولەتێ هاتە پەسەندکرن"
-                        : "داواکارییا مولەتێ هاتە رەتکرن";
+                    <span
+                        class="
+                            status-badge
+                            ${statusClass}
+                        "
+                    >
 
-                card.innerHTML = `
-                    <div class="card-header">
+                        ${statusText}
 
-                        <span
-                            class="status-badge ${statusClass}"
+                    </span>
+
+
+                    <span class="req-date">
+
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
                         >
-                            ${statusText}
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+
+                        </svg>
+
+
+                        <span dir="ltr">
+
+                            ${escapeHTML(
+
+                                formatDateOnly(
+
+                                    request.reviewedAt
+
+                                    ||
+
+                                    request.createdAt
+
+                                )
+
+                            )}
+
                         </span>
 
-                        <span class="req-date">
 
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                />
-                            </svg>
+                    </span>
+
+
+                </div>
+
+
+                <div class="user-info">
+
+
+                    <div class="user-icon">
+
+                        ${
+                            approved
+
+                                ?
+
+                                `
+
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2.5"
+                                    >
+
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M5 13l4 4L19 7"
+                                        />
+
+                                    </svg>
+
+                                `
+
+                                :
+
+                                `
+
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2.5"
+                                    >
+
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+
+                                    </svg>
+
+                                `
+                        }
+
+                    </div>
+
+
+                    <div class="user-details">
+
+
+                        <h3>
+
+                            ${escapeHTML(
+                                title
+                            )}
+
+                        </h3>
+
+
+                        <p>
+
+                            رێکەفتنا مولەتێ
 
                             <span dir="ltr">
+
                                 ${escapeHTML(
-                                    formatDateOnly(
-                                        request.reviewedAt ||
-                                        request.createdAt
+
+                                    formatLeaveDate(
+                                        request.leaveDate
                                     )
+
                                 )}
+
                             </span>
 
-                        </span>
-                    </div>
+                        </p>
 
-                    <div class="user-info">
-
-                        <div class="user-icon">
-                            ${
-                                approved
-                                    ? `
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            stroke-width="2.5"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M5 13l4 4L19 7"
-                                            />
-                                        </svg>
-                                    `
-                                    : `
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            stroke-width="2.5"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M6 18L18 6M6 6l12 12"
-                                            />
-                                        </svg>
-                                    `
-                            }
-                        </div>
-
-                        <div class="user-details">
-                            <h3>
-                                ${escapeHTML(title)}
-                            </h3>
-
-                            <p>
-                                رێکەفتنا مولەتێ
-                                <span dir="ltr">
-                                    ${escapeHTML(
-                                        formatLeaveDate(
-                                            request.leaveDate
-                                        )
-                                    )}
-                                </span>
-                            </p>
-                        </div>
 
                     </div>
-                `;
 
-                card.addEventListener(
-                    "click",
-                    function() {
-                        openNotification(
-                            requestId
-                        );
-                    }
+
+                </div>
+
+            `;
+
+
+            card.addEventListener(
+
+                "click",
+
+                function() {
+
+                    openNotification(
+                        requestId
+                    );
+
+                }
+
+            );
+
+
+            recordsContainer
+                .appendChild(
+                    card
                 );
 
-                recordsContainer.appendChild(card);
-            }
-        );
-    }
-
-
-    
-
-    function renderEmptyState() {
-        recordsContainer.innerHTML = `
-            <div class="state-box">
-
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341A6 6 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1"
-                    />
-                </svg>
-
-                <h3>
-                    ئاگەهداری نینن
-                </h3>
-
-                <p>
-                    ل دەمێ رێڤەبەر داواکارییا تە پەسەند یان رەت بکەت، ل ڤێرێ دێ دیار بیت.
-                </p>
-
-            </div>
-        `;
-    }
-
-
-    
-
-    function openNotification(requestId) {
-        const request =
-            requestsCache[requestId];
-
-        if (!request) {
-            return;
         }
 
-        const approved =
-            request.status === "approved";
+    );
 
-        mdlDecisionBox.classList.remove(
+}
+
+
+/* ========================================
+   EMPTY
+======================================== */
+
+function renderEmptyState() {
+
+    recordsContainer.innerHTML = `
+
+        <div class="state-box">
+
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341A6 6 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1"
+                />
+
+            </svg>
+
+
+            <h3>
+                تومار نینن
+            </h3>
+
+
+            <p>
+                ل دەمێ رێڤەبەر داواکارییا تە پەسەند یان رەت بکەت، ل ڤێرێ دێ دیار بیت.
+            </p>
+
+
+        </div>
+
+    `;
+
+}
+
+
+/* ========================================
+   OPEN HISTORY MESSAGE
+======================================== */
+
+function openNotification(
+    requestId
+) {
+
+    const request =
+        requestsCache[
+            requestId
+        ];
+
+
+    if (
+        !request
+    ) {
+
+        return;
+    }
+
+
+    const approved =
+        String(
+            request.status ||
+            ""
+        ).toLowerCase() ===
+        "approved";
+
+
+    mdlDecisionBox
+        .classList
+        .remove(
             "decision-approved",
             "decision-rejected"
         );
 
-        if (approved) {
-            mdlDecisionBox.classList.add(
+
+    if (
+        approved
+    ) {
+
+        mdlDecisionBox
+            .classList
+            .add(
                 "decision-approved"
             );
 
-            mdlDecision.textContent =
-                "داواکارییا تە هاتە پەسەندکرن";
-        }
-        else {
-            mdlDecisionBox.classList.add(
+
+        mdlDecision.textContent =
+            "داواکارییا تە هاتە پەسەندکرن";
+
+    }
+    else {
+
+        mdlDecisionBox
+            .classList
+            .add(
                 "decision-rejected"
             );
 
-            mdlDecision.textContent =
-                "داواکارییا تە هاتە رەتکرن";
-        }
 
-        mdlReqDate.textContent =
-            formatDateTime(
-                request.createdAt
-            );
+        mdlDecision.textContent =
+            "داواکارییا تە هاتە رەتکرن";
 
-        mdlLeaveDate.textContent =
-            formatLeaveDate(
-                request.leaveDate
-            );
+    }
 
-        mdlType.textContent =
-            request.leaveTypeText ||
-            (
-                request.leaveType === "hours"
-                    ? "دەمژمێر"
-                    : "تەمامیا دەمێ کاری"
-            );
 
-        if (request.leaveType === "hours") {
-            mdlTimeBox.style.display =
-                "flex";
+    mdlReqDate.textContent =
+        formatDateTime(
+            request.createdAt
+        );
 
-            mdlTime.textContent =
-                `${formatTime(
-                    request.startTime
-                )} - ${formatTime(
-                    request.endTime
-                )}`;
-        }
-        else {
-            mdlTimeBox.style.display =
-                "none";
-        }
 
-        mdlReviewDate.textContent =
-            formatDateTime(
-                request.reviewedAt
-            );
+    mdlLeaveDate.textContent =
+        formatLeaveDate(
+            request.leaveDate
+        );
 
-        if (
-            request.status === "rejected" &&
-            request.rejectReason
-        ) {
-            mdlReasonBox.style.display =
-                "flex";
 
-            mdlReason.textContent =
-                request.rejectReason;
-        }
-        else {
-            mdlReasonBox.style.display =
-                "none";
-        }
+    mdlType.textContent =
+        request.leaveTypeText
 
-        markNotificationSeen(requestId);
+        ||
 
-        detailsModal.classList.add(
+        (
+            request.leaveType ===
+            "hours"
+
+                ?
+
+                "دەمژمێر"
+
+                :
+
+                "تەمامیا دەمێ کاری"
+        );
+
+
+    if (
+        request.leaveType ===
+        "hours"
+    ) {
+
+        mdlTimeBox.style.display =
+            "flex";
+
+
+        mdlTime.textContent =
+            `${formatTime(
+                request.startTime
+            )} - ${formatTime(
+                request.endTime
+            )}`;
+
+    }
+    else {
+
+        mdlTimeBox.style.display =
+            "none";
+
+    }
+
+
+    mdlReviewDate.textContent =
+        formatDateTime(
+            request.reviewedAt
+        );
+
+
+    if (
+
+        request.status ===
+        "rejected"
+
+        &&
+
+        request.rejectReason
+
+    ) {
+
+        mdlReasonBox.style.display =
+            "flex";
+
+
+        mdlReason.textContent =
+            request.rejectReason;
+
+    }
+    else {
+
+        mdlReasonBox.style.display =
+            "none";
+
+    }
+
+
+    /* =====================================
+       IMPORTANT
+
+       The record becomes READ only when
+       the user actually clicks the record.
+    ===================================== */
+
+    markNotificationSeen(
+        requestId
+    );
+
+
+    detailsModal
+        .classList
+        .add(
             "active"
         );
-    }
+
+}
 
 
-    /* ========================================
-       SEEN NOTIFICATIONS
-    ======================================== */
+/* ========================================
+   AUDIO
+======================================== */
 
-    function getSeenKey() {
-        return currentUser
-            ? `seenLeaveDecisions_${currentUser.uid}`
-            : "seenLeaveDecisions";
-    }
+async function unlockAudio() {
 
+    try {
 
-    function getSeenNotifications() {
-        try {
-            return JSON.parse(
-                localStorage.getItem(
-                    getSeenKey()
-                ) || "[]"
-            );
-        }
-        catch {
-            return [];
-        }
-    }
+        const AudioContextClass =
+            window.AudioContext
+
+            ||
+
+            window.webkitAudioContext;
 
 
-    function markNotificationSeen(requestId) {
-        const seen =
-            getSeenNotifications();
-
-        if (!seen.includes(requestId)) {
-            seen.push(requestId);
-
-            localStorage.setItem(
-                getSeenKey(),
-                JSON.stringify(seen)
-            );
-        }
-
-        const card =
-            recordsContainer.querySelector(
-                `[data-request-id="${requestId}"]`
-            );
-
-        if (card) {
-            card.classList.remove(
-                "new-notification"
-            );
-        }
-    }
-
-
-    
-
-    async function unlockAudio() {
-        try {
-            const AudioContextClass =
-                window.AudioContext ||
-                window.webkitAudioContext;
-
-            if (!AudioContextClass) {
-                return false;
-            }
-
-            if (!audioContext) {
-                audioContext =
-                    new AudioContextClass();
-            }
-
-            if (
-                audioContext.state ===
-                "suspended"
-            ) {
-                await audioContext.resume();
-            }
-
-            return (
-                audioContext.state ===
-                "running"
-            );
-        }
-        catch (error) {
-            console.error(
-                "Audio error:",
-                error
-            );
+        if (
+            !AudioContextClass
+        ) {
 
             return false;
         }
-    }
 
 
-    async function playNotificationSound() {
-        const ready =
-            await unlockAudio();
+        if (
+            !audioContext
+        ) {
 
-        if (!ready || !audioContext) {
-            return;
+            audioContext =
+                new AudioContextClass();
+
         }
 
-        const now =
-            audioContext.currentTime;
 
-        playTone(
-            740,
-            now,
-            0.20
+        if (
+            audioContext.state ===
+            "suspended"
+        ) {
+
+            await audioContext
+                .resume();
+
+        }
+
+
+        return (
+            audioContext.state ===
+            "running"
         );
 
-        playTone(
-            980,
-            now + 0.23,
-            0.30
+    }
+    catch(error) {
+
+        console.error(
+            "Audio error:",
+            error
         );
+
+
+        return false;
+
     }
 
+}
 
-    function playTone(
-        frequency,
-        start,
-        duration
+
+/* ========================================
+   SOUND
+======================================== */
+
+async function playNotificationSound() {
+
+    const ready =
+        await unlockAudio();
+
+
+    if (
+        !ready
+
+        ||
+
+        !audioContext
     ) {
-        const oscillator =
-            audioContext.createOscillator();
 
-        const gain =
-            audioContext.createGain();
-
-        oscillator.type =
-            "sine";
-
-        oscillator.frequency
-            .setValueAtTime(
-                frequency,
-                start
-            );
-
-        gain.gain
-            .setValueAtTime(
-                0.0001,
-                start
-            );
-
-        gain.gain
-            .exponentialRampToValueAtTime(
-                0.30,
-                start + 0.02
-            );
-
-        gain.gain
-            .exponentialRampToValueAtTime(
-                0.0001,
-                start + duration
-            );
-
-        oscillator.connect(gain);
-        gain.connect(
-            audioContext.destination
-        );
-
-        oscillator.start(start);
-
-        oscillator.stop(
-            start + duration + 0.05
-        );
+        return;
     }
 
 
-    document.addEventListener(
-        "pointerdown",
-        function unlockOnce() {
-            unlockAudio();
+    const now =
+        audioContext.currentTime;
 
-            document.removeEventListener(
-                "pointerdown",
-                unlockOnce
-            );
-        }
+
+    playTone(
+        740,
+        now,
+        0.20
     );
 
 
-    
+    playTone(
+        980,
+        now + 0.23,
+        0.30
+    );
 
-    closeModalBtn.addEventListener(
-        "click",
-        function() {
-            detailsModal.classList.remove(
+}
+
+
+function playTone(
+    frequency,
+    start,
+    duration
+) {
+
+    const oscillator =
+        audioContext
+            .createOscillator();
+
+
+    const gain =
+        audioContext
+            .createGain();
+
+
+    oscillator.type =
+        "sine";
+
+
+    oscillator
+        .frequency
+        .setValueAtTime(
+            frequency,
+            start
+        );
+
+
+    gain
+        .gain
+        .setValueAtTime(
+            0.0001,
+            start
+        );
+
+
+    gain
+        .gain
+        .exponentialRampToValueAtTime(
+            0.30,
+            start + 0.02
+        );
+
+
+    gain
+        .gain
+        .exponentialRampToValueAtTime(
+            0.0001,
+            start + duration
+        );
+
+
+    oscillator.connect(
+        gain
+    );
+
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    oscillator.start(
+        start
+    );
+
+
+    oscillator.stop(
+        start +
+        duration +
+        0.05
+    );
+
+}
+
+
+/* ========================================
+   UNLOCK AUDIO
+======================================== */
+
+document.addEventListener(
+
+    "pointerdown",
+
+    function unlockOnce() {
+
+
+        unlockAudio();
+
+
+        document.removeEventListener(
+            "pointerdown",
+            unlockOnce
+        );
+
+    }
+
+);
+
+
+/* ========================================
+   CLOSE MODAL
+======================================== */
+
+closeModalBtn.addEventListener(
+
+    "click",
+
+    function() {
+
+        detailsModal
+            .classList
+            .remove(
                 "active"
             );
-        }
-    );
 
-    detailsModal.addEventListener(
-        "click",
-        function(event) {
-            if (event.target === detailsModal) {
-                detailsModal.classList.remove(
+    }
+
+);
+
+
+detailsModal.addEventListener(
+
+    "click",
+
+    function(
+        event
+    ) {
+
+        if (
+            event.target ===
+            detailsModal
+        ) {
+
+            detailsModal
+                .classList
+                .remove(
                     "active"
                 );
-            }
+
         }
+
+    }
+
+);
+
+
+document.addEventListener(
+
+    "keydown",
+
+    function(
+        event
+    ) {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            detailsModal
+                .classList
+                .remove(
+                    "active"
+                );
+
+        }
+
+    }
+
+);
+
+
+/* ========================================
+   FORMAT LEAVE DATE
+======================================== */
+
+function formatLeaveDate(
+    value
+) {
+
+    if (
+        !value
+    ) {
+
+        return "--";
+    }
+
+
+    const parts =
+        String(
+            value
+        ).split(
+            "-"
+        );
+
+
+    if (
+        parts.length !==
+        3
+    ) {
+
+        return value;
+    }
+
+
+    return (
+        `${parts[2]}/${parts[1]}/${parts[0]}`
     );
 
+}
 
-    
 
-    function formatLeaveDate(value) {
-        if (!value) {
-            return "--";
-        }
+/* ========================================
+   DATE ONLY
+======================================== */
 
-        const parts =
-            String(value).split("-");
+function formatDateOnly(
+    timestamp
+) {
 
-        if (parts.length !== 3) {
-            return value;
-        }
+    if (
+        !timestamp
 
-        return (
-            `${parts[2]}/${parts[1]}/${parts[0]}`
+        ||
+
+        !Number(
+            timestamp
+        )
+    ) {
+
+        return "--/--/----";
+
+    }
+
+
+    const date =
+        new Date(
+            Number(
+                timestamp
+            )
         );
+
+
+    return (
+
+        `${pad(
+            date.getDate()
+        )}/${pad(
+            date.getMonth() + 1
+        )}/${date.getFullYear()}`
+
+    );
+
+}
+
+
+/* ========================================
+   DATE + TIME
+======================================== */
+
+function formatDateTime(
+    timestamp
+) {
+
+    if (
+        !timestamp
+
+        ||
+
+        !Number(
+            timestamp
+        )
+    ) {
+
+        return "--";
+
     }
 
 
-    function formatDateOnly(timestamp) {
-        if (
-            !timestamp ||
-            !Number(timestamp)
-        ) {
-            return "--/--/----";
-        }
-
-        const date =
-            new Date(Number(timestamp));
-
-        return (
-            `${pad(
-                date.getDate()
-            )}/${pad(
-                date.getMonth() + 1
-            )}/${date.getFullYear()}`
+    const date =
+        new Date(
+            Number(
+                timestamp
+            )
         );
+
+
+    const rawTime =
+        `${pad(
+            date.getHours()
+        )}:${pad(
+            date.getMinutes()
+        )}`;
+
+
+    return (
+
+        `${pad(
+            date.getDate()
+        )}/${pad(
+            date.getMonth() + 1
+        )}/${date.getFullYear()} - ${formatTime(
+            rawTime
+        )}`
+
+    );
+
+}
+
+
+/* ========================================
+   TIME
+======================================== */
+
+function formatTime(
+    time
+) {
+
+    if (
+        !time
+    ) {
+
+        return "--";
+
     }
 
 
-    function formatDateTime(timestamp) {
-        if (
-            !timestamp ||
-            !Number(timestamp)
-        ) {
-            return "--";
-        }
-
-        const date =
-            new Date(Number(timestamp));
-
-        const rawTime =
-            `${pad(
-                date.getHours()
-            )}:${pad(
-                date.getMinutes()
-            )}`;
-
-        return (
-            `${pad(
-                date.getDate()
-            )}/${pad(
-                date.getMonth() + 1
-            )}/${date.getFullYear()} - ${formatTime(
-                rawTime
-            )}`
+    const parts =
+        String(
+            time
+        ).split(
+            ":"
         );
-    }
 
 
-    function formatTime(time) {
-        if (!time) {
-            return "--";
-        }
-
-        const parts =
-            String(time).split(":");
-
-        let hour =
-            Number(parts[0]);
-
-        const minute =
-            parts[1] || "00";
-
-        const suffix =
-            hour >= 12
-                ? "PM"
-                : "AM";
-
-        hour =
-            hour % 12 || 12;
-
-        return (
-            `${pad(hour)}:${minute} ${suffix}`
+    let hour =
+        Number(
+            parts[0]
         );
-    }
 
 
-    function pad(number) {
-        return String(number)
-            .padStart(2, "0");
-    }
+    const minute =
+        parts[1] ||
+        "00";
 
 
-    function escapeHTML(value) {
-        return String(value ?? "")
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
-    }
+    const suffix =
+        hour >= 12
+
+            ?
+
+            "PM"
+
+            :
+
+            "AM";
+
+
+    hour =
+        hour % 12 ||
+        12;
+
+
+    return (
+        `${pad(hour)}:${minute} ${suffix}`
+    );
+
+}
+
+
+/* ========================================
+   PAD
+======================================== */
+
+function pad(
+    number
+) {
+
+    return String(
+        number
+    ).padStart(
+        2,
+        "0"
+    );
+
+}
+
+
+/* ========================================
+   SAFE HTML
+======================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
 </script>
-
 
 </body>
 
