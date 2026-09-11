@@ -37,9 +37,7 @@
         }
 
 
-        /* ========================================
-           WRAPPER
-        ======================================== */
+        
 
         .wrapper {
             display: flex;
@@ -55,9 +53,7 @@
         }
 
 
-        /* ========================================
-           TOP BAR
-        ======================================== */
+        
 
         .top-bar {
             display: flex;
@@ -195,9 +191,7 @@
         }
 
 
-        /* ========================================
-           RECORDS
-        ======================================== */
+        
 
         .records-container {
             display: flex;
@@ -248,9 +242,7 @@
         }
 
 
-        /* ========================================
-           NEW / UNREAD
-        ======================================== */
+        
 
         .record-card.new-notification {
             background:
@@ -309,9 +301,7 @@
         }
 
 
-        /* ========================================
-           CARD HEADER
-        ======================================== */
+        
 
         .card-header {
             display: flex;
@@ -375,9 +365,7 @@
         }
 
 
-        /* ========================================
-           USER INFO
-        ======================================== */
+        
 
         .user-info {
             display: flex;
@@ -436,9 +424,7 @@
         }
 
 
-        /* ========================================
-           EMPTY / LOADING
-        ======================================== */
+       
 
         .state-box {
             width: 100%;
@@ -490,9 +476,7 @@
         }
 
 
-        /* ========================================
-           TOAST
-        ======================================== */
+        
 
         .toast {
             position: fixed;
@@ -554,9 +538,7 @@
         }
 
 
-        /* ========================================
-           MODAL
-        ======================================== */
+        
 
         .modal-overlay {
             position: fixed;
@@ -802,9 +784,7 @@
         }
 
 
-        /* ========================================
-           TABLET
-        ======================================== */
+        
 
         @media
         (min-width: 601px)
@@ -891,9 +871,7 @@
         }
 
 
-        /* ========================================
-           LAPTOP / DESKTOP
-        ======================================== */
+        
 
         @media
         (min-width: 1024px)
@@ -1048,7 +1026,7 @@
     </style>
 
 
-    <!-- OneSignal Web Push SDK -->
+   
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 
 </head>
@@ -1057,7 +1035,7 @@
 <body>
 
 
-<!-- TOAST -->
+
 
 <div
     class="toast"
@@ -1069,7 +1047,7 @@
 <div class="wrapper">
 
 
-    <!-- TOP BAR -->
+   
 
     <div class="top-bar">
 
@@ -1106,7 +1084,7 @@
 
 
 
-        <!-- MOBILE NOTIFICATION -->
+       
 
         <button
             type="button"
@@ -1138,7 +1116,7 @@
 
 
 
-    <!-- RECORDS -->
+   
 
     <div
         class="records-container"
@@ -1164,9 +1142,7 @@
 
 
 
-<!-- ========================================
-     DETAILS MODAL
-======================================== -->
+
 
 <div
     class="modal-overlay"
@@ -1227,7 +1203,7 @@
 
 
 
-        <!-- DECISION -->
+       
 
         <div
             class="detail-item decision-box"
@@ -1309,7 +1285,7 @@
 
 
 
-        <!-- HOURS -->
+       
 
         <div
             class="detail-item time-box-special"
@@ -1337,7 +1313,7 @@
 
 
 
-        <!-- REVIEW DATE -->
+      
 
         <div class="detail-item">
 
@@ -1357,7 +1333,7 @@
 
 
 
-        <!-- REJECT REASON -->
+       
 
         <div
             class="detail-item reason-box"
@@ -1386,9 +1362,7 @@
 
 
 <script type="module">
-    /* ========================================
-       FIREBASE IMPORTS
-    ======================================== */
+  
 
     import {
         initializeApp
@@ -1411,9 +1385,7 @@
     } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-    /* ========================================
-       FIREBASE CONFIG
-    ======================================== */
+    
 
     const firebaseConfig = {
         apiKey: "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
@@ -1484,9 +1456,7 @@
         document.getElementById("mdlReason");
 
 
-    /* ========================================
-       STATE
-    ======================================== */
+    
 
     let currentUser = null;
     let requestsCache = {};
@@ -1498,9 +1468,7 @@
     let oneSignalInitPromise = null;
 
 
-    /* ========================================
-       TOAST
-    ======================================== */
+   
 
     let toastTimer = null;
 
@@ -1516,9 +1484,7 @@
     }
 
 
-    /* ========================================
-       AUTHENTICATION
-    ======================================== */
+    
 
     onAuthStateChanged(auth, async function(user) {
         if (!user) {
@@ -1548,16 +1514,10 @@
 
             currentUser = user;
 
-            /*
-             * Start the Firebase realtime list immediately.
-             * OneSignal setup is independent from loading the page.
-             */
+            
             startNotificationsListener();
 
-            /*
-             * Connect this browser/device to this Firebase UID.
-             * This UID becomes the OneSignal external_id.
-             */
+            
             try {
                 await setupOneSignal(user);
             }
@@ -1578,11 +1538,7 @@
 
 
     async function goToLogin() {
-        /*
-         * If OneSignal has already loaded, detach this device
-         * from the current Firebase user's external_id before
-         * Firebase logout.
-         */
+       
         try {
             if (oneSignalInstance) {
                 await oneSignalInstance.logout();
@@ -1603,9 +1559,7 @@
     }
 
 
-    /* ========================================
-       ONESIGNAL
-    ======================================== */
+    
 
     window.OneSignalDeferred =
         window.OneSignalDeferred || [];
@@ -1671,17 +1625,10 @@
                                 }
                             });
 
-                            /*
-                             * Firebase UID = OneSignal external_id.
-                             * This allows the backend to send to
-                             * exactly one employee.
-                             */
+                            
                             await OneSignal.login(user.uid);
 
-                            /*
-                             * Optional tags are useful in OneSignal
-                             * Dashboard, but do not expose secrets.
-                             */
+                            
                             try {
                                 OneSignal.User.addTags({
                                     role: "user",
@@ -1702,10 +1649,7 @@
                                 OneSignal.Notifications.permissionNative
                             );
 
-                            /*
-                             * Update the bell automatically if the
-                             * browser permission changes.
-                             */
+                            
                             OneSignal.Notifications.addEventListener(
                                 "permissionChange",
                                 function(granted) {
@@ -1723,10 +1667,7 @@
                                 }
                             );
 
-                            /*
-                             * We do NOT prevent foreground push.
-                             * OneSignal may display it normally.
-                             */
+                            
                             OneSignal.Notifications.addEventListener(
                                 "foregroundWillDisplay",
                                 function(event) {
@@ -1843,11 +1784,7 @@
                 return;
             }
 
-            /*
-             * iPhone/iPad web push requires the site to be
-             * installed to the Home Screen before permission
-             * can be requested.
-             */
+            
             if (
                 isIOSDevice() &&
                 !isStandalonePWA()
@@ -1937,9 +1874,7 @@
     );
 
 
-    /* ========================================
-       LISTEN TO THIS USER'S REQUESTS
-    ======================================== */
+    
 
     function startNotificationsListener() {
         const requestsQuery = query(
@@ -2020,11 +1955,7 @@
                 requestsCache = data;
                 renderNotifications();
 
-                /*
-                 * This is only the in-page realtime feedback.
-                 * The real closed-screen mobile push will be
-                 * sent by OneSignal from the backend.
-                 */
+                
                 for (const changed of changedRequests) {
                     await handleDecisionNotification(
                         changed.requestId,
@@ -2050,19 +1981,13 @@
     }
 
 
-    /* ========================================
-       OWNER DECISION - PAGE OPEN
-    ======================================== */
+    
 
     async function handleDecisionNotification(
         requestId,
         request
     ) {
-        /*
-         * Do not call ServiceWorker.showNotification()
-         * manually here. OneSignal owns the push worker.
-         * This prevents duplicate notifications.
-         */
+        
         await playNotificationSound();
 
         if (request.status === "approved") {
@@ -2082,9 +2007,7 @@
     }
 
 
-    /* ========================================
-       RENDER DECISIONS
-    ======================================== */
+    
 
     function renderNotifications() {
         const requests =
@@ -2266,9 +2189,7 @@
     }
 
 
-    /* ========================================
-       EMPTY
-    ======================================== */
+    
 
     function renderEmptyState() {
         recordsContainer.innerHTML = `
@@ -2301,9 +2222,7 @@
     }
 
 
-    /* ========================================
-       OPEN NOTIFICATION
-    ======================================== */
+    
 
     function openNotification(requestId) {
         const request =
@@ -2451,9 +2370,7 @@
     }
 
 
-    /* ========================================
-       AUDIO
-    ======================================== */
+    
 
     async function unlockAudio() {
         try {
@@ -2582,9 +2499,7 @@
     );
 
 
-    /* ========================================
-       MODAL
-    ======================================== */
+    
 
     closeModalBtn.addEventListener(
         "click",
@@ -2607,9 +2522,7 @@
     );
 
 
-    /* ========================================
-       DATE HELPERS
-    ======================================== */
+    
 
     function formatLeaveDate(value) {
         if (!value) {
