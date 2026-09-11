@@ -35,9 +35,7 @@
         }
 
 
-        /* ========================================
-           WRAPPER
-        ======================================== */
+       
 
         .wrapper {
             display: flex;
@@ -53,9 +51,7 @@
         }
 
 
-        /* ========================================
-           TOP BAR
-        ======================================== */
+     
 
         .top-bar {
             display: flex;
@@ -192,9 +188,7 @@
         }
 
 
-        /* ========================================
-           RECORDS
-        ======================================== */
+    
 
         .records-container {
             display: flex;
@@ -245,9 +239,7 @@
         }
 
 
-        /* ========================================
-           NEW REQUEST
-        ======================================== */
+ 
 
         .record-card.new-request {
             background:
@@ -305,9 +297,7 @@
         }
 
 
-        /* ========================================
-           CARD HEADER
-        ======================================== */
+    
 
         .card-header {
             display: flex;
@@ -379,9 +369,7 @@
         }
 
 
-        /* ========================================
-           USER
-        ======================================== */
+   
 
         .user-info {
             display: flex;
@@ -443,9 +431,7 @@
         }
 
 
-        /* ========================================
-           EMPTY / LOADING
-        ======================================== */
+
 
         .state-box {
             width: 100%;
@@ -495,9 +481,7 @@
         }
 
 
-        /* ========================================
-           TOAST
-        ======================================== */
+        
 
         .toast {
             position: fixed;
@@ -563,9 +547,7 @@
         }
 
 
-        /* ========================================
-           MODAL
-        ======================================== */
+       
 
         .modal-overlay {
             position: fixed;
@@ -772,9 +754,7 @@
         }
 
 
-        /* ========================================
-           ACTION BUTTONS
-        ======================================== */
+       
 
         .modal-actions {
             display: flex;
@@ -856,9 +836,7 @@
         }
 
 
-        /* ========================================
-           REJECT AREA
-        ======================================== */
+      
 
         .reject-area {
             display: none;
@@ -970,9 +948,7 @@
         }
 
 
-        /* ========================================
-           TABLET
-        ======================================== */
+        
 
         @media
         (min-width: 601px)
@@ -1090,9 +1066,7 @@
         }
 
 
-        /* ========================================
-           LAPTOP / COMPUTER
-        ======================================== */
+        
 
         @media
         (min-width: 1024px)
@@ -1334,9 +1308,7 @@
         }
 
 
-        /* ========================================
-           LARGE DESKTOP
-        ======================================== */
+        
 
         @media
         (min-width: 1440px)
@@ -1381,9 +1353,7 @@
         }
 
 
-        /* ========================================
-           MOBILE
-        ======================================== */
+       
 
         @media (max-width: 600px) {
 
@@ -1421,9 +1391,7 @@
 <body>
 
 
-<!-- ========================================
-     TOAST
-======================================== -->
+
 
 <div
     class="toast"
@@ -1435,9 +1403,7 @@
 <div class="wrapper">
 
 
-    <!-- ========================================
-         TOP BAR
-    ======================================== -->
+    
 
     <div class="top-bar">
 
@@ -1474,7 +1440,7 @@
 
 
 
-        <!-- NOTIFICATION BUTTON -->
+       
 
         <button
             type="button"
@@ -1506,9 +1472,7 @@
 
 
 
-    <!-- ========================================
-         REQUESTS
-    ======================================== -->
+    
 
     <div
         class="records-container"
@@ -1534,9 +1498,7 @@
 
 
 
-<!-- ========================================
-     DETAILS MODAL
-======================================== -->
+
 
 <div
     class="modal-overlay"
@@ -1717,7 +1679,7 @@
 
 
 
-        <!-- ACTIONS -->
+       
 
         <div class="modal-actions">
 
@@ -1744,7 +1706,7 @@
 
 
 
-        <!-- REJECT REASON -->
+       
 
         <div
             class="reject-area"
@@ -1786,9 +1748,7 @@
 
 <script type="module">
 
-    /* ========================================
-       FIREBASE IMPORTS
-    ======================================== */
+   
 
     import {
         initializeApp
@@ -1826,34 +1786,18 @@
     };
 
 
-    /* ========================================
-       EMAIL BACKEND
-
-       For the current test, keep email-server
-       running on this computer:
-
-           cd email-server
-           node server.js
-
-       Later, when the email backend is deployed
-       online, replace this localhost URL with the
-       HTTPS URL of that backend.
-    ======================================== */
+   
 
 const EMAIL_API_URL =
   "https://api.leaveportal.io/api/leave-decision";
-    /* ========================================
-       INITIALIZE
-    ======================================== */
+    
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const database = getDatabase(app);
 
 
-    /* ========================================
-       ELEMENTS
-    ======================================== */
+   
 
     const recordsContainer =
         document.getElementById("recordsContainer");
@@ -1907,9 +1851,7 @@ const EMAIL_API_URL =
         document.getElementById("sendRejectBtn");
 
 
-    /* ========================================
-       STATE
-    ======================================== */
+    
 
     let currentOwner = null;
     let currentRequestId = null;
@@ -1921,9 +1863,7 @@ const EMAIL_API_URL =
     let audioContext = null;
 
 
-    /* ========================================
-       TOAST
-    ======================================== */
+    
 
     let toastTimer = null;
 
@@ -1939,9 +1879,7 @@ const EMAIL_API_URL =
     }
 
 
-    /* ========================================
-       AUDIO
-    ======================================== */
+    
 
     async function unlockNotificationSound() {
         try {
@@ -2066,9 +2004,7 @@ const EMAIL_API_URL =
     );
 
 
-    /* ========================================
-       OWNER AUTH
-    ======================================== */
+    
 
     onAuthStateChanged(
         auth,
@@ -2117,12 +2053,7 @@ const EMAIL_API_URL =
 
                 startRequestsListener();
 
-                /*
-                 * The bell on the owner page only
-                 * unlocks/tests the local new-request sound.
-                 * Email delivery does not require browser
-                 * notification permission or a service worker.
-                 */
+                
                 notifyBtn.classList.add(
                     "need-permission"
                 );
@@ -2159,9 +2090,7 @@ const EMAIL_API_URL =
     }
 
 
-    /* ========================================
-       OWNER BELL
-    ======================================== */
+   
 
     notifyBtn.addEventListener(
         "click",
@@ -2199,9 +2128,7 @@ const EMAIL_API_URL =
     );
 
 
-    /* ========================================
-       REALTIME REQUESTS
-    ======================================== */
+    
 
     function startRequestsListener() {
         const requestsRef =
@@ -2222,11 +2149,7 @@ const EMAIL_API_URL =
                 const newIds =
                     Object.keys(newData);
 
-                /*
-                 * First page load:
-                 * remember existing IDs so old requests
-                 * do not play a "new request" sound.
-                 */
+               
                 if (firstRequestsLoad) {
                     knownRequestIds =
                         new Set(newIds);
@@ -2324,10 +2247,7 @@ const EMAIL_API_URL =
     }
 
 
-    /* ========================================
-       RENDER REQUESTS
-    ======================================== */
-
+    
     function renderRequests() {
         const requests =
             Object.entries(
@@ -2489,9 +2409,7 @@ const EMAIL_API_URL =
     }
 
 
-    /* ========================================
-       EMPTY
-    ======================================== */
+    
 
     function renderEmptyState() {
         recordsContainer.innerHTML = `
@@ -2524,9 +2442,7 @@ const EMAIL_API_URL =
     }
 
 
-    /* ========================================
-       OPEN REQUEST
-    ======================================== */
+    
 
     function openRequest(
         requestId
@@ -2647,9 +2563,7 @@ const EMAIL_API_URL =
     }
 
 
-    /* ========================================
-       SEND LEAVE DECISION EMAIL
-    ======================================== */
+   
 
     async function sendLeaveDecisionEmail(
         requestId,
@@ -2736,9 +2650,7 @@ const EMAIL_API_URL =
     }
 
 
-    /* ========================================
-       APPROVE
-    ======================================== */
+    
 
     approveBtn.addEventListener(
         "click",
@@ -2763,9 +2675,7 @@ const EMAIL_API_URL =
                 "چاڤەرێ بە...";
 
             try {
-                /*
-                 * 1) Save the owner's decision first.
-                 */
+                
                 await update(
                     ref(
                         database,
@@ -2786,12 +2696,7 @@ const EMAIL_API_URL =
                     }
                 );
 
-                /*
-                 * 2) Send the approval email.
-                 *
-                 * An email failure does NOT undo the
-                 * approved leave decision in Firebase.
-                 */
+                
                 try {
                     await sendLeaveDecisionEmail(
                         requestId,
@@ -2844,9 +2749,7 @@ const EMAIL_API_URL =
     );
 
 
-    /* ========================================
-       REJECT
-    ======================================== */
+    
 
     rejectBtn.addEventListener(
         "click",
@@ -2897,9 +2800,7 @@ const EMAIL_API_URL =
                 true;
 
             try {
-                /*
-                 * 1) Save rejection to Firebase.
-                 */
+                
                 await update(
                     ref(
                         database,
@@ -2920,9 +2821,7 @@ const EMAIL_API_URL =
                     }
                 );
 
-                /*
-                 * 2) Send the rejection email with reason.
-                 */
+                
                 try {
                     await sendLeaveDecisionEmail(
                         requestId,
@@ -2988,9 +2887,7 @@ const EMAIL_API_URL =
     );
 
 
-    /* ========================================
-       SEEN REQUESTS
-    ======================================== */
+   
 
     function getSeenRequests() {
         try {
@@ -3040,9 +2937,7 @@ const EMAIL_API_URL =
     }
 
 
-    /* ========================================
-       CLOSE MODAL
-    ======================================== */
+    
 
     closeModalBtn.addEventListener(
         "click",
@@ -3069,9 +2964,7 @@ const EMAIL_API_URL =
     );
 
 
-    /* ========================================
-       STATUS
-    ======================================== */
+   
 
     function getStatusData(
         status
@@ -3112,9 +3005,7 @@ const EMAIL_API_URL =
     }
 
 
-    /* ========================================
-       DATE HELPERS
-    ======================================== */
+    
 
     function formatLeaveDate(
         value
