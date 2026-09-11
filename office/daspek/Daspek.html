@@ -25,9 +25,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* =====================================
-       PAGE LOADING
-    ===================================== */
+    
 
     .page-loading {
       position: fixed;
@@ -60,9 +58,7 @@
       }
     }
 
-    /* =====================================
-       CONTAINER
-    ===================================== */
+    
 
     .container {
       max-width: 1000px;
@@ -70,9 +66,7 @@
       padding: 20px;
     }
 
-    /* =====================================
-       PROFILE HEADER
-    ===================================== */
+    
 
     .profile-header {
       background: transparent;
@@ -124,9 +118,7 @@
       word-break: break-word;
     }
 
-    /* =====================================
-       LOGOUT
-    ===================================== */
+    
 
     .logout-btn {
       margin-right: auto;
@@ -168,9 +160,7 @@
       flex-shrink: 0;
     }
 
-    /* =====================================
-       CARDS
-    ===================================== */
+    
 
     .cards-wrapper {
       display: flex;
@@ -259,9 +249,7 @@
       pointer-events: none;
     }
 
-    /* =====================================
-       LIVE COUNTS
-    ===================================== */
+    
 
     .live-count {
       position: absolute;
@@ -295,9 +283,7 @@
       }
     }
 
-    /* =====================================
-       MOBILE
-    ===================================== */
+   
 
     @media (max-width: 600px) {
       .container {
@@ -330,9 +316,7 @@
       }
     }
 
-    /* =====================================
-       LAPTOP / DESKTOP
-    ===================================== */
+    
 
     @media
       (min-width: 1024px)
@@ -424,16 +408,14 @@
 
 <body>
 
-  <!-- PAGE LOADING -->
+  
   <div class="page-loading" id="pageLoading">
     <div class="loader"></div>
   </div>
 
   <div class="container">
 
-    <!-- =================================
-         PROFILE
-    ================================== -->
+    
 
     <div class="profile-header">
 
@@ -483,13 +465,11 @@
 
     </div>
 
-    <!-- =================================
-         CARDS
-    ================================== -->
+    
 
     <div class="cards-wrapper">
 
-      <!-- REQUEST LEAVE -->
+    
       <a href="/office/molat/Molat.html" class="card">
 
         <div class="card-icon-container">
@@ -530,7 +510,7 @@
 
       </a>
 
-      <!-- HISTORY -->
+     
       <a href="/office/tomar/Tomar.html" class="card">
 
         <div class="live-count" id="historyCount">0</div>
@@ -573,7 +553,7 @@
 
       </a>
 
-      <!-- NOTIFICATIONS -->
+      
       <a href="/office/agahdari/Agahdari.html" class="card">
 
         <div class="live-count" id="alertsCount">0</div>
@@ -620,9 +600,7 @@
 
   </div>
 
-  <!-- =========================================
-       FIREBASE
-  ========================================== -->
+  
 
   <script type="module">
 
@@ -660,9 +638,7 @@
     const auth = getAuth(app);
     const database = getDatabase(app);
 
-    /* =========================================
-       ELEMENTS
-    ========================================== */
+    
 
     const userName = document.getElementById("userName");
     const pageLoading = document.getElementById("pageLoading");
@@ -671,17 +647,13 @@
     const historyCount = document.getElementById("historyCount");
     const alertsCount = document.getElementById("alertsCount");
 
-    /* =========================================
-       STATE
-    ========================================== */
+    
 
     let currentUser = null;
     let countsStarted = false;
     let alertsCache = {};
 
-    /* =========================================
-       HELPERS
-    ========================================== */
+    
 
     function hideLoading() {
       pageLoading.classList.add("hide");
@@ -720,9 +692,7 @@
       window.location.replace("../index.html");
     }
 
-    /* =========================================
-       LOGOUT
-    ========================================== */
+    
 
     logoutBtn.addEventListener("click", async () => {
       logoutBtn.disabled = true;
@@ -736,10 +706,7 @@
       }
     });
 
-    /* =========================================
-       ALERT READ STATE
-       SAME KEY USED BY Agahdari.html
-    ========================================== */
+    
 
     function getReadAlertIds() {
       if (!currentUser) {
@@ -791,9 +758,7 @@
       );
     }
 
-    /* =========================================
-       START LIVE COUNTS
-    ========================================== */
+    
 
     function startDashboardCounts(userId) {
       if (countsStarted) {
@@ -802,10 +767,7 @@
 
       countsStarted = true;
 
-      /* -----------------------------------------
-         THIS USER'S REQUEST HISTORY
-         APPROVED + REJECTED ONLY
-      ----------------------------------------- */
+      
 
       const userRequestsQuery = query(
         ref(database, "leaveRequests"),
@@ -860,9 +822,7 @@
         }
       );
 
-      /* -----------------------------------------
-         GLOBAL ALERTS
-      ----------------------------------------- */
+      
 
       onValue(
         ref(database, "alerts"),
@@ -891,10 +851,7 @@
       );
     }
 
-    /* =========================================
-       REFRESH ALERT COUNT AFTER RETURNING
-       FROM Agahdari.html
-    ========================================== */
+    
 
     window.addEventListener(
       "pageshow",
@@ -918,9 +875,7 @@
       }
     );
 
-    /* =========================================
-       CHECK LOGGED-IN USER
-    ========================================== */
+    
 
     onAuthStateChanged(
       auth,
