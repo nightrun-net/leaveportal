@@ -43,9 +43,7 @@
         }
 
 
-        /* ===============================
-           LOGIN BOX
-        =============================== */
+        
 
         .login-box {
             width: 90%;
@@ -79,9 +77,7 @@
         }
 
 
-        /* ===============================
-           INPUT
-        =============================== */
+        
 
         .user-box {
             position: relative;
@@ -165,9 +161,7 @@
         }
 
 
-        /* ===============================
-           PASSWORD EYE
-        =============================== */
+        
 
         .toggle-password {
             position: absolute;
@@ -209,9 +203,7 @@
         }
 
 
-        /* ===============================
-           MESSAGE
-        =============================== */
+        
 
         .message {
             display: none;
@@ -258,9 +250,7 @@
         }
 
 
-        /* ===============================
-           BUTTON
-        =============================== */
+        
 
         .submit-btn {
             width: 100%;
@@ -330,9 +320,7 @@
         }
 
 
-        /* ===============================
-           MOBILE
-        =============================== */
+        
 
         @media (max-width: 480px) {
 
@@ -345,9 +333,7 @@
         }
 
 
-        /* ===============================
-           LAPTOP / DESKTOP
-        =============================== */
+       
 
         @media
         (min-width: 1024px)
@@ -526,7 +512,7 @@
             </div>
 
 
-            <!-- MESSAGE -->
+            
 
             <div
                 id="message"
@@ -534,7 +520,7 @@
             ></div>
 
 
-            <!-- LOGIN -->
+           
 
             <button
                 type="submit"
@@ -554,9 +540,7 @@
     <script type="module">
 
 
-        /* ===============================
-           FIREBASE IMPORTS
-        =============================== */
+       
 
         import {
             initializeApp
@@ -580,9 +564,7 @@
         "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-        /* ===============================
-           FIREBASE CONFIG
-        =============================== */
+       
 
         const firebaseConfig = {
 
@@ -613,9 +595,7 @@
         };
 
 
-        /* ===============================
-           INITIALIZE FIREBASE
-        =============================== */
+        
 
         const app =
             initializeApp(firebaseConfig);
@@ -629,9 +609,7 @@
             getDatabase(app);
 
 
-        /* ===============================
-           ELEMENTS
-        =============================== */
+        
 
         const loginForm =
             document.getElementById(
@@ -675,9 +653,7 @@
             );
 
 
-        /* ===============================
-           MESSAGE
-        =============================== */
+        
 
         function showMessage(
             text,
@@ -706,9 +682,7 @@
         }
 
 
-        /* ===============================
-           LOADING
-        =============================== */
+        
 
         function setLoading(
             loading
@@ -726,9 +700,7 @@
         }
 
 
-        /* ===============================
-           LOGIN
-        =============================== */
+        
 
         loginForm.addEventListener(
             "submit",
@@ -771,9 +743,7 @@
                 try {
 
 
-                    /* ==========================
-                       AUTHENTICATION
-                    ========================== */
+                   
 
                     const userCredential =
                         await signInWithEmailAndPassword(
@@ -793,9 +763,7 @@
                     );
 
 
-                    /* ==========================
-                       READ USER PROFILE
-                    ========================== */
+                    
 
                     const userRef =
                         ref(
@@ -808,9 +776,7 @@
                         await get(userRef);
 
 
-                    /* ==========================
-                       PROFILE NOT FOUND
-                    ========================== */
+                    
 
                     if (!snapshot.exists()) {
 
@@ -839,9 +805,7 @@
                     );
 
 
-                    /* ==========================
-                       USER ROLE CHECK
-                    ========================== */
+                    
 
                     if (
                         String(profile.role)
@@ -864,9 +828,7 @@
                     }
 
 
-                    /* ==========================
-                       ACTIVE CHECK
-                    ========================== */
+                   
 
                     if (
                         profile.active === false
@@ -887,9 +849,7 @@
                     }
 
 
-                    /* ==========================
-                       SUCCESS
-                    ========================== */
+                    
 
                     showMessage(
                         "چوونا ژوور ب سەرکەفتی بوو.",
@@ -900,11 +860,7 @@
                     setTimeout(
                         function() {
 
-                            /*
-                                index.html
-                                └── daspek/
-                                    └── Daspek.html
-                            */
+                           
 
                             window.location.replace(
                                  "./office/daspek/Daspek.html"
@@ -1028,9 +984,7 @@
         );
 
 
-        /* ===============================
-           PASSWORD SHOW / HIDE
-        =============================== */
+        
 
         togglePasswordBtn.addEventListener(
             "click",
