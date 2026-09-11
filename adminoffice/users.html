@@ -72,9 +72,7 @@ button {
 }
 
 
-/* ==========================================
-   CONTAINER
-========================================== */
+
 
 .container {
   width: min(1150px, 100%);
@@ -87,9 +85,7 @@ button {
 }
 
 
-/* ==========================================
-   HEADER
-========================================== */
+
 
 .header {
   display: flex;
@@ -156,9 +152,7 @@ button {
 }
 
 
-/* ==========================================
-   CARD
-========================================== */
+
 
 .card {
   margin-bottom: 24px;
@@ -217,9 +211,7 @@ button {
 }
 
 
-/* ==========================================
-   FORM
-========================================== */
+
 
 .form-grid {
   display: grid;
@@ -316,9 +308,7 @@ button {
 }
 
 
-/* ==========================================
-   PASSWORD
-========================================== */
+
 
 .password-wrapper {
   position: relative;
@@ -360,9 +350,7 @@ button {
 }
 
 
-/* ==========================================
-   CREATE BUTTON
-========================================== */
+
 
 .create-btn {
   min-width: 220px;
@@ -423,9 +411,7 @@ button {
 }
 
 
-/* ==========================================
-   MESSAGE
-========================================== */
+
 
 .message {
   display: none;
@@ -473,9 +459,7 @@ button {
 }
 
 
-/* ==========================================
-   TABLE
-========================================== */
+
 
 .table-wrapper {
   width: 100%;
@@ -551,9 +535,7 @@ tbody tr:last-child td {
 }
 
 
-/* ==========================================
-   USER CELL
-========================================== */
+
 
 .user-cell {
   display: flex;
@@ -587,9 +569,7 @@ tbody tr:last-child td {
 }
 
 
-/* ==========================================
-   EMAIL
-========================================== */
+
 
 .email {
   direction: ltr;
@@ -606,9 +586,7 @@ tbody tr:last-child td {
 }
 
 
-/* ==========================================
-   ROLE
-========================================== */
+
 
 .role-badge {
   display: inline-flex;
@@ -630,9 +608,7 @@ tbody tr:last-child td {
 }
 
 
-/* ==========================================
-   STATUS
-========================================== */
+
 
 .status {
   display: inline-flex;
@@ -670,9 +646,7 @@ tbody tr:last-child td {
 }
 
 
-/* ==========================================
-   NUMBER
-========================================== */
+
 
 .row-number {
   width: 37px;
@@ -694,9 +668,7 @@ tbody tr:last-child td {
 }
 
 
-/* ==========================================
-   EMPTY
-========================================== */
+
 
 .empty {
   padding: 45px !important;
@@ -719,9 +691,7 @@ tbody tr:last-child td {
 }
 
 
-/* ==========================================
-   MOBILE
-========================================== */
+
 
 @media(max-width: 760px) {
 
@@ -774,9 +744,7 @@ tbody tr:last-child td {
 }
 
 
-/* ==========================================
-   DESKTOP
-========================================== */
+
 
 @media(min-width: 1024px) {
 
@@ -834,9 +802,7 @@ tbody tr:last-child td {
 <div class="container">
 
 
-  <!-- ======================================
-       HEADER
-  ======================================= -->
+
 
   <div class="header">
 
@@ -871,9 +837,7 @@ tbody tr:last-child td {
 
 
 
-  <!-- ======================================
-       CREATE USER
-  ======================================= -->
+
 
   <section class="card">
 
@@ -898,7 +862,7 @@ tbody tr:last-child td {
       <div class="form-grid">
 
 
-        <!-- NAME -->
+    
 
         <div class="form-group">
 
@@ -929,7 +893,7 @@ tbody tr:last-child td {
 
 
 
-        <!-- EMAIL -->
+      
 
         <div class="form-group">
 
@@ -961,7 +925,7 @@ tbody tr:last-child td {
 
 
 
-        <!-- PASSWORD -->
+       
 
         <div class="form-group">
 
@@ -1040,9 +1004,7 @@ tbody tr:last-child td {
 
 
 
-  <!-- ======================================
-       USERS
-  ======================================= -->
+  
 
   <section class="card">
 
@@ -1154,9 +1116,7 @@ tbody tr:last-child td {
 <script type="module">
 
 
-/* ==========================================
-   FIREBASE
-========================================== */
+
 
 import {
   initializeApp
@@ -1188,9 +1148,7 @@ from
 
 
 
-/* ==========================================
-   CONFIG
-========================================== */
+
 
 const firebaseConfig = {
 
@@ -1222,9 +1180,7 @@ const firebaseConfig = {
 
 
 
-/* ==========================================
-   URLS
-========================================== */
+
 
 const ADMIN_LOGIN_URL =
   "/adminoffice/login/Login.html";
@@ -1235,9 +1191,7 @@ const ADMIN_DASHBOARD_URL =
 
 
 
-/* ==========================================
-   MAIN FIREBASE APP
-========================================== */
+
 
 const app =
   initializeApp(
@@ -1258,11 +1212,7 @@ const database =
 
 
 
-/* ==========================================
-   USER CREATOR FIREBASE APP
 
-   Keeps Owner logged in.
-========================================== */
 
 const creatorApp =
   initializeApp(
@@ -1278,9 +1228,7 @@ const creatorAuth =
 
 
 
-/* ==========================================
-   ELEMENTS
-========================================== */
+
 
 const userForm =
   document.getElementById(
@@ -1349,9 +1297,7 @@ const backBtn =
 
 
 
-/* ==========================================
-   BACK
-========================================== */
+
 
 backBtn.addEventListener(
   "click",
@@ -1365,9 +1311,7 @@ backBtn.addEventListener(
 
 
 
-/* ==========================================
-   OWNER CHECK
-========================================== */
+
 
 let usersListenerStarted =
   false;
@@ -1474,9 +1418,7 @@ onAuthStateChanged(
 
 
 
-/* ==========================================
-   CREATE USER
-========================================== */
+
 
 userForm.addEventListener(
   "submit",
@@ -1562,7 +1504,7 @@ userForm.addEventListener(
     try {
 
 
-      /* CREATE FIREBASE AUTH USER */
+      
 
       const userCredential =
         await createUserWithEmailAndPassword(
@@ -1581,7 +1523,7 @@ userForm.addEventListener(
 
 
 
-      /* CREATE DATABASE PROFILE */
+      
 
       await set(
 
@@ -1614,7 +1556,7 @@ userForm.addEventListener(
 
 
 
-      /* LOGOUT ONLY CREATED USER */
+      
 
       await signOut(
         creatorAuth
@@ -1732,9 +1674,7 @@ userForm.addEventListener(
 
 
 
-/* ==========================================
-   REALTIME USERS
-========================================== */
+
 
 function startUsersListener() {
 
@@ -1981,9 +1921,7 @@ function startUsersListener() {
 
 
 
-/* ==========================================
-   EMPTY USERS
-========================================== */
+
 
 function renderEmptyUsers() {
 
@@ -2010,9 +1948,7 @@ function renderEmptyUsers() {
 
 
 
-/* ==========================================
-   SHOW / HIDE PASSWORD
-========================================== */
+
 
 eyeBtn.addEventListener(
   "click",
@@ -2044,9 +1980,7 @@ eyeBtn.addEventListener(
 
 
 
-/* ==========================================
-   MESSAGE
-========================================== */
+
 
 function showMessage(
   text,
@@ -2094,9 +2028,7 @@ function clearMessage() {
 
 
 
-/* ==========================================
-   SAFE HTML
-========================================== */
+
 
 function escapeHTML(
   value
