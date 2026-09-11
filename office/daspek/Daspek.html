@@ -925,260 +925,294 @@
        FIREBASE
   ========================================== -->
 
-  <script type="module">
+ <script type="module">
+
+import {
+  initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 
-    import {
-      initializeApp
-    }
-    from
-    "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    }
-    from
-    "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  query,
+  orderByChild,
+  equalTo
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-    import {
-      getDatabase,
-      ref,
-      onValue,
-      query,
-      orderByChild,
-      equalTo
-    }
-    from
-    "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+
+  authDomain:
+    "office-8e7cb.firebaseapp.com",
+
+  databaseURL:
+    "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId:
+    "office-8e7cb",
+
+  storageBucket:
+    "office-8e7cb.firebasestorage.app",
+
+  messagingSenderId:
+    "604465845047",
+
+  appId:
+    "1:604465845047:web:42004e33906c8986ee80b2",
+
+  measurementId:
+    "G-LJJM71LQ0K"
+
+};
 
 
-    /* =========================================
-       FIREBASE CONFIG
-    ========================================== */
+/* =========================================
+   URLS
+========================================= */
 
-    const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
-
-      authDomain:
-        "office-8e7cb.firebaseapp.com",
-
-      databaseURL:
-        "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
-
-      projectId:
-        "office-8e7cb",
-
-      storageBucket:
-        "office-8e7cb.firebasestorage.app",
-
-      messagingSenderId:
-        "604465845047",
-
-      appId:
-        "1:604465845047:web:42004e33906c8986ee80b2",
-
-      measurementId:
-        "G-LJJM71LQ0K"
-
-    };
+const USER_LOGIN_URL =
+  "/index.html";
 
 
-    /* =========================================
-       URLS
-    ========================================== */
+/* =========================================
+   FIREBASE INIT
+========================================= */
 
-    const USER_LOGIN_URL =
-      "/index.html";
-
-
-    /* =========================================
-       INIT
-    ========================================== */
-
-    const app =
-      initializeApp(
-        firebaseConfig
-      );
+const app =
+  initializeApp(
+    firebaseConfig
+  );
 
 
-    const auth =
-      getAuth(
-        app
-      );
+const auth =
+  getAuth(
+    app
+  );
 
 
-    const database =
-      getDatabase(
-        app
-      );
+const database =
+  getDatabase(
+    app
+  );
 
 
-    /* =========================================
-       ELEMENTS
-    ========================================== */
+/* =========================================
+   ELEMENTS
+========================================= */
 
-    const userName =
-      document.getElementById(
-        "userName"
-      );
-
-
-    const pageLoading =
-      document.getElementById(
-        "pageLoading"
-      );
+const userName =
+  document.getElementById(
+    "userName"
+  );
 
 
-    const logoutBtn =
-      document.getElementById(
-        "logoutBtn"
-      );
+const pageLoading =
+  document.getElementById(
+    "pageLoading"
+  );
 
 
-    const historyCount =
-      document.getElementById(
-        "historyCount"
-      );
+const logoutBtn =
+  document.getElementById(
+    "logoutBtn"
+  );
 
 
-    const alertsCount =
-      document.getElementById(
-        "alertsCount"
-      );
+const historyCount =
+  document.getElementById(
+    "historyCount"
+  );
 
 
-    /* =========================================
-       STATE
-    ========================================== */
-
-    let currentUser =
-      null;
+const alertsCount =
+  document.getElementById(
+    "alertsCount"
+  );
 
 
-    let countsStarted =
-      false;
+/* =========================================
+   STATE
+========================================= */
+
+let currentUser =
+  null;
 
 
-    /*
-     * This now stores only this
-     * employee's alerts.
-     */
-    let userAlertsCache =
-      {};
+let countsStarted =
+  false;
 
 
-    /* =========================================
-       HELPERS
-    ========================================== */
-
-    function hideLoading() {
-
-      pageLoading
-        .classList
-        .add(
-          "hide"
-        );
+/*
+ * Alerts belonging only
+ * to current employee.
+ */
+let userAlertsCache =
+  {};
 
 
-      setTimeout(
-        () => {
-
-          pageLoading.style.display =
-            "none";
-
-        },
-        250
-      );
-
-    }
+/*
+ * Approved + rejected leave
+ * requests for current employee.
+ */
+let leaveHistoryCache =
+  {};
 
 
-    function displayCount(
+/* =========================================
+   HELPERS
+========================================= */
+
+function hideLoading() {
+
+  pageLoading
+    .classList
+    .add(
+      "hide"
+    );
+
+
+  setTimeout(
+    () => {
+
+      pageLoading.style.display =
+        "none";
+
+    },
+    250
+  );
+
+}
+
+
+function displayCount(
+  value
+) {
+
+  return value > 99
+    ?
+    "99+"
+    :
+    String(
       value
-    ) {
+    );
 
-      return value > 99
-        ?
-        "99+"
-        :
-        String(
-          value
-        );
-
-    }
+}
 
 
-    function updateBadge(
-      element,
+function updateBadge(
+  element,
+  value
+) {
+
+  if (!element) {
+
+    return;
+
+  }
+
+
+  const nextValue =
+    displayCount(
       value
-    ) {
-
-      if (!element) {
-
-        return;
-
-      }
+    );
 
 
-      const nextValue =
-        displayCount(
-          value
-        );
+  if (
+    element.textContent !==
+    nextValue
+  ) {
+
+    element.textContent =
+      nextValue;
 
 
-      if (
-        element.textContent !==
-        nextValue
-      ) {
-
-        element.textContent =
-          nextValue;
+    element.classList.remove(
+      "count-update"
+    );
 
 
-        element.classList.remove(
-          "count-update"
-        );
+    void element.offsetWidth;
 
 
-        void element.offsetWidth;
+    element.classList.add(
+      "count-update"
+    );
+
+  }
+
+}
 
 
-        element.classList.add(
-          "count-update"
-        );
+/* =========================================
+   LOGIN
+========================================= */
 
-      }
+async function goToLogin() {
 
-    }
+  try {
+
+    await signOut(
+      auth
+    );
+
+  }
+  catch(error) {
+
+    console.error(
+      "Sign out error:",
+      error
+    );
+
+  }
 
 
-    /* =========================================
-       LOGIN
-    ========================================== */
+  window.location.replace(
+    USER_LOGIN_URL
+  );
 
-    async function goToLogin() {
+}
 
-      try {
 
-        await signOut(
-          auth
-        );
+/* =========================================
+   LOGOUT
+========================================= */
 
-      }
-      catch(error) {
+logoutBtn.addEventListener(
+  "click",
+  async () => {
 
-        console.error(
-          "Sign out error:",
-          error
-        );
 
-      }
+    logoutBtn.disabled =
+      true;
+
+
+    try {
+
+      await signOut(
+        auth
+      );
 
 
       window.location.replace(
@@ -1186,475 +1220,574 @@
       );
 
     }
+    catch(error) {
+
+      console.error(
+        "Logout error:",
+        error
+      );
 
 
-    /* =========================================
-       LOGOUT
-    ========================================== */
+      logoutBtn.disabled =
+        false;
 
-    logoutBtn.addEventListener(
-      "click",
-      async () => {
+    }
 
-
-        logoutBtn.disabled =
-          true;
+  }
+);
 
 
-        try {
+/* =========================================
+   ALERT READ STORAGE
+========================================= */
 
-          await signOut(
-            auth
-          );
+function alertReadStorageKey() {
 
+  if (!currentUser) {
 
-          window.location.replace(
-            USER_LOGIN_URL
-          );
+    return null;
 
-        }
-        catch(error) {
-
-          console.error(
-            "Logout error:",
-            error
-          );
+  }
 
 
-          logoutBtn.disabled =
-            false;
+  return (
+    `office_read_alerts_${currentUser.uid}`
+  );
 
-        }
+}
 
-      }
+
+function getReadAlertIds() {
+
+  const key =
+    alertReadStorageKey();
+
+
+  if (!key) {
+
+    return new Set();
+
+  }
+
+
+  try {
+
+    const stored =
+      JSON.parse(
+
+        localStorage.getItem(
+          key
+        )
+
+        ||
+
+        "[]"
+
+      );
+
+
+    return new Set(
+
+      Array.isArray(
+        stored
+      )
+        ?
+        stored
+        :
+        []
+
+    );
+
+  }
+  catch(error) {
+
+    console.error(
+      "Read alerts storage error:",
+      error
     );
 
 
-    /* =========================================
-       ALERT READ STATE
+    return new Set();
 
-       MUST MATCH Agahdari.html
-    ========================================== */
+  }
 
-    function readStorageKey() {
-
-      if (!currentUser) {
-
-        return null;
-
-      }
+}
 
 
-      return (
-        `office_read_alerts_${currentUser.uid}`
+/* =========================================
+   HISTORY READ STORAGE
+========================================= */
+
+function historyReadStorageKey() {
+
+  if (!currentUser) {
+
+    return null;
+
+  }
+
+
+  return (
+    `office_read_history_${currentUser.uid}`
+  );
+
+}
+
+
+function getReadHistoryIds() {
+
+  const key =
+    historyReadStorageKey();
+
+
+  if (!key) {
+
+    return new Set();
+
+  }
+
+
+  try {
+
+    const stored =
+      JSON.parse(
+
+        localStorage.getItem(
+          key
+        )
+
+        ||
+
+        "[]"
+
+      );
+
+
+    return new Set(
+
+      Array.isArray(
+        stored
+      )
+        ?
+        stored
+        :
+        []
+
+    );
+
+  }
+  catch(error) {
+
+    console.error(
+      "Read history storage error:",
+      error
+    );
+
+
+    return new Set();
+
+  }
+
+}
+
+
+/* =========================================
+   COUNT UNREAD ALERTS
+========================================= */
+
+function updateUnreadAlertsCount() {
+
+  const readIds =
+    getReadAlertIds();
+
+
+  const activeAlerts =
+    Object.entries(
+      userAlertsCache
+    )
+
+      .filter(
+        (
+          [
+            alertId,
+            alertItem
+          ]
+        ) => {
+
+          return (
+            alertItem &&
+            alertItem.active !== false
+          );
+
+        }
+      );
+
+
+  const unreadTotal =
+    activeAlerts
+
+      .filter(
+        ([alertId]) =>
+
+          !readIds.has(
+            alertId
+          )
+      )
+
+      .length;
+
+
+  updateBadge(
+    alertsCount,
+    unreadTotal
+  );
+
+}
+
+
+/* =========================================
+   COUNT UNREAD HISTORY
+
+   APPROVED + REJECTED ONLY
+========================================= */
+
+function updateUnreadHistoryCount() {
+
+  const readIds =
+    getReadHistoryIds();
+
+
+  const unreadHistory =
+    Object.entries(
+      leaveHistoryCache
+    )
+
+      .filter(
+        (
+          [
+            requestId,
+            requestItem
+          ]
+        ) => {
+
+
+          if (!requestItem) {
+
+            return false;
+
+          }
+
+
+          const status =
+            String(
+              requestItem.status ||
+              ""
+            )
+              .toLowerCase();
+
+
+          const finished =
+            status === "approved"
+            ||
+            status === "rejected";
+
+
+          return (
+            finished &&
+            !readIds.has(
+              requestId
+            )
+          );
+
+        }
+      );
+
+
+  updateBadge(
+    historyCount,
+    unreadHistory.length
+  );
+
+}
+
+
+/* =========================================
+   START LIVE COUNTS
+========================================= */
+
+function startDashboardCounts(
+  userId
+) {
+
+
+  if (
+    countsStarted
+  ) {
+
+    return;
+
+  }
+
+
+  countsStarted =
+    true;
+
+
+  /* =====================================
+     THIS USER'S LEAVE HISTORY
+  ===================================== */
+
+  const userRequestsQuery =
+    query(
+
+      ref(
+        database,
+        "leaveRequests"
+      ),
+
+      orderByChild(
+        "userId"
+      ),
+
+      equalTo(
+        userId
+      )
+
+    );
+
+
+  onValue(
+
+    userRequestsQuery,
+
+    snapshot => {
+
+
+      leaveHistoryCache =
+        snapshot.exists()
+          ?
+          (
+            snapshot.val() ||
+            {}
+          )
+          :
+          {};
+
+
+      updateUnreadHistoryCount();
+
+    },
+
+    error => {
+
+      console.error(
+        "Leave history count error:",
+        error
+      );
+
+
+      leaveHistoryCache =
+        {};
+
+
+      updateBadge(
+        historyCount,
+        0
       );
 
     }
 
-
-    function getReadAlertIds() {
-
-      const key =
-        readStorageKey();
+  );
 
 
-      if (!key) {
+  /* =====================================
+     THIS USER'S ALERTS
+  ===================================== */
 
-        return new Set();
+  onValue(
 
-      }
+    ref(
+      database,
+      `userAlerts/${userId}`
+    ),
 
-
-      try {
-
-        const stored =
-          JSON.parse(
-
-            localStorage.getItem(
-              key
-            )
-
-            ||
-
-            "[]"
-
-          );
+    snapshot => {
 
 
-        return new Set(
-
-          Array.isArray(
-            stored
+      userAlertsCache =
+        snapshot.exists()
+          ?
+          (
+            snapshot.val() ||
+            {}
           )
-            ?
-            stored
-            :
-            []
-
-        );
-
-      }
-      catch(error) {
-
-        console.error(
-          "Read alerts storage error:",
-          error
-        );
+          :
+          {};
 
 
-        return new Set();
+      updateUnreadAlertsCount();
 
-      }
+    },
 
-    }
+    error => {
 
-
-    /* =========================================
-       COUNT UNREAD USER ALERTS
-    ========================================== */
-
-    function updateUnreadAlertsCount() {
-
-      const readIds =
-        getReadAlertIds();
+      console.error(
+        "User alerts count error:",
+        error
+      );
 
 
-      /*
-       * userAlertsCache already contains
-       * ONLY alerts belonging to this employee.
-       *
-       * No target filtering is required.
-       */
-
-      const activeAlerts =
-        Object.entries(
-          userAlertsCache
-        )
-
-          .filter(
-            (
-              [
-                alertId,
-                alertItem
-              ]
-            ) => {
-
-              return (
-                alertItem &&
-                alertItem.active !== false
-              );
-
-            }
-          );
-
-
-      const unreadTotal =
-        activeAlerts
-
-          .filter(
-            ([alertId]) =>
-
-              !readIds.has(
-                alertId
-              )
-          )
-
-          .length;
+      userAlertsCache =
+        {};
 
 
       updateBadge(
         alertsCount,
-        unreadTotal
+        0
       );
 
     }
 
+  );
 
-    /* =========================================
-       START LIVE COUNTS
-    ========================================== */
+}
 
-    function startDashboardCounts(
-      userId
+
+/* =========================================
+   REFRESH COUNTS AFTER RETURNING
+   FROM ALERTS / TOMAR
+========================================= */
+
+function refreshLocalReadCounts() {
+
+  if (!currentUser) {
+
+    return;
+
+  }
+
+
+  updateUnreadAlertsCount();
+
+  updateUnreadHistoryCount();
+
+}
+
+
+window.addEventListener(
+  "pageshow",
+  () => {
+
+    refreshLocalReadCounts();
+
+  }
+);
+
+
+window.addEventListener(
+  "focus",
+  () => {
+
+    refreshLocalReadCounts();
+
+  }
+);
+
+
+/* =========================================
+   STORAGE CHANGES
+========================================= */
+
+window.addEventListener(
+  "storage",
+  event => {
+
+
+    if (!currentUser) {
+
+      return;
+
+    }
+
+
+    const alertKey =
+      `office_read_alerts_${currentUser.uid}`;
+
+
+    const historyKey =
+      `office_read_history_${currentUser.uid}`;
+
+
+    if (
+      event.key ===
+      alertKey
     ) {
 
-
-      if (
-        countsStarted
-      ) {
-
-        return;
-
-      }
-
-
-      countsStarted =
-        true;
-
-
-      /* =====================================
-         LEAVE HISTORY
-
-         APPROVED + REJECTED
-      ===================================== */
-
-      const userRequestsQuery =
-        query(
-
-          ref(
-            database,
-            "leaveRequests"
-          ),
-
-          orderByChild(
-            "userId"
-          ),
-
-          equalTo(
-            userId
-          )
-
-        );
-
-
-      onValue(
-
-        userRequestsQuery,
-
-        snapshot => {
-
-
-          const requests =
-            snapshot.exists()
-              ?
-              Object.values(
-                snapshot.val() || {}
-              )
-              :
-              [];
-
-
-          let approved =
-            0;
-
-
-          let rejected =
-            0;
-
-
-          requests.forEach(
-            requestItem => {
-
-
-              const status =
-                String(
-                  requestItem?.status ||
-                  ""
-                )
-                  .toLowerCase();
-
-
-              if (
-                status ===
-                "approved"
-              ) {
-
-                approved++;
-
-              }
-
-
-              else if (
-                status ===
-                "rejected"
-              ) {
-
-                rejected++;
-
-              }
-
-            }
-          );
-
-
-          const history =
-            approved +
-            rejected;
-
-
-          updateBadge(
-            historyCount,
-            history
-          );
-
-        },
-
-        error => {
-
-          console.error(
-            "Leave requests count error:",
-            error
-          );
-
-
-          updateBadge(
-            historyCount,
-            0
-          );
-
-        }
-
-      );
-
-
-      /* =====================================
-         THIS USER'S ALERTS
-
-         IMPORTANT:
-         READ FROM userAlerts/UID
-      ===================================== */
-
-      onValue(
-
-        ref(
-          database,
-          `userAlerts/${userId}`
-        ),
-
-        snapshot => {
-
-
-          userAlertsCache =
-            snapshot.exists()
-              ?
-              (
-                snapshot.val() ||
-                {}
-              )
-              :
-              {};
-
-
-          updateUnreadAlertsCount();
-
-        },
-
-        error => {
-
-          console.error(
-            "User alerts count error:",
-            error
-          );
-
-
-          userAlertsCache =
-            {};
-
-
-          updateBadge(
-            alertsCount,
-            0
-          );
-
-        }
-
-      );
+      updateUnreadAlertsCount();
 
     }
 
 
-    /* =========================================
-       REFRESH AFTER USER READS ALERTS
+    if (
+      event.key ===
+      historyKey
+    ) {
 
-       Example:
-       Dashboard
-          ↓
-       Agahdari.html
-          ↓
-       User opens alert
-          ↓
-       localStorage changes
-          ↓
-       Return to Dashboard
-          ↓
-       Count updates
-    ========================================== */
+      updateUnreadHistoryCount();
 
-    window.addEventListener(
-      "pageshow",
-      () => {
+    }
 
-        if (
-          currentUser
-        ) {
-
-          updateUnreadAlertsCount();
-
-        }
-
-      }
-    );
+  }
+);
 
 
-    window.addEventListener(
-      "focus",
-      () => {
+/* =========================================
+   AUTH
+========================================= */
 
-        if (
-          currentUser
-        ) {
+onAuthStateChanged(
 
-          updateUnreadAlertsCount();
+  auth,
 
-        }
-
-      }
-    );
+  user => {
 
 
-    window.addEventListener(
-      "storage",
-      event => {
+    if (!user) {
+
+      window.location.replace(
+        USER_LOGIN_URL
+      );
+
+
+      return;
+
+    }
+
+
+    const userRef =
+      ref(
+        database,
+        `users/${user.uid}`
+      );
+
+
+    onValue(
+
+      userRef,
+
+      async snapshot => {
 
 
         if (
-          !currentUser
+          !snapshot.exists()
         ) {
 
-          return;
-
-        }
-
-
-        if (
-          event.key ===
-          `office_read_alerts_${currentUser.uid}`
-        ) {
-
-          updateUnreadAlertsCount();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================
-       AUTH
-    ========================================== */
-
-    onAuthStateChanged(
-
-      auth,
-
-      user => {
-
-
-        if (!user) {
-
-          window.location.replace(
-            USER_LOGIN_URL
+          console.error(
+            "User profile not found"
           );
+
+
+          await goToLogin();
 
 
           return;
@@ -1662,123 +1795,92 @@
         }
 
 
-        const userRef =
-          ref(
-            database,
-            `users/${user.uid}`
+        const profile =
+          snapshot.val();
+
+
+        /* USER ONLY */
+
+        if (
+          String(
+            profile.role ||
+            ""
+          )
+            .toLowerCase()
+          !==
+          "user"
+        ) {
+
+          console.error(
+            "Account is not a user account"
           );
 
 
-        onValue(
-
-          userRef,
-
-          async snapshot => {
+          await goToLogin();
 
 
-            if (
-              !snapshot.exists()
-            ) {
+          return;
 
-              console.error(
-                "User profile not found"
-              );
+        }
 
 
-              await goToLogin();
+        /* ACTIVE USER ONLY */
+
+        if (
+          profile.active ===
+          false
+        ) {
+
+          console.error(
+            "Account is disabled"
+          );
 
 
-              return;
-
-            }
+          await goToLogin();
 
 
-            const profile =
-              snapshot.val();
+          return;
+
+        }
 
 
-            /* USER ONLY */
-
-            if (
-              String(
-                profile.role ||
-                ""
-              )
-                .toLowerCase()
-              !==
-              "user"
-            ) {
-
-              console.error(
-                "Account is not a user account"
-              );
+        currentUser =
+          user;
 
 
-              await goToLogin();
+        userName.textContent =
+          profile.name ||
+          "بەکارهێنەر";
 
 
-              return;
-
-            }
+        hideLoading();
 
 
-            /* ACTIVE USER ONLY */
-
-            if (
-              profile.active ===
-              false
-            ) {
-
-              console.error(
-                "Account is disabled"
-              );
-
-
-              await goToLogin();
-
-
-              return;
-
-            }
-
-
-            currentUser =
-              user;
-
-
-            userName.textContent =
-              profile.name ||
-              "بەکارهێنەر";
-
-
-            hideLoading();
-
-
-            startDashboardCounts(
-              user.uid
-            );
-
-          },
-
-          async error => {
-
-            console.error(
-              "Realtime Database error:",
-              error
-            );
-
-
-            await goToLogin();
-
-          }
-
+        startDashboardCounts(
+          user.uid
         );
 
+      },
+
+      async error => {
+
+        console.error(
+          "Realtime Database error:",
+          error
+        );
+
+
+        await goToLogin();
+
       }
 
     );
 
-  </script>
+  }
+
+);
+
+</script>
 
 </body>
 
