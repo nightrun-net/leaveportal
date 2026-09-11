@@ -580,9 +580,7 @@
     let alertsCache = {};
     let readIds = new Set();
 
-    /* =========================================
-       USER LOGIN LOCATION
-    ========================================== */
+ 
 
     const USER_LOGIN_URL =
       "/office/index.html";
@@ -590,9 +588,7 @@
     const USER_DASHBOARD_URL =
       "/office/daspek/Daspek.html";
 
-    /* =========================================
-       STORAGE
-    ========================================== */
+    
 
     function storageKey() {
       return `office_read_alerts_${currentUser?.uid || "guest"}`;
@@ -636,9 +632,7 @@
       }
     }
 
-    /* =========================================
-       HELPERS
-    ========================================== */
+    
 
     function escapeHTML(value) {
       return String(value ?? "")
@@ -686,9 +680,7 @@
       );
     }
 
-    /* =========================================
-       BACK BUTTON
-    ========================================== */
+    
 
     backBtn.addEventListener(
       "click",
@@ -698,9 +690,7 @@
       }
     );
 
-    /* =========================================
-       UNREAD COUNT
-    ========================================== */
+    
 
     function updateUnreadCount() {
       const alerts =
@@ -729,9 +719,7 @@
           : String(count);
     }
 
-    /* =========================================
-       RENDER ALERTS
-    ========================================== */
+   
 
     function renderAlerts() {
       const alerts =
@@ -888,9 +876,7 @@
       updateUnreadCount();
     }
 
-    /* =========================================
-       OPEN ALERT
-    ========================================== */
+    
 
     function openAlert(id) {
       const item =
@@ -923,9 +909,7 @@
       renderAlerts();
     }
 
-    /* =========================================
-       MODAL
-    ========================================== */
+    
 
     closeBtn.addEventListener(
       "click",
@@ -950,9 +934,7 @@
       }
     );
 
-    /* =========================================
-       ALERT LISTENER
-    ========================================== */
+    
 
     function startAlertsListener() {
       onValue(
@@ -988,9 +970,7 @@
       );
     }
 
-    /* =========================================
-       USER AUTH
-    ========================================== */
+    
 
     onAuthStateChanged(
       auth,
