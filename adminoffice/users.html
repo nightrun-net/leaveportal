@@ -10,7 +10,7 @@
   content="width=device-width, initial-scale=1.0"
 >
 
-<title>Office</title>
+<title>بەکارهێنەرێن ئۆفیسێ</title>
 
 <link
   rel="stylesheet"
@@ -41,6 +41,9 @@
 
   --red: #dc2626;
   --red-soft: #fef2f2;
+
+  --blue: #2563eb;
+  --blue-soft: #eff6ff;
 }
 
 html {
@@ -58,12 +61,11 @@ body {
 
   background: var(--background);
   color: var(--dark);
-
-  -webkit-tap-highlight-color: transparent;
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -72,10 +74,12 @@ button {
 }
 
 
-
+/* =========================================
+   CONTAINER
+========================================= */
 
 .container {
-  width: min(1150px, 100%);
+  width: min(1180px, 100%);
   margin: auto;
 
   padding:
@@ -85,7 +89,9 @@ button {
 }
 
 
-
+/* =========================================
+   HEADER
+========================================= */
 
 .header {
   display: flex;
@@ -103,7 +109,7 @@ button {
   flex: 0 0 auto;
 
   border: 0;
-  border-radius: 17px;
+  border-radius: 50%;
 
   display: flex;
   align-items: center;
@@ -136,8 +142,6 @@ button {
 
   font-size: 32px;
   font-weight: 900;
-
-  color: var(--dark);
 }
 
 .header p {
@@ -147,19 +151,19 @@ button {
 
   font-size: 16px;
   font-weight: 600;
-
-  line-height: 1.7;
 }
 
 
-
+/* =========================================
+   CARD
+========================================= */
 
 .card {
   margin-bottom: 24px;
 
   padding: 28px;
 
-  background: var(--white);
+  background: #fff;
 
   border:
     1px
@@ -188,8 +192,6 @@ button {
 
   font-size: 23px;
   font-weight: 900;
-
-  color: var(--dark);
 }
 
 .title-icon {
@@ -198,7 +200,7 @@ button {
 
   flex: 0 0 auto;
 
-  border-radius: 15px;
+  border-radius: 50%;
 
   display: flex;
   align-items: center;
@@ -206,12 +208,12 @@ button {
 
   background: var(--orange-soft);
   color: var(--orange-dark);
-
-  font-size: 19px;
 }
 
 
-
+/* =========================================
+   FORM
+========================================= */
 
 .form-grid {
   display: grid;
@@ -230,18 +232,14 @@ button {
 
   margin-bottom: 9px;
 
+  color: var(--text);
+
   font-size: 15px;
   font-weight: 800;
-
-  color: var(--text);
 }
 
 .form-group label i {
-  width: 21px;
-
   color: var(--orange);
-
-  text-align: center;
 }
 
 .input-wrapper {
@@ -258,12 +256,11 @@ button {
 
   color: #94a3b8;
 
-  font-size: 16px;
-
   pointer-events: none;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
   height: 58px;
 
@@ -285,12 +282,11 @@ button {
 
   outline: none;
 
-  font-size: 16px;
-
   transition: .2s ease;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
   border-color: var(--orange);
 
   background: #fff;
@@ -303,12 +299,10 @@ button {
     rgba(255, 133, 0, .08);
 }
 
-.form-group input::placeholder {
-  color: #a0aaba;
-}
 
-
-
+/* =========================================
+   PASSWORD
+========================================= */
 
 .password-wrapper {
   position: relative;
@@ -330,7 +324,7 @@ button {
   height: 42px;
 
   border: 0;
-  border-radius: 13px;
+  border-radius: 50%;
 
   display: flex;
   align-items: center;
@@ -338,10 +332,6 @@ button {
 
   background: transparent;
   color: #64748b;
-
-  font-size: 17px;
-
-  transition: .2s ease;
 }
 
 .eye-btn:hover {
@@ -350,10 +340,12 @@ button {
 }
 
 
-
+/* =========================================
+   CREATE BUTTON
+========================================= */
 
 .create-btn {
-  min-width: 220px;
+  min-width: 225px;
   min-height: 57px;
 
   margin-top: 23px;
@@ -388,30 +380,17 @@ button {
     12px
     26px
     rgba(255, 116, 0, .22);
-
-  transition: .2s ease;
-}
-
-.create-btn:hover {
-  transform: translateY(-2px);
-
-  box-shadow:
-    0
-    16px
-    30px
-    rgba(255, 116, 0, .27);
 }
 
 .create-btn:disabled {
   opacity: .6;
-
   cursor: not-allowed;
-
-  transform: none;
 }
 
 
-
+/* =========================================
+   MESSAGE
+========================================= */
 
 .message {
   display: none;
@@ -459,7 +438,9 @@ button {
 }
 
 
-
+/* =========================================
+   TABLE
+========================================= */
 
 .table-wrapper {
   width: 100%;
@@ -477,11 +458,9 @@ button {
 table {
   width: 100%;
 
-  min-width: 780px;
+  min-width: 900px;
 
   border-collapse: collapse;
-
-  background: #fff;
 }
 
 th,
@@ -522,20 +501,14 @@ td {
   font-weight: 600;
 }
 
-tbody tr {
-  transition: .2s ease;
-}
-
 tbody tr:hover {
   background: #fffaf5;
 }
 
-tbody tr:last-child td {
-  border-bottom: 0;
-}
 
-
-
+/* =========================================
+   USER
+========================================= */
 
 .user-cell {
   display: flex;
@@ -550,7 +523,7 @@ tbody tr:last-child td {
 
   flex: 0 0 auto;
 
-  border-radius: 14px;
+  border-radius: 50%;
 
   display: flex;
   align-items: center;
@@ -558,8 +531,6 @@ tbody tr:last-child td {
 
   background: var(--orange-soft);
   color: var(--orange-dark);
-
-  font-size: 16px;
 }
 
 .user-name {
@@ -568,25 +539,17 @@ tbody tr:last-child td {
   font-weight: 850;
 }
 
-
-
-
 .email {
   direction: ltr;
-
   text-align: right;
 
   color: var(--muted);
 }
 
-.email i {
-  margin-right: 7px;
 
-  color: #94a3b8;
-}
-
-
-
+/* =========================================
+   BADGES
+========================================= */
 
 .role-badge {
   display: inline-flex;
@@ -598,17 +561,14 @@ tbody tr:last-child td {
     7px
     11px;
 
-  border-radius: 100px;
+  border-radius: 999px;
 
-  background: #eff6ff;
-  color: #2563eb;
+  background: var(--blue-soft);
+  color: var(--blue);
 
   font-size: 12px;
   font-weight: 850;
 }
-
-
-
 
 .status {
   display: inline-flex;
@@ -620,7 +580,7 @@ tbody tr:last-child td {
     7px
     12px;
 
-  border-radius: 100px;
+  border-radius: 999px;
 
   font-size: 12px;
   font-weight: 850;
@@ -645,9 +605,6 @@ tbody tr:last-child td {
   background: currentColor;
 }
 
-
-
-
 .row-number {
   width: 37px;
   height: 37px;
@@ -656,19 +613,67 @@ tbody tr:last-child td {
   align-items: center;
   justify-content: center;
 
-  border-radius: 12px;
+  border-radius: 50%;
 
   background: #f1f5f9;
 
-  color: #475569;
-
   font-weight: 900;
-
-  direction: ltr;
 }
 
 
+/* =========================================
+   ACTION BUTTONS
+========================================= */
 
+.actions {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.action-btn {
+  width: 40px;
+  height: 40px;
+
+  border: 0;
+  border-radius: 50%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: .2s ease;
+}
+
+.edit-btn {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.edit-btn:hover {
+  background: var(--blue);
+  color: #fff;
+
+  transform: translateY(-2px);
+}
+
+.delete-btn {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.delete-btn:hover {
+  background: var(--red);
+  color: #fff;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
 
 .empty {
   padding: 45px !important;
@@ -676,8 +681,6 @@ tbody tr:last-child td {
   text-align: center !important;
 
   color: #94a3b8;
-
-  font-size: 15px;
 }
 
 .empty i {
@@ -691,7 +694,167 @@ tbody tr:last-child td {
 }
 
 
+/* =========================================
+   MODAL
+========================================= */
 
+.modal {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 5000;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(15, 23, 42, .52);
+
+  backdrop-filter:
+    blur(6px);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-card {
+  position: relative;
+
+  width:
+    min(
+      520px,
+      100%
+    );
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  padding: 30px;
+
+  border-radius: 28px;
+
+  background: #fff;
+
+  box-shadow:
+    0
+    30px
+    70px
+    rgba(0, 0, 0, .22);
+}
+
+.modal-close {
+  position: absolute;
+
+  top: 17px;
+  left: 17px;
+
+  width: 40px;
+  height: 40px;
+
+  border: 0;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.modal-icon {
+  width: 62px;
+  height: 62px;
+
+  margin-bottom: 18px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--orange-soft);
+  color: var(--orange-dark);
+
+  font-size: 24px;
+}
+
+.modal-icon.delete {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.modal-title {
+  margin:
+    0
+    0
+    22px;
+
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.modal-text {
+  margin:
+    -10px
+    0
+    22px;
+
+  color: var(--muted);
+
+  line-height: 1.8;
+}
+
+.modal-actions {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 23px;
+}
+
+.modal-actions button {
+  flex: 1;
+
+  min-height: 52px;
+
+  border: 0;
+  border-radius: 16px;
+
+  font-weight: 900;
+}
+
+.cancel-btn {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.save-btn {
+  background: var(--orange);
+  color: #fff;
+}
+
+.danger-btn {
+  background: var(--red);
+  color: #fff;
+}
+
+.modal-actions button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
 
 @media(max-width: 760px) {
 
@@ -704,15 +867,11 @@ tbody tr:last-child td {
 
   .header {
     align-items: flex-start;
-
-    margin-bottom: 22px;
   }
 
   .back-btn {
     width: 48px;
     height: 48px;
-
-    border-radius: 15px;
   }
 
   .header h1 {
@@ -729,10 +888,6 @@ tbody tr:last-child td {
     border-radius: 22px;
   }
 
-  .card-title {
-    font-size: 20px;
-  }
-
   .form-grid {
     grid-template-columns: 1fr;
   }
@@ -741,10 +896,18 @@ tbody tr:last-child td {
     width: 100%;
   }
 
+  .modal-card {
+    padding:
+      26px
+      20px;
+  }
+
 }
 
 
-
+/* =========================================
+   DESKTOP
+========================================= */
 
 @media(min-width: 1024px) {
 
@@ -771,20 +934,6 @@ tbody tr:last-child td {
     font-size: 27px;
   }
 
-  .form-group label {
-    font-size: 17px;
-  }
-
-  .form-group input {
-    height: 62px;
-
-    font-size: 17px;
-  }
-
-  th {
-    font-size: 15px;
-  }
-
   td {
     font-size: 16px;
   }
@@ -802,16 +951,14 @@ tbody tr:last-child td {
 <div class="container">
 
 
-
+  <!-- HEADER -->
 
   <div class="header">
-
 
     <button
       type="button"
       class="back-btn"
       id="backBtn"
-      aria-label="زڤرین"
       title="زڤرین"
     >
 
@@ -823,37 +970,32 @@ tbody tr:last-child td {
     <div class="header-text">
 
       <h1>
-        بکارهێنەرێن ئۆفیسێ
+        بەکارهێنەرێن ئۆفیسێ
       </h1>
 
       <p>
-        دروستکرنا هەژمارێن کارمەندان و دیتنا بکارهێنەرێن تومارکری
+        دروستکرن، دەستکاریکرن و ژێبرنا هەژمارێن کارمەندان
       </p>
 
     </div>
-
 
   </div>
 
 
 
-
+  <!-- CREATE -->
 
   <section class="card">
-
 
     <h2 class="card-title">
 
       <span class="title-icon">
-
         <i class="fa-solid fa-user-plus"></i>
-
       </span>
 
-      دروستکرنا بکارهێنەرێن نووی
+      دروستکرنا بەکارهێنەرێ نووی
 
     </h2>
-
 
 
     <form id="userForm">
@@ -862,14 +1004,11 @@ tbody tr:last-child td {
       <div class="form-grid">
 
 
-    
-
         <div class="form-group">
 
           <label for="name">
 
             <i class="fa-solid fa-user"></i>
-
             ناڤ
 
           </label>
@@ -893,14 +1032,11 @@ tbody tr:last-child td {
 
 
 
-      
-
         <div class="form-group">
 
           <label for="email">
 
             <i class="fa-solid fa-envelope"></i>
-
             ئیمەیڵ
 
           </label>
@@ -925,14 +1061,11 @@ tbody tr:last-child td {
 
 
 
-       
-
         <div class="form-group">
 
           <label for="password">
 
             <i class="fa-solid fa-lock"></i>
-
             پەیڤا نهێنی
 
           </label>
@@ -956,7 +1089,6 @@ tbody tr:last-child td {
               type="button"
               class="eye-btn"
               id="eyeBtn"
-              aria-label="نیشاندانا پەیڤا نهێنی"
             >
 
               <i
@@ -974,7 +1106,6 @@ tbody tr:last-child td {
       </div>
 
 
-
       <button
         type="submit"
         class="create-btn"
@@ -984,27 +1115,25 @@ tbody tr:last-child td {
         <i class="fa-solid fa-user-plus"></i>
 
         <span id="createBtnText">
-          دروستکرنا بکارهێنەری
+          دروستکرنا بەکارهێنەری
         </span>
 
       </button>
 
 
-
       <div
-        id="message"
         class="message"
+        id="message"
       ></div>
 
 
     </form>
 
-
   </section>
 
 
 
-  
+  <!-- USERS -->
 
   <section class="card">
 
@@ -1012,15 +1141,12 @@ tbody tr:last-child td {
     <h2 class="card-title">
 
       <span class="title-icon">
-
         <i class="fa-solid fa-users"></i>
-
       </span>
 
-      بکارهێنەرێن تومارکری
+      بەکارهێنەرێن تومارکری
 
     </h2>
-
 
 
     <div class="table-wrapper">
@@ -1033,44 +1159,31 @@ tbody tr:last-child td {
 
           <tr>
 
-            <th>
-              #
-            </th>
-
+            <th>#</th>
 
             <th>
-
               <i class="fa-solid fa-user"></i>
-
               ناڤ
-
             </th>
 
-
             <th>
-
               <i class="fa-solid fa-envelope"></i>
-
               ئیمەیڵ
-
             </th>
 
-
             <th>
-
               <i class="fa-solid fa-user-shield"></i>
-
               رول
-
             </th>
 
+            <th>
+              <i class="fa-solid fa-circle-check"></i>
+              بارودۆخ
+            </th>
 
             <th>
-
-              <i class="fa-solid fa-circle-check"></i>
-
-              بارودۆخ
-
+              <i class="fa-solid fa-sliders"></i>
+              کردار
             </th>
 
           </tr>
@@ -1080,11 +1193,10 @@ tbody tr:last-child td {
 
         <tbody id="usersTable">
 
-
           <tr>
 
             <td
-              colspan="5"
+              colspan="6"
               class="empty"
             >
 
@@ -1096,7 +1208,6 @@ tbody tr:last-child td {
 
           </tr>
 
-
         </tbody>
 
 
@@ -1105,9 +1216,238 @@ tbody tr:last-child td {
 
     </div>
 
-
   </section>
 
+
+</div>
+
+
+
+<!-- =========================================
+     EDIT MODAL
+========================================= -->
+
+<div
+  class="modal"
+  id="editModal"
+>
+
+  <div class="modal-card">
+
+
+    <button
+      type="button"
+      class="modal-close"
+      id="closeEditModal"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+
+    <div class="modal-icon">
+
+      <i class="fa-solid fa-user-pen"></i>
+
+    </div>
+
+
+    <h2 class="modal-title">
+      دەستکاریکرنا بەکارهێنەری
+    </h2>
+
+
+    <div class="form-group">
+
+      <label for="editName">
+
+        <i class="fa-solid fa-user"></i>
+        ناڤ
+
+      </label>
+
+
+      <div class="input-wrapper">
+
+        <i class="fa-solid fa-user input-icon"></i>
+
+        <input
+          id="editName"
+          type="text"
+          placeholder="ناڤ"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="form-group"
+      style="margin-top:17px;"
+    >
+
+      <label for="editEmail">
+
+        <i class="fa-solid fa-envelope"></i>
+        ئیمەیڵ
+
+      </label>
+
+
+      <div class="input-wrapper">
+
+        <i class="fa-solid fa-envelope input-icon"></i>
+
+        <input
+          id="editEmail"
+          type="email"
+          dir="ltr"
+          readonly
+        >
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="form-group"
+      style="margin-top:17px;"
+    >
+
+      <label for="editActive">
+
+        <i class="fa-solid fa-circle-check"></i>
+        بارودۆخ
+
+      </label>
+
+
+      <div class="input-wrapper">
+
+        <i class="fa-solid fa-toggle-on input-icon"></i>
+
+        <select id="editActive">
+
+          <option value="true">
+            چالاک
+          </option>
+
+          <option value="false">
+            راگرتی
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+
+      <button
+        type="button"
+        class="cancel-btn"
+        id="cancelEditBtn"
+      >
+        پاشگەزبوون
+      </button>
+
+
+      <button
+        type="button"
+        class="save-btn"
+        id="saveEditBtn"
+      >
+
+        <i class="fa-solid fa-floppy-disk"></i>
+
+        خەزنکرن
+
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================
+     DELETE MODAL
+========================================= -->
+
+<div
+  class="modal"
+  id="deleteModal"
+>
+
+  <div class="modal-card">
+
+
+    <button
+      type="button"
+      class="modal-close"
+      id="closeDeleteModal"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+
+    <div class="modal-icon delete">
+
+      <i class="fa-solid fa-trash"></i>
+
+    </div>
+
+
+    <h2 class="modal-title">
+      ژێبرنا بەکارهێنەری
+    </h2>
+
+
+    <p
+      class="modal-text"
+      id="deleteText"
+    >
+      تو پشتراستی؟
+    </p>
+
+
+    <div class="modal-actions">
+
+
+      <button
+        type="button"
+        class="cancel-btn"
+        id="cancelDeleteBtn"
+      >
+        نەخێر
+      </button>
+
+
+      <button
+        type="button"
+        class="danger-btn"
+        id="confirmDeleteBtn"
+      >
+
+        <i class="fa-solid fa-trash"></i>
+
+        بەلێ، ژێ ببە
+
+      </button>
+
+
+    </div>
+
+
+  </div>
 
 </div>
 
@@ -1116,7 +1456,9 @@ tbody tr:last-child td {
 <script type="module">
 
 
-
+/* =========================================
+   FIREBASE IMPORTS
+========================================= */
 
 import {
   initializeApp
@@ -1141,14 +1483,17 @@ import {
   set,
   get,
   onValue,
+  update,
+  remove,
   serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-
-
+/* =========================================
+   CONFIG
+========================================= */
 
 const firebaseConfig = {
 
@@ -1179,9 +1524,6 @@ const firebaseConfig = {
 };
 
 
-
-
-
 const ADMIN_LOGIN_URL =
   "/adminoffice/login/Login.html";
 
@@ -1190,8 +1532,9 @@ const ADMIN_DASHBOARD_URL =
   "/adminoffice/dashboard/Dashboard.html";
 
 
-
-
+/* =========================================
+   FIREBASE INIT
+========================================= */
 
 const app =
   initializeApp(
@@ -1211,8 +1554,11 @@ const database =
   );
 
 
-
-
+/*
+ * Separate auth instance.
+ * This prevents the owner from being
+ * logged out when a user is created.
+ */
 
 const creatorApp =
   initializeApp(
@@ -1227,8 +1573,9 @@ const creatorAuth =
   );
 
 
-
-
+/* =========================================
+   ELEMENTS
+========================================= */
 
 const userForm =
   document.getElementById(
@@ -1296,8 +1643,105 @@ const backBtn =
   );
 
 
+/* EDIT */
+
+const editModal =
+  document.getElementById(
+    "editModal"
+  );
 
 
+const closeEditModal =
+  document.getElementById(
+    "closeEditModal"
+  );
+
+
+const cancelEditBtn =
+  document.getElementById(
+    "cancelEditBtn"
+  );
+
+
+const saveEditBtn =
+  document.getElementById(
+    "saveEditBtn"
+  );
+
+
+const editName =
+  document.getElementById(
+    "editName"
+  );
+
+
+const editEmail =
+  document.getElementById(
+    "editEmail"
+  );
+
+
+const editActive =
+  document.getElementById(
+    "editActive"
+  );
+
+
+/* DELETE */
+
+const deleteModal =
+  document.getElementById(
+    "deleteModal"
+  );
+
+
+const closeDeleteModal =
+  document.getElementById(
+    "closeDeleteModal"
+  );
+
+
+const cancelDeleteBtn =
+  document.getElementById(
+    "cancelDeleteBtn"
+  );
+
+
+const confirmDeleteBtn =
+  document.getElementById(
+    "confirmDeleteBtn"
+  );
+
+
+const deleteText =
+  document.getElementById(
+    "deleteText"
+  );
+
+
+/* =========================================
+   STATE
+========================================= */
+
+let usersListenerStarted =
+  false;
+
+
+let usersCache =
+  {};
+
+
+let selectedEditUid =
+  null;
+
+
+let selectedDeleteUid =
+  null;
+
+
+/* =========================================
+   BACK
+========================================= */
 
 backBtn.addEventListener(
   "click",
@@ -1310,12 +1754,9 @@ backBtn.addEventListener(
 );
 
 
-
-
-
-let usersListenerStarted =
-  false;
-
+/* =========================================
+   OWNER CHECK
+========================================= */
 
 onAuthStateChanged(
   auth,
@@ -1329,7 +1770,6 @@ onAuthStateChanged(
       );
 
       return;
-
     }
 
 
@@ -1361,7 +1801,6 @@ onAuthStateChanged(
 
 
         return;
-
       }
 
 
@@ -1377,7 +1816,8 @@ onAuthStateChanged(
 
         ||
 
-        ownerData.active === false
+        ownerData.active ===
+        false
       ) {
 
         await signOut(
@@ -1391,7 +1831,6 @@ onAuthStateChanged(
 
 
         return;
-
       }
 
 
@@ -1417,8 +1856,9 @@ onAuthStateChanged(
 );
 
 
-
-
+/* =========================================
+   CREATE USER
+========================================= */
 
 userForm.addEventListener(
   "submit",
@@ -1459,7 +1899,6 @@ userForm.addEventListener(
 
 
       return;
-
     }
 
 
@@ -1474,7 +1913,6 @@ userForm.addEventListener(
 
 
       return;
-
     }
 
 
@@ -1489,7 +1927,6 @@ userForm.addEventListener(
 
 
       return;
-
     }
 
 
@@ -1502,9 +1939,6 @@ userForm.addEventListener(
 
 
     try {
-
-
-      
 
       const userCredential =
         await createUserWithEmailAndPassword(
@@ -1521,9 +1955,6 @@ userForm.addEventListener(
       const newUser =
         userCredential.user;
 
-
-
-      
 
       await set(
 
@@ -1555,9 +1986,6 @@ userForm.addEventListener(
       );
 
 
-
-      
-
       await signOut(
         creatorAuth
       );
@@ -1575,7 +2003,7 @@ userForm.addEventListener(
 
 
       showMessage(
-        "بکارهێنەر ب سەرکەفتی هات دروستکرن.",
+        "بەکارهێنەر ب سەرکەفتی هات دروستکرن.",
         "success"
       );
 
@@ -1627,22 +2055,6 @@ userForm.addEventListener(
 
       else if (
         error.code ===
-        "auth/network-request-failed"
-      ) {
-
-        text =
-          "پەیوەندی ب ئینتەرنێتێ ڤە نینە.";
-
-      }
-
-
-      else if (
-        error.code ===
-        "PERMISSION_DENIED"
-
-        ||
-
-        error.code ===
         "database/permission-denied"
       ) {
 
@@ -1673,8 +2085,9 @@ userForm.addEventListener(
 );
 
 
-
-
+/* =========================================
+   USERS LISTENER
+========================================= */
 
 function startUsersListener() {
 
@@ -1684,7 +2097,6 @@ function startUsersListener() {
   ) {
 
     return;
-
   }
 
 
@@ -1702,187 +2114,15 @@ function startUsersListener() {
     snapshot => {
 
 
-      usersTable.innerHTML =
-        "";
-
-
-      if (
-        !snapshot.exists()
-      ) {
-
-        renderEmptyUsers();
-
-        return;
-
-      }
-
-
-      const data =
-        snapshot.val();
-
-
-      const users =
-        Object.entries(
-          data
-        )
-
-        .map(
-          ([uid, user]) => ({
-            uid,
-            ...(user || {})
-          })
-        )
-
-        .filter(
-          user =>
-
-            String(
-              user.role || ""
-            ).toLowerCase() ===
-            "user"
-        )
-
-        .sort(
-          (a, b) =>
-
-            String(
-              a.name || ""
-            )
-
-            .localeCompare(
-              String(
-                b.name || ""
-              )
-            )
-        );
-
-
-      if (
-        users.length === 0
-      ) {
-
-        renderEmptyUsers();
-
-        return;
-
-      }
-
-
-      users.forEach(
-        (
-          user,
-          index
-        ) => {
-
-
-          const active =
-            user.active !== false;
-
-
-          const row =
-            document.createElement(
-              "tr"
-            );
-
-
-          row.innerHTML = `
-
-            <td>
-
-              <span class="row-number">
-
-                ${index + 1}
-
-              </span>
-
-            </td>
-
-
-            <td>
-
-              <div class="user-cell">
-
-                <div class="user-avatar">
-
-                  <i class="fa-solid fa-user"></i>
-
-                </div>
-
-                <div class="user-name">
-
-                  ${escapeHTML(
-                    user.name || "-"
-                  )}
-
-                </div>
-
-              </div>
-
-            </td>
-
-
-            <td class="email">
-
-              <i class="fa-regular fa-envelope"></i>
-
-              ${escapeHTML(
-                user.email || "-"
-              )}
-
-            </td>
-
-
-            <td>
-
-              <span class="role-badge">
-
-                <i class="fa-solid fa-user"></i>
-
-                User
-
-              </span>
-
-            </td>
-
-
-            <td>
-
-              <span
-                class="
-                  status
-                  ${
-                    active
-                      ?
-                      "active"
-                      :
-                      "inactive"
-                  }
-                "
-              >
-
-                <span class="status-dot"></span>
-
-                ${
-                  active
-                    ?
-                    "چالاک"
-                    :
-                    "راگرتی"
-                }
-
-              </span>
-
-            </td>
-
-          `;
-
-
-          usersTable.appendChild(
-            row
-          );
-
-        }
-      );
+      usersCache =
+        snapshot.exists()
+          ?
+          snapshot.val() || {}
+          :
+          {};
+
+
+      renderUsers();
 
     },
 
@@ -1899,13 +2139,13 @@ function startUsersListener() {
         <tr>
 
           <td
-            colspan="5"
+            colspan="6"
             class="empty"
           >
 
             <i class="fa-solid fa-triangle-exclamation"></i>
 
-            هەڵە د بارکرنا بکارهێنەران
+            هەڵە د بارکرنا بەکارهێنەران
 
           </td>
 
@@ -1920,8 +2160,267 @@ function startUsersListener() {
 }
 
 
+/* =========================================
+   RENDER USERS
+========================================= */
+
+function renderUsers() {
+
+  usersTable.innerHTML =
+    "";
 
 
+  const users =
+    Object.entries(
+      usersCache
+    )
+
+    .map(
+      ([uid, user]) => ({
+        uid,
+        ...(user || {})
+      })
+    )
+
+    .filter(
+      user =>
+
+        String(
+          user.role || ""
+        ).toLowerCase() ===
+        "user"
+    )
+
+    .sort(
+      (a, b) =>
+
+        String(
+          a.name || ""
+        )
+
+        .localeCompare(
+          String(
+            b.name || ""
+          )
+        )
+    );
+
+
+  if (
+    users.length === 0
+  ) {
+
+    renderEmptyUsers();
+
+    return;
+  }
+
+
+  users.forEach(
+    (
+      user,
+      index
+    ) => {
+
+
+      const active =
+        user.active !== false;
+
+
+      const row =
+        document.createElement(
+          "tr"
+        );
+
+
+      row.innerHTML = `
+
+        <td>
+
+          <span class="row-number">
+            ${index + 1}
+          </span>
+
+        </td>
+
+
+        <td>
+
+          <div class="user-cell">
+
+            <div class="user-avatar">
+
+              <i class="fa-solid fa-user"></i>
+
+            </div>
+
+
+            <div class="user-name">
+
+              ${escapeHTML(
+                user.name || "-"
+              )}
+
+            </div>
+
+          </div>
+
+        </td>
+
+
+        <td class="email">
+
+          ${escapeHTML(
+            user.email || "-"
+          )}
+
+        </td>
+
+
+        <td>
+
+          <span class="role-badge">
+
+            <i class="fa-solid fa-user"></i>
+
+            User
+
+          </span>
+
+        </td>
+
+
+        <td>
+
+          <span
+            class="
+              status
+              ${
+                active
+                  ?
+                  "active"
+                  :
+                  "inactive"
+              }
+            "
+          >
+
+            <span class="status-dot"></span>
+
+            ${
+              active
+                ?
+                "چالاک"
+                :
+                "راگرتی"
+            }
+
+          </span>
+
+        </td>
+
+
+        <td>
+
+          <div class="actions">
+
+
+            <button
+              type="button"
+              class="action-btn edit-btn"
+              data-edit="${escapeHTML(
+                user.uid
+              )}"
+              title="دەستکاریکرن"
+            >
+
+              <i class="fa-solid fa-pen"></i>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="action-btn delete-btn"
+              data-delete="${escapeHTML(
+                user.uid
+              )}"
+              title="ژێبرن"
+            >
+
+              <i class="fa-solid fa-trash"></i>
+
+            </button>
+
+
+          </div>
+
+        </td>
+
+      `;
+
+
+      usersTable.appendChild(
+        row
+      );
+
+    }
+  );
+
+
+  /* EDIT BUTTONS */
+
+  usersTable
+    .querySelectorAll(
+      "[data-edit]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            openEditModal(
+              button.dataset.edit
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+  /* DELETE BUTTONS */
+
+  usersTable
+    .querySelectorAll(
+      "[data-delete]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            openDeleteModal(
+              button.dataset.delete
+            );
+
+          }
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
 
 function renderEmptyUsers() {
 
@@ -1930,13 +2429,13 @@ function renderEmptyUsers() {
     <tr>
 
       <td
-        colspan="5"
+        colspan="6"
         class="empty"
       >
 
         <i class="fa-solid fa-users-slash"></i>
 
-        هێشتا بکارهێنەر نەهاتیە دروستکرن
+        هێشتا بەکارهێنەر نەهاتیە دروستکرن
 
       </td>
 
@@ -1947,8 +2446,395 @@ function renderEmptyUsers() {
 }
 
 
+/* =========================================
+   OPEN EDIT
+========================================= */
+
+function openEditModal(
+  uid
+) {
+
+  const user =
+    usersCache[uid];
 
 
+  if (!user) {
+
+    return;
+  }
+
+
+  selectedEditUid =
+    uid;
+
+
+  editName.value =
+    user.name ||
+    "";
+
+
+  editEmail.value =
+    user.email ||
+    "";
+
+
+  editActive.value =
+    user.active === false
+      ?
+      "false"
+      :
+      "true";
+
+
+  editModal.classList.add(
+    "active"
+  );
+
+
+  setTimeout(
+    () => {
+
+      editName.focus();
+
+    },
+    100
+  );
+
+}
+
+
+/* =========================================
+   SAVE EDIT
+========================================= */
+
+saveEditBtn.addEventListener(
+  "click",
+  async () => {
+
+
+    if (
+      !selectedEditUid
+    ) {
+
+      return;
+    }
+
+
+    const name =
+      editName.value
+        .trim();
+
+
+    const active =
+      editActive.value ===
+      "true";
+
+
+    if (!name) {
+
+      alert(
+        "ناڤێ بەکارهێنەری بنڤیسە."
+      );
+
+
+      return;
+    }
+
+
+    saveEditBtn.disabled =
+      true;
+
+
+    try {
+
+      await update(
+
+        ref(
+          database,
+          `users/${selectedEditUid}`
+        ),
+
+        {
+
+          name,
+
+          active,
+
+          updatedAt:
+            serverTimestamp()
+
+        }
+
+      );
+
+
+      closeEdit();
+
+
+      showMessage(
+        "زانیاریێن بەکارهێنەری ب سەرکەفتی هاتنە دەستکاریکرن.",
+        "success"
+      );
+
+    }
+    catch(error) {
+
+      console.error(
+        "Edit user error:",
+        error
+      );
+
+
+      showMessage(
+        "دەستکاریکرنا بەکارهێنەری سەرنەکەفت.",
+        "error"
+      );
+
+    }
+    finally {
+
+      saveEditBtn.disabled =
+        false;
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   CLOSE EDIT
+========================================= */
+
+function closeEdit() {
+
+  selectedEditUid =
+    null;
+
+
+  editModal.classList.remove(
+    "active"
+  );
+
+}
+
+
+closeEditModal.addEventListener(
+  "click",
+  closeEdit
+);
+
+
+cancelEditBtn.addEventListener(
+  "click",
+  closeEdit
+);
+
+
+editModal.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      editModal
+    ) {
+
+      closeEdit();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   OPEN DELETE
+========================================= */
+
+function openDeleteModal(
+  uid
+) {
+
+  const user =
+    usersCache[uid];
+
+
+  if (!user) {
+
+    return;
+  }
+
+
+  selectedDeleteUid =
+    uid;
+
+
+  deleteText.textContent =
+    `تو پشتراستی دڤێت بەکارهێنەر "${user.name || "بەکارهێنەر"}" ژێ ببەی؟`;
+
+
+  deleteModal.classList.add(
+    "active"
+  );
+
+}
+
+
+/* =========================================
+   DELETE
+========================================= */
+
+confirmDeleteBtn.addEventListener(
+  "click",
+  async () => {
+
+
+    if (
+      !selectedDeleteUid
+    ) {
+
+      return;
+    }
+
+
+    confirmDeleteBtn.disabled =
+      true;
+
+
+    try {
+
+      /*
+       * IMPORTANT:
+       *
+       * This removes the user's Office
+       * profile from Realtime Database.
+       *
+       * Your login system requires this
+       * profile, so this user can no
+       * longer enter the Office system.
+       *
+       * Firebase Authentication account
+       * itself needs Firebase Admin SDK
+       * for permanent deletion.
+       */
+
+      await remove(
+
+        ref(
+          database,
+          `users/${selectedDeleteUid}`
+        )
+
+      );
+
+
+      closeDelete();
+
+
+      showMessage(
+        "بەکارهێنەر ژ سیستەمی هاتە ژێبرن.",
+        "success"
+      );
+
+    }
+    catch(error) {
+
+      console.error(
+        "Delete user error:",
+        error
+      );
+
+
+      showMessage(
+        "ژێبرنا بەکارهێنەری سەرنەکەفت.",
+        "error"
+      );
+
+    }
+    finally {
+
+      confirmDeleteBtn.disabled =
+        false;
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   CLOSE DELETE
+========================================= */
+
+function closeDelete() {
+
+  selectedDeleteUid =
+    null;
+
+
+  deleteModal.classList.remove(
+    "active"
+  );
+
+}
+
+
+closeDeleteModal.addEventListener(
+  "click",
+  closeDelete
+);
+
+
+cancelDeleteBtn.addEventListener(
+  "click",
+  closeDelete
+);
+
+
+deleteModal.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      deleteModal
+    ) {
+
+      closeDelete();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   ESC CLOSE
+========================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "Escape"
+    ) {
+
+      closeEdit();
+
+      closeDelete();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   PASSWORD
+========================================= */
 
 eyeBtn.addEventListener(
   "click",
@@ -1979,8 +2865,9 @@ eyeBtn.addEventListener(
 );
 
 
-
-
+/* =========================================
+   MESSAGE
+========================================= */
 
 function showMessage(
   text,
@@ -2000,9 +2887,7 @@ function showMessage(
     <i class="fa-solid ${icon}"></i>
 
     <span>
-
       ${escapeHTML(text)}
-
     </span>
 
   `;
@@ -2011,8 +2896,17 @@ function showMessage(
   message.className =
     `message ${type}`;
 
-}
 
+  setTimeout(
+    () => {
+
+      clearMessage();
+
+    },
+    4000
+  );
+
+}
 
 
 function clearMessage() {
@@ -2027,8 +2921,9 @@ function clearMessage() {
 }
 
 
-
-
+/* =========================================
+   SAFE HTML
+========================================= */
 
 function escapeHTML(
   value
@@ -2064,7 +2959,6 @@ function escapeHTML(
   );
 
 }
-
 
 </script>
 
