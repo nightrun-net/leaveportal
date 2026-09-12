@@ -431,6 +431,20 @@
         }
 
 
+        .card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+
+        .card-meta .reviewed-by {
+            margin-top: 0;
+        }
+
+
         .reviewed-by {
             margin-top: 9px;
 
@@ -2543,65 +2557,7 @@ const EMAIL_API_URL =
                             ${status.text}
                         </span>
 
-                        <span class="req-date">
-
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                />
-                            </svg>
-
-                            <span dir="ltr">
-                                ${escapeHTML(
-                                    formatDateOnly(
-                                        request.createdAt
-                                    )
-                                )}
-                            </span>
-
-                        </span>
-                    </div>
-
-                    <div class="user-info">
-
-                        <div class="user-icon">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                                />
-                            </svg>
-                        </div>
-
-                        <div class="user-details">
-                            <h3>
-                                ${escapeHTML(
-                                    request.name ||
-                                    "بەکارهێنەر"
-                                )}
-                            </h3>
-
-                            <p>
-                                ${escapeHTML(
-                                    request.email ||
-                                    ""
-                                )}
-                            </p>
+                        <div class="card-meta">
 
                             ${
                                 request.status ===
@@ -2647,6 +2603,68 @@ const EMAIL_API_URL =
                                     `
                                     : ""
                             }
+
+                            <span class="req-date">
+
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                    />
+                                </svg>
+
+                                <span dir="ltr">
+                                    ${escapeHTML(
+                                        formatDateOnly(
+                                            request.createdAt
+                                        )
+                                    )}
+                                </span>
+
+                            </span>
+
+                        </div>
+                    </div>
+
+                    <div class="user-info">
+
+                        <div class="user-icon">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                />
+                            </svg>
+                        </div>
+
+                        <div class="user-details">
+                            <h3>
+                                ${escapeHTML(
+                                    request.name ||
+                                    "بەکارهێنەر"
+                                )}
+                            </h3>
+
+                            <p>
+                                ${escapeHTML(
+                                    request.email ||
+                                    ""
+                                )}
+                            </p>
                         </div>
 
                     </div>
