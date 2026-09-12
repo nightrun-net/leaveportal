@@ -1,1225 +1,1399 @@
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-  >
+<meta charset="UTF-8">
 
-  <title>office</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<title>office</title>
 
-    :root {
-      --orange: #ff8500;
-      --orange-dark: #e86f00;
-      --orange-light: #fff4e8;
+<style>
 
-      --dark: #0f172a;
-      --text: #334155;
-      --muted: #64748b;
+* {
+  box-sizing: border-box;
+}
 
-      --border: #e8edf3;
-      --background: #f6f8fb;
-      --white: #ffffff;
+:root {
+  --orange: #ff8500;
+  --orange-dark: #e86f00;
+  --orange-light: #fff4e8;
 
-      --green: #059669;
-      --red: #dc2626;
-    }
+  --dark: #0f172a;
+  --text: #334155;
+  --muted: #64748b;
 
-    body {
-      margin: 0;
-      min-height: 100vh;
+  --border: #e8edf3;
+  --background: #f6f8fb;
+  --white: #ffffff;
 
-      font-family:
-        "Segoe UI",
-        Tahoma,
-        Geneva,
-        Verdana,
-        sans-serif;
+  --green: #059669;
+  --red: #dc2626;
+}
 
-      background: var(--background);
-      color: var(--dark);
+body {
+  margin: 0;
+  min-height: 100vh;
 
-      -webkit-tap-highlight-color: transparent;
-    }
+  font-family:
+    "Segoe UI",
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
 
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
+  background: var(--background);
+  color: var(--dark);
 
-    button {
-      cursor: pointer;
-    }
+  -webkit-tap-highlight-color: transparent;
+}
 
-    
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
 
-    .loading {
-      position: fixed;
-      inset: 0;
+button {
+  cursor: pointer;
+}
 
-      z-index: 9999;
+.loading {
+  position: fixed;
+  inset: 0;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  z-index: 9999;
 
-      background: var(--background);
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    .loading.hide {
-      display: none;
-    }
+  background: var(--background);
+}
 
-    .loader {
-      width: 52px;
-      height: 52px;
+.loading.hide {
+  display: none;
+}
 
-      border-radius: 50%;
+.loader {
+  width: 52px;
+  height: 52px;
 
-      border: 5px solid #e5e7eb;
-      border-top-color: var(--orange);
+  border-radius: 50%;
 
-      animation: spin .8s linear infinite;
-    }
+  border: 5px solid #e5e7eb;
+  border-top-color: var(--orange);
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+  animation: spin .8s linear infinite;
+}
 
-    
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-    .wrapper {
-      width: min(900px, 100%);
-      margin: auto;
+.wrapper {
+  width: min(900px, 100%);
+  margin: auto;
 
-      padding:
-        30px
-        24px
-        60px;
-    }
+  padding:
+    30px
+    24px
+    60px;
+}
 
-    
+.top-bar {
+  min-height: 70px;
 
-    .top-bar {
-      min-height: 70px;
+  display: flex;
+  align-items: center;
 
-      display: flex;
-      align-items: center;
+  gap: 16px;
 
-      gap: 16px;
+  margin-bottom: 28px;
+}
 
-      margin-bottom: 28px;
-    }
+.back-btn {
+  width: 54px;
+  height: 54px;
 
-    .back-btn {
-      width: 54px;
-      height: 54px;
+  flex: 0 0 auto;
 
-      flex: 0 0 auto;
+  border: 0;
+  border-radius: 18px;
 
-      border: 0;
-      border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  background: var(--orange-light);
+  color: var(--orange-dark);
 
-      background: var(--orange-light);
-      color: var(--orange-dark);
+  transition: .2s ease;
+}
 
-      transition: .2s ease;
-    }
+.back-btn:hover {
+  background: var(--orange);
+  color: #fff;
 
-    .back-btn:hover {
-      background: var(--orange);
-      color: #fff;
+  transform: translateY(-2px);
+}
 
-      transform: translateY(-2px);
-    }
+.back-btn svg {
+  width: 25px;
+  height: 25px;
+}
 
-    .back-btn svg {
-      width: 25px;
-      height: 25px;
-    }
+.heading {
+  min-width: 0;
+}
 
-    .heading {
-      min-width: 0;
-    }
+.heading h1 {
+  margin:
+    0
+    0
+    7px;
 
-    .heading h1 {
-      margin:
-        0
-        0
-        7px;
+  font-size: 31px;
+  font-weight: 900;
 
-      font-size: 31px;
-      font-weight: 900;
+  color: var(--dark);
+}
 
-      color: var(--dark);
-    }
+.heading p {
+  margin: 0;
 
-    .heading p {
-      margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
 
-      font-size: 15px;
-      line-height: 1.8;
+  font-weight: 600;
 
-      font-weight: 600;
+  color: var(--muted);
+}
 
-      color: var(--muted);
-    }
+.stats {
+  display: grid;
 
-   
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
 
-    .stats {
-      display: grid;
+  gap: 16px;
 
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+  margin-bottom: 22px;
+}
 
-      gap: 16px;
+.stat-card {
+  min-height: 175px;
 
-      margin-bottom: 22px;
-    }
+  padding: 22px;
 
-    .stat-card {
-      min-height: 175px;
+  background: var(--white);
 
-      padding: 22px;
+  border:
+    1px
+    solid
+    var(--border);
 
-      background: var(--white);
+  border-radius: 26px;
 
-      border:
-        1px
-        solid
-        var(--border);
+  box-shadow:
+    0
+    10px
+    30px
+    rgba(15, 23, 42, .045);
 
-      border-radius: 26px;
+  display: flex;
+  flex-direction: column;
 
-      box-shadow:
-        0
-        10px
-        30px
-        rgba(15, 23, 42, .045);
+  align-items: center;
+  justify-content: center;
 
-      display: flex;
-      flex-direction: column;
+  text-align: center;
+}
 
-      align-items: center;
-      justify-content: center;
+.stat-icon {
+  width: 58px;
+  height: 58px;
 
-      text-align: center;
-    }
+  margin-bottom: 13px;
 
-    .stat-icon {
-      width: 58px;
-      height: 58px;
+  border-radius: 19px;
 
-      margin-bottom: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      border-radius: 19px;
+  background: var(--orange-light);
+  color: var(--orange-dark);
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.stat-icon svg {
+  width: 29px;
+  height: 29px;
+}
 
-      background: var(--orange-light);
-      color: var(--orange-dark);
-    }
+.stat-label {
+  min-height: 25px;
 
-    .stat-icon svg {
-      width: 29px;
-      height: 29px;
-    }
+  color: var(--muted);
 
-    .stat-label {
-      min-height: 25px;
+  font-size: 15px;
+  font-weight: 800;
 
-      color: var(--muted);
+  line-height: 1.6;
+}
 
-      font-size: 15px;
-      font-weight: 800;
+.stat-value {
+  margin-top: 9px;
 
-      line-height: 1.6;
-    }
+  width: 100%;
 
-    .stat-value {
-      margin-top: 9px;
+  text-align: center;
 
-      width: 100%;
+  direction: ltr;
 
-      text-align: center;
+  color: var(--dark);
 
-      direction: ltr;
+  font-size: 46px;
+  font-weight: 950;
 
-      color: var(--dark);
+  line-height: 1;
+}
 
-      font-size: 46px;
-      font-weight: 950;
+.panel {
+  padding: 30px;
 
-      line-height: 1;
-    }
+  background: var(--white);
 
-    
+  border:
+    1px
+    solid
+    var(--border);
 
-    .panel {
-      padding: 30px;
+  border-radius: 28px;
 
-      background: var(--white);
+  box-shadow:
+    0
+    12px
+    34px
+    rgba(15, 23, 42, .05);
+}
 
-      border:
-        1px
-        solid
-        var(--border);
+.panel-title {
+  margin:
+    0
+    0
+    26px;
 
-      border-radius: 28px;
+  display: flex;
+  align-items: center;
 
-      box-shadow:
-        0
-        12px
-        34px
-        rgba(15, 23, 42, .05);
-    }
+  gap: 11px;
 
-    .panel-title {
-      margin:
-        0
-        0
-        26px;
+  font-size: 23px;
+  font-weight: 900;
 
-      display: flex;
-      align-items: center;
+  color: var(--dark);
+}
 
-      gap: 11px;
+.panel-title-icon {
+  width: 45px;
+  height: 45px;
 
-      font-size: 23px;
-      font-weight: 900;
+  flex: 0 0 auto;
 
-      color: var(--dark);
-    }
+  border-radius: 15px;
 
-    .panel-title-icon {
-      width: 45px;
-      height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      flex: 0 0 auto;
+  background: var(--orange-light);
+  color: var(--orange-dark);
+}
 
-      border-radius: 15px;
+.panel-title-icon svg {
+  width: 23px;
+  height: 23px;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.audience-title {
+  display: block;
 
-      background: var(--orange-light);
-      color: var(--orange-dark);
-    }
+  margin-bottom: 11px;
 
-    .panel-title-icon svg {
-      width: 23px;
-      height: 23px;
-    }
+  color: var(--text);
 
-    
+  font-size: 15px;
+  font-weight: 850;
+}
 
-    .audience-title {
-      display: block;
+.audience-options {
+  display: grid;
 
-      margin-bottom: 11px;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
 
-      color: var(--text);
+  gap: 12px;
 
-      font-size: 15px;
-      font-weight: 850;
-    }
+  margin-bottom: 20px;
+}
 
-    .audience-options {
-      display: grid;
+.audience-option {
+  width: 100%;
+  min-height: 92px;
 
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+  padding: 15px;
 
-      gap: 12px;
+  border:
+    2px
+    solid
+    #e5eaf0;
 
-      margin-bottom: 20px;
-    }
+  border-radius: 19px;
 
-    .audience-option {
-      width: 100%;
-      min-height: 92px;
+  background: #fafbfc;
 
-      padding: 15px;
+  color: var(--text);
 
-      border:
-        2px
-        solid
-        #e5eaf0;
+  display: flex;
+  align-items: center;
 
-      border-radius: 19px;
+  gap: 12px;
 
-      background: #fafbfc;
+  text-align: right;
 
-      color: var(--text);
+  transition: .2s ease;
+}
 
-      display: flex;
-      align-items: center;
+.audience-option:hover {
+  border-color: #fdba74;
 
-      gap: 12px;
+  background: #fffaf5;
+}
 
-      text-align: right;
+.audience-option.active {
+  border-color: var(--orange);
 
-      transition: .2s ease;
-    }
+  background: var(--orange-light);
 
-    .audience-option:hover {
-      border-color: #fdba74;
+  box-shadow:
+    0
+    0
+    0
+    4px
+    rgba(255, 133, 0, .06);
+}
 
-      background: #fffaf5;
-    }
+.audience-option-icon {
+  width: 48px;
+  height: 48px;
 
-    .audience-option.active {
-      border-color: var(--orange);
+  flex: 0 0 auto;
 
-      background: var(--orange-light);
+  border-radius: 15px;
 
-      box-shadow:
-        0
-        0
-        0
-        4px
-        rgba(255, 133, 0, .06);
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    .audience-option-icon {
-      width: 48px;
-      height: 48px;
+  background: #fff;
+  color: var(--orange-dark);
 
-      flex: 0 0 auto;
+  border:
+    1px
+    solid
+    rgba(255, 133, 0, .12);
+}
 
-      border-radius: 15px;
+.audience-option-icon svg {
+  width: 24px;
+  height: 24px;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.audience-option strong {
+  display: block;
 
-      background: #fff;
-      color: var(--orange-dark);
+  margin-bottom: 4px;
 
-      border:
-        1px
-        solid
-        rgba(255, 133, 0, .12);
-    }
+  color: var(--dark);
 
-    .audience-option-icon svg {
-      width: 24px;
-      height: 24px;
-    }
+  font-size: 15px;
+  font-weight: 900;
+}
 
-    .audience-option strong {
-      display: block;
+.audience-option span {
+  display: block;
 
-      margin-bottom: 4px;
+  color: var(--muted);
 
-      color: var(--dark);
+  font-size: 12px;
+  font-weight: 600;
 
-      font-size: 15px;
-      font-weight: 900;
-    }
+  line-height: 1.6;
+}
 
-    .audience-option span {
-      display: block;
+.user-selector {
+  display: none;
 
-      color: var(--muted);
+  margin-bottom: 21px;
 
-      font-size: 12px;
-      font-weight: 600;
+  padding: 18px;
 
-      line-height: 1.6;
-    }
+  border:
+    1px
+    solid
+    var(--border);
 
-    
+  border-radius: 19px;
 
-    .user-selector {
-      display: none;
+  background: #f8fafc;
+}
 
-      margin-bottom: 21px;
+.user-selector.show {
+  display: block;
+}
 
-      padding: 18px;
+.user-selector label {
+  display: block;
 
-      border:
-        1px
-        solid
-        var(--border);
+  margin-bottom: 9px;
 
-      border-radius: 19px;
+  color: var(--text);
 
-      background: #f8fafc;
-    }
+  font-size: 15px;
+  font-weight: 850;
+}
 
-    .user-selector.show {
-      display: block;
-    }
+.select {
+  width: 100%;
+  height: 57px;
 
-    .user-selector label {
-      display: block;
+  padding:
+    0
+    15px;
 
-      margin-bottom: 9px;
+  border:
+    1.5px
+    solid
+    #dfe5ec;
 
-      color: var(--text);
+  border-radius: 16px;
 
-      font-size: 15px;
-      font-weight: 850;
-    }
+  outline: none;
 
-    .select {
-      width: 100%;
-      height: 57px;
+  background: #fff;
+  color: var(--dark);
 
-      padding:
-        0
-        15px;
+  transition: .2s ease;
+}
 
-      border:
-        1.5px
-        solid
-        #dfe5ec;
+.select:focus {
+  border-color: var(--orange);
 
-      border-radius: 16px;
+  box-shadow:
+    0
+    0
+    0
+    4px
+    rgba(255, 133, 0, .08);
+}
 
-      outline: none;
+.selected-user-info {
+  display: none;
 
-      background: #fff;
-      color: var(--dark);
+  margin-top: 12px;
 
-      transition: .2s ease;
-    }
+  padding: 14px;
 
-    .select:focus {
-      border-color: var(--orange);
+  border-radius: 15px;
 
-      box-shadow:
-        0
-        0
-        0
-        4px
-        rgba(255, 133, 0, .08);
-    }
+  background: #fff;
 
-    .selected-user-info {
-      display: none;
+  border:
+    1px
+    solid
+    var(--border);
+}
 
-      margin-top: 12px;
+.selected-user-info.show {
+  display: block;
+}
 
-      padding: 14px;
+.selected-name {
+  color: var(--dark);
 
-      border-radius: 15px;
+  font-size: 15px;
+  font-weight: 900;
+}
 
-      background: #fff;
+.selected-email {
+  margin-top: 5px;
 
-      border:
-        1px
-        solid
-        var(--border);
-    }
+  direction: ltr;
+  text-align: right;
 
-    .selected-user-info.show {
-      display: block;
-    }
+  color: var(--muted);
 
-    .selected-name {
-      color: var(--dark);
+  font-size: 13px;
+  font-weight: 600;
+}
 
-      font-size: 15px;
-      font-weight: 900;
-    }
+.multi-user-list {
+  display: flex;
+  flex-direction: column;
 
-    .selected-email {
-      margin-top: 5px;
+  gap: 9px;
 
-      direction: ltr;
-      text-align: right;
+  max-height: 280px;
 
-      color: var(--muted);
+  overflow-y: auto;
 
-      font-size: 13px;
-      font-weight: 600;
-    }
+  padding:
+    4px
+    2px;
+}
 
-    
+.multi-user-item {
+  width: 100%;
 
-    .field {
-      margin-bottom: 20px;
-    }
+  padding: 13px 14px;
 
-    .field label {
-      display: block;
+  display: flex;
+  align-items: center;
 
-      margin-bottom: 9px;
+  gap: 12px;
 
-      color: var(--text);
+  border:
+    1px
+    solid
+    var(--border);
 
-      font-size: 15px;
-      font-weight: 850;
-    }
+  border-radius: 15px;
 
-    .input,
-    .textarea {
-      width: 100%;
+  background: #fff;
 
-      border:
-        1.5px
-        solid
-        #dfe5ec;
+  cursor: pointer;
 
-      border-radius: 17px;
+  transition: .2s ease;
+}
 
-      outline: none;
+.multi-user-item:hover {
+  border-color: #fdba74;
 
-      background: #f8fafc;
-      color: var(--dark);
+  background: #fffaf5;
+}
 
-      padding:
-        15px
-        16px;
+.multi-user-item.selected {
+  border-color: var(--orange);
 
-      transition: .2s ease;
-    }
+  background: var(--orange-light);
+}
 
-    .input {
-      height: 57px;
-    }
+.multi-user-item input {
+  width: 19px;
+  height: 19px;
 
-    .textarea {
-      min-height: 175px;
+  flex: 0 0 auto;
 
-      resize: vertical;
+  accent-color: var(--orange);
 
-      line-height: 1.9;
-    }
+  cursor: pointer;
+}
 
-    .input:focus,
-    .textarea:focus {
-      border-color: var(--orange);
+.multi-user-content {
+  min-width: 0;
+  flex: 1;
+}
 
-      background: #fff;
+.multi-user-name {
+  color: var(--dark);
 
-      box-shadow:
-        0
-        0
-        0
-        4px
-        rgba(255, 133, 0, .08);
-    }
+  font-size: 14px;
+  font-weight: 900;
 
-    .input::placeholder,
-    .textarea::placeholder {
-      color: #9aa6b5;
-    }
+  line-height: 1.5;
+}
 
-    .char-row {
-      margin-top: 7px;
+.multi-user-email {
+  margin-top: 3px;
 
-      display: flex;
-      justify-content: space-between;
+  color: var(--muted);
 
-      gap: 10px;
+  direction: ltr;
+  text-align: right;
 
-      color: #94a3b8;
+  font-size: 12px;
+  font-weight: 600;
 
-      font-size: 12px;
-      font-weight: 750;
-    }
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-    
+.multi-selected-count {
+  margin-top: 12px;
 
-    .audience-summary {
-      margin:
-        5px
-        0
-        22px;
+  padding: 12px 14px;
 
-      padding: 17px;
+  border-radius: 14px;
 
-      border-radius: 18px;
+  background: var(--orange-light);
 
-      border:
-        1px
-        solid
-        rgba(255, 133, 0, .18);
+  color: var(--orange-dark);
 
-      background: var(--orange-light);
+  font-size: 13px;
+  font-weight: 850;
+}
 
-      display: flex;
-      align-items: center;
+.field {
+  margin-bottom: 20px;
+}
 
-      gap: 12px;
-    }
+.field label {
+  display: block;
 
-    .audience-summary-icon {
-      width: 45px;
-      height: 45px;
+  margin-bottom: 9px;
 
-      flex: 0 0 auto;
+  color: var(--text);
 
-      border-radius: 14px;
+  font-size: 15px;
+  font-weight: 850;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.input,
+.textarea {
+  width: 100%;
 
-      background: #fff;
-      color: var(--orange-dark);
-    }
+  border:
+    1.5px
+    solid
+    #dfe5ec;
 
-    .audience-summary-icon svg {
-      width: 23px;
-      height: 23px;
-    }
+  border-radius: 17px;
 
-    .audience-summary strong {
-      display: block;
+  outline: none;
 
-      margin-bottom: 3px;
+  background: #f8fafc;
+  color: var(--dark);
 
-      color: var(--dark);
+  padding:
+    15px
+    16px;
 
-      font-size: 15px;
-      font-weight: 900;
-    }
+  transition: .2s ease;
+}
 
-    .audience-summary span {
-      display: block;
+.input {
+  height: 57px;
+}
 
-      color: var(--muted);
+.textarea {
+  min-height: 175px;
 
-      font-size: 13px;
-      font-weight: 650;
+  resize: vertical;
 
-      line-height: 1.6;
-    }
+  line-height: 1.9;
+}
 
-   
+.input:focus,
+.textarea:focus {
+  border-color: var(--orange);
 
-    .send-btn {
-      width: 100%;
-      min-height: 60px;
+  background: #fff;
 
-      border: 0;
-      border-radius: 18px;
+  box-shadow:
+    0
+    0
+    0
+    4px
+    rgba(255, 133, 0, .08);
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.input::placeholder,
+.textarea::placeholder {
+  color: #9aa6b5;
+}
 
-      gap: 10px;
+.char-row {
+  margin-top: 7px;
 
-      background:
-        linear-gradient(
-          135deg,
-          #ff9a20,
-          #ff7900
-        );
+  display: flex;
+  justify-content: space-between;
 
-      color: #fff;
+  gap: 10px;
 
-      font-size: 18px;
-      font-weight: 900;
+  color: #94a3b8;
 
-      box-shadow:
-        0
-        12px
-        25px
-        rgba(255, 121, 0, .20);
+  font-size: 12px;
+  font-weight: 750;
+}
 
-      transition: .2s ease;
-    }
+.audience-summary {
+  margin:
+    5px
+    0
+    22px;
 
-    .send-btn:hover {
-      transform: translateY(-2px);
+  padding: 17px;
 
-      box-shadow:
-        0
-        16px
-        28px
-        rgba(255, 121, 0, .25);
-    }
+  border-radius: 18px;
 
-    .send-btn:disabled {
-      opacity: .6;
+  border:
+    1px
+    solid
+    rgba(255, 133, 0, .18);
 
-      cursor: not-allowed;
+  background: var(--orange-light);
 
-      transform: none;
-    }
+  display: flex;
+  align-items: center;
 
-    .send-btn svg {
-      width: 23px;
-      height: 23px;
-    }
+  gap: 12px;
+}
 
-    
+.audience-summary-icon {
+  width: 45px;
+  height: 45px;
 
-    .toast {
-      position: fixed;
+  flex: 0 0 auto;
 
-      top: 18px;
-      left: 50%;
+  border-radius: 14px;
 
-      z-index: 6000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      width:
-        calc(
-          100% - 32px
-        );
+  background: #fff;
+  color: var(--orange-dark);
+}
 
-      max-width: 480px;
+.audience-summary-icon svg {
+  width: 23px;
+  height: 23px;
+}
 
-      padding:
-        15px
-        18px;
+.audience-summary strong {
+  display: block;
 
-      border-radius: 16px;
+  margin-bottom: 3px;
 
-      transform:
-        translate(
-          -50%,
-          -25px
-        );
+  color: var(--dark);
 
-      opacity: 0;
-      pointer-events: none;
+  font-size: 15px;
+  font-weight: 900;
+}
 
-      text-align: center;
+.audience-summary span {
+  display: block;
 
-      background: var(--dark);
-      color: #fff;
+  color: var(--muted);
 
-      font-size: 14px;
-      font-weight: 850;
+  font-size: 13px;
+  font-weight: 650;
 
-      box-shadow:
-        0
-        15px
-        40px
-        rgba(0, 0, 0, .18);
+  line-height: 1.6;
+}
 
-      transition: .25s ease;
-    }
+.send-btn {
+  width: 100%;
+  min-height: 60px;
 
-    .toast.show {
-      opacity: 1;
+  border: 0;
+  border-radius: 18px;
 
-      transform:
-        translate(
-          -50%,
-          0
-        );
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    .toast.success {
-      background: var(--green);
-    }
+  gap: 10px;
 
-    .toast.error {
-      background: var(--red);
-    }
+  background:
+    linear-gradient(
+      135deg,
+      #ff9a20,
+      #ff7900
+    );
 
-    .toast.warning {
-      background: #d97706;
-    }
+  color: #fff;
 
-    
+  font-size: 18px;
+  font-weight: 900;
 
-    .modal {
-      position: fixed;
-      inset: 0;
+  box-shadow:
+    0
+    12px
+    25px
+    rgba(255, 121, 0, .20);
 
-      z-index: 5000;
+  transition: .2s ease;
+}
 
-      display: none;
+.send-btn:hover {
+  transform: translateY(-2px);
 
-      align-items: center;
-      justify-content: center;
+  box-shadow:
+    0
+    16px
+    28px
+    rgba(255, 121, 0, .25);
+}
 
-      padding: 20px;
+.send-btn:disabled {
+  opacity: .6;
 
-      background:
-        rgba(
-          15,
-          23,
-          42,
-          .50
-        );
+  cursor: not-allowed;
 
-      backdrop-filter:
-        blur(6px);
-    }
+  transform: none;
+}
 
-    .modal.active {
-      display: flex;
-    }
+.send-btn svg {
+  width: 23px;
+  height: 23px;
+}
 
-    .modal-card {
-      width:
-        min(
-          440px,
-          100%
-        );
+.toast {
+  position: fixed;
 
-      padding: 28px;
+  top: 18px;
+  left: 50%;
 
-      border-radius: 28px;
+  z-index: 6000;
 
-      background: #fff;
+  width:
+    calc(
+      100% - 32px
+    );
 
-      box-shadow:
-        0
-        30px
-        70px
-        rgba(0, 0, 0, .22);
-    }
+  max-width: 480px;
 
-    .modal-icon {
-      width: 68px;
-      height: 68px;
+  padding:
+    15px
+    18px;
 
-      margin:
-        0
-        auto
-        17px;
+  border-radius: 16px;
 
-      border-radius: 20px;
+  transform:
+    translate(
+      -50%,
+      -25px
+    );
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  opacity: 0;
+  pointer-events: none;
 
-      background: var(--orange-light);
-      color: var(--orange-dark);
-    }
+  text-align: center;
 
-    .modal-icon svg {
-      width: 32px;
-      height: 32px;
-    }
+  background: var(--dark);
+  color: #fff;
 
-    .modal-card h2 {
-      margin:
-        0
-        0
-        9px;
+  font-size: 14px;
+  font-weight: 850;
 
-      text-align: center;
+  box-shadow:
+    0
+    15px
+    40px
+    rgba(0, 0, 0, .18);
 
-      color: var(--dark);
+  transition: .25s ease;
+}
 
-      font-size: 22px;
-      font-weight: 900;
-    }
+.toast.show {
+  opacity: 1;
 
-    .modal-card p {
-      margin: 0;
+  transform:
+    translate(
+      -50%,
+      0
+    );
+}
 
-      text-align: center;
+.toast.success {
+  background: var(--green);
+}
 
-      color: var(--muted);
+.toast.error {
+  background: var(--red);
+}
 
-      font-size: 14px;
-      font-weight: 600;
+.toast.warning {
+  background: #d97706;
+}
 
-      line-height: 1.8;
-    }
+.modal {
+  position: fixed;
+  inset: 0;
 
-    .modal-actions {
-      display: flex;
+  z-index: 5000;
 
-      gap: 11px;
+  display: none;
 
-      margin-top: 24px;
-    }
+  align-items: center;
+  justify-content: center;
 
-    .modal-actions button {
-      flex: 1;
+  padding: 20px;
 
-      min-height: 51px;
+  background:
+    rgba(
+      15,
+      23,
+      42,
+      .50
+    );
 
-      border: 0;
-      border-radius: 16px;
+  backdrop-filter:
+    blur(6px);
+}
 
-      font-weight: 900;
-    }
+.modal.active {
+  display: flex;
+}
 
-    .cancel-btn {
-      background: #f1f5f9;
-      color: #475569;
-    }
+.modal-card {
+  width:
+    min(
+      440px,
+      100%
+    );
 
-    .confirm-btn {
-      background: var(--orange);
-      color: #fff;
-    }
+  padding: 28px;
 
-    .confirm-btn:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-    }
+  border-radius: 28px;
 
-   
+  background: #fff;
 
-    @media(max-width: 640px) {
+  box-shadow:
+    0
+    30px
+    70px
+    rgba(0, 0, 0, .22);
+}
 
-      .wrapper {
-        padding:
-          18px
-          15px
-          40px;
-      }
+.modal-icon {
+  width: 68px;
+  height: 68px;
 
-      .top-bar {
-        margin-bottom: 22px;
-      }
+  margin:
+    0
+    auto
+    17px;
 
-      .back-btn {
-        width: 48px;
-        height: 48px;
+  border-radius: 20px;
 
-        border-radius: 15px;
-      }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      .heading h1 {
-        font-size: 23px;
-      }
+  background: var(--orange-light);
+  color: var(--orange-dark);
+}
 
-      .heading p {
-        font-size: 13px;
-      }
+.modal-icon svg {
+  width: 32px;
+  height: 32px;
+}
 
-      .stats {
-        gap: 10px;
-      }
+.modal-card h2 {
+  margin:
+    0
+    0
+    9px;
 
-      .stat-card {
-        min-height: 150px;
+  text-align: center;
 
-        padding:
-          17px
-          10px;
+  color: var(--dark);
 
-        border-radius: 21px;
-      }
+  font-size: 22px;
+  font-weight: 900;
+}
 
-      .stat-icon {
-        width: 51px;
-        height: 51px;
+.modal-card p {
+  margin: 0;
 
-        border-radius: 16px;
-      }
+  text-align: center;
 
-      .stat-icon svg {
-        width: 25px;
-        height: 25px;
-      }
+  color: var(--muted);
 
-      .stat-label {
-        font-size: 12px;
-      }
+  font-size: 14px;
+  font-weight: 600;
 
-      .stat-value {
-        font-size: 37px;
-      }
+  line-height: 1.8;
+}
 
-      .panel {
-        padding: 20px;
+.modal-actions {
+  display: flex;
 
-        border-radius: 23px;
-      }
+  gap: 11px;
 
-      .panel-title {
-        font-size: 20px;
-      }
+  margin-top: 24px;
+}
 
-      .audience-options {
-        grid-template-columns: 1fr;
-      }
+.modal-actions button {
+  flex: 1;
 
-      .audience-option {
-        min-height: 80px;
-      }
+  min-height: 51px;
 
-      .textarea {
-        min-height: 155px;
-      }
+  border: 0;
+  border-radius: 16px;
 
-      .audience-summary {
-        align-items: flex-start;
-      }
+  font-weight: 900;
+}
 
-      .modal-actions {
-        flex-direction: column;
-      }
-    }
+.cancel-btn {
+  background: #f1f5f9;
+  color: #475569;
+}
 
-    
+.confirm-btn {
+  background: var(--orange);
+  color: #fff;
+}
 
-    @media(min-width: 1024px) {
+.confirm-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
 
-      .wrapper {
-        padding:
-          45px
-          30px
-          70px;
-      }
+@media(max-width: 640px) {
 
-      .heading h1 {
-        font-size: 36px;
-      }
+  .wrapper {
+    padding:
+      18px
+      15px
+      40px;
+  }
 
-      .heading p {
-        font-size: 17px;
-      }
+  .top-bar {
+    margin-bottom: 22px;
+  }
 
-      .stats {
-        gap: 20px;
-      }
+  .back-btn {
+    width: 48px;
+    height: 48px;
 
-      .stat-card {
-        min-height: 190px;
-      }
+    border-radius: 15px;
+  }
 
-      .stat-label {
-        font-size: 17px;
-      }
+  .heading h1 {
+    font-size: 23px;
+  }
 
-      .stat-value {
-        font-size: 52px;
-      }
+  .heading p {
+    font-size: 13px;
+  }
 
-      .panel {
-        padding: 36px;
-      }
+  .stats {
+    gap: 10px;
+  }
 
-      .panel-title {
-        font-size: 27px;
-      }
+  .stat-card {
+    min-height: 150px;
 
-      .field label,
-      .audience-title,
-      .user-selector label {
-        font-size: 17px;
-      }
+    padding:
+      17px
+      10px;
 
-      .input,
-      .textarea,
-      .select {
-        font-size: 17px;
-      }
+    border-radius: 21px;
+  }
 
-      .input,
-      .select {
-        height: 61px;
-      }
+  .stat-icon {
+    width: 51px;
+    height: 51px;
 
-      .send-btn {
-        min-height: 64px;
+    border-radius: 16px;
+  }
 
-        font-size: 20px;
-      }
-    }
-  </style>
+  .stat-icon svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+
+  .stat-value {
+    font-size: 37px;
+  }
+
+  .panel {
+    padding: 20px;
+
+    border-radius: 23px;
+  }
+
+  .panel-title {
+    font-size: 20px;
+  }
+
+  .audience-options {
+    grid-template-columns: 1fr;
+  }
+
+  .audience-option {
+    min-height: 80px;
+  }
+
+  .textarea {
+    min-height: 155px;
+  }
+
+  .audience-summary {
+    align-items: flex-start;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+}
+
+@media(min-width: 1024px) {
+
+  .wrapper {
+    padding:
+      45px
+      30px
+      70px;
+  }
+
+  .heading h1 {
+    font-size: 36px;
+  }
+
+  .heading p {
+    font-size: 17px;
+  }
+
+  .stats {
+    gap: 20px;
+  }
+
+  .stat-card {
+    min-height: 190px;
+  }
+
+  .stat-label {
+    font-size: 17px;
+  }
+
+  .stat-value {
+    font-size: 52px;
+  }
+
+  .panel {
+    padding: 36px;
+  }
+
+  .panel-title {
+    font-size: 27px;
+  }
+
+  .field label,
+  .audience-title,
+  .user-selector label {
+    font-size: 17px;
+  }
+
+  .input,
+  .textarea,
+  .select {
+    font-size: 17px;
+  }
+
+  .input,
+  .select {
+    height: 61px;
+  }
+
+  .send-btn {
+    min-height: 64px;
+
+    font-size: 20px;
+  }
+}
+
+</style>
+
 </head>
 
 <body>
 
-  
+<div
+  class="loading"
+  id="pageLoading"
+>
+  <div class="loader"></div>
+</div>
 
-  <div
-    class="loading"
-    id="pageLoading"
-  >
-    <div class="loader"></div>
-  </div>
+<div
+  class="toast"
+  id="toast"
+></div>
 
+<main class="wrapper">
 
- 
+  <header class="top-bar">
 
-  <div
-    class="toast"
-    id="toast"
-  ></div>
+    <button
+      class="back-btn"
+      type="button"
+      onclick="window.history.back()"
+      aria-label="زڤرین"
+    >
 
-
-  <main class="wrapper">
-
-    
-
-    <header class="top-bar">
-
-      <button
-        class="back-btn"
-        type="button"
-        onclick="window.history.back()"
-        aria-label="زڤرین"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2.4"
       >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+
+    </button>
+
+    <div class="heading">
+
+      <h1>
+        هنارتنا ئاگەهداریێ
+      </h1>
+
+      <p>
+        ئاگەهداری و ئیمەیڵێ بۆ هەمی یان بۆ بکارهێنەرەکێ هەلبژارتی بهنێرە
+      </p>
+
+    </div>
+
+  </header>
+
+  <section class="stats">
+
+    <article class="stat-card">
+
+      <div class="stat-icon">
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          stroke-width="2.4"
+          stroke-width="1.9"
         >
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
-            d="M9 5l7 7-7 7"
+            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198A9.755 9.755 0 0112 21.75a9.755 9.755 0 01-5.66-1.635A3 3 0 016 18.72m9-11.97a3 3 0 11-6 0 3 3 0 016 0z"
           />
         </svg>
 
-      </button>
+      </div>
 
+      <div class="stat-label">
+        وەرگرێن ئاگەهداریێ
+      </div>
 
-      <div class="heading">
+      <div
+        class="stat-value"
+        id="recipientCount"
+      >
+        0
+      </div>
 
-        <h1>
-          هنارتنا ئاگەهداریێ
-        </h1>
+    </article>
 
-        <p>
-          ئاگەهداری و ئیمەیڵێ بۆ هەمی یان بۆ بکارهێنەرەکێ هەلبژارتی بهنێرە
-        </p>
+    <article class="stat-card">
+
+      <div class="stat-icon">
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.9"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"
+          />
+        </svg>
 
       </div>
 
-    </header>
+      <div class="stat-label">
+        کوێ ئاگەهداریێن هنارتی
+      </div>
 
+      <div
+        class="stat-value"
+        id="alertsCount"
+      >
+        0
+      </div>
 
-   
+    </article>
 
-    <section class="stats">
+  </section>
 
-     
+  <section class="panel">
 
-      <article class="stat-card">
+    <h2 class="panel-title">
 
-        <div class="stat-icon">
+      <span class="panel-title-icon">
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+          />
+        </svg>
+
+      </span>
+
+      ئاگەهدارییا نوێ
+
+    </h2>
+
+    <span class="audience-title">
+      ئاگەهداری بۆ کی بهێتە هنارتن؟
+    </span>
+
+    <div class="audience-options">
+
+      <button
+        type="button"
+        class="audience-option active"
+        id="allUsersBtn"
+      >
+
+        <div class="audience-option-icon">
 
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            stroke-width="1.9"
+            stroke-width="2"
           >
             <path
               stroke-linecap="round"
@@ -1230,1636 +1404,1840 @@
 
         </div>
 
-
-        <div class="stat-label">
-          وەرگرێن ئاگەهداریێ
-        </div>
-
-
-        <div
-          class="stat-value"
-          id="recipientCount"
-        >
-          0
-        </div>
-
-      </article>
-
-
-      
-
-      <article class="stat-card">
-
-        <div class="stat-icon">
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="1.9"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0"
-            />
-          </svg>
-
-        </div>
-
-
-        <div class="stat-label">
-          کوێ ئاگەهداریێن هنارتی
-        </div>
-
-
-        <div
-          class="stat-value"
-          id="alertsCount"
-        >
-          0
-        </div>
-
-      </article>
-
-    </section>
-
-
-    
-
-    <section class="panel">
-
-      <h2 class="panel-title">
-
-        <span class="panel-title-icon">
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-            />
-          </svg>
-
-        </span>
-
-        ئاگەهدارییا نوێ
-
-      </h2>
-
-
-      
-
-      <span class="audience-title">
-        ئاگەهداری بۆ کی بهێتە هنارتن؟
-      </span>
-
-
-      
-
-      <div class="audience-options">
-
-       
-
-        <button
-          type="button"
-          class="audience-option active"
-          id="allUsersBtn"
-        >
-
-          <div class="audience-option-icon">
-
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198A9.755 9.755 0 0112 21.75a9.755 9.755 0 01-5.66-1.635A3 3 0 016 18.72m9-11.97a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-
-          </div>
-
-
-          <div>
-
-            <strong>
-              هەمی بەکارهێنەر
-            </strong>
-
-            <span>
-              ئاگەهداری و ئیمەیڵ بۆ هەمی بکارهێنەرێن چالاک
-            </span>
-
-          </div>
-
-        </button>
-
-
-        
-
-        <button
-          type="button"
-          class="audience-option"
-          id="selectedUserBtn"
-        >
-
-          <div class="audience-option-icon">
-
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766v-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0z"
-              />
-            </svg>
-
-          </div>
-
-
-          <div>
-
-            <strong>
-              بکارهێنەرەک
-            </strong>
-
-            <span>
-              ئاگەهداری و ئیمەیڵ تەنێ بۆ کەسەکێ هەلبژارتی
-            </span>
-
-          </div>
-
-        </button>
-
-      </div>
-
-
-      
-
-      <div
-        class="user-selector"
-        id="userSelector"
-      >
-
-        <label for="selectedUser">
-          بکارهێنەری هەلبژێرە
-        </label>
-
-
-        <select
-          class="select"
-          id="selectedUser"
-        >
-
-          <option value="">
-             بکارهێنەری هەلبژێرە 
-          </option>
-
-        </select>
-
-
-        <div
-          class="selected-user-info"
-          id="selectedUserInfo"
-        >
-
-          <div
-            class="selected-name"
-            id="selectedUserName"
-          ></div>
-
-
-          <div
-            class="selected-email"
-            id="selectedUserEmail"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-     
-
-      <div class="field">
-
-        <label for="alertTitle">
-          ناڤونیشان
-        </label>
-
-
-        <input
-          class="input"
-          id="alertTitle"
-          type="text"
-          maxlength="80"
-          autocomplete="off"
-          placeholder="ناڤونیشانێ ئاگەهداریێ بنڤیسە"
-        >
-
-
-        <div class="char-row">
-
-          <span>
-            پێدڤیە
-          </span>
-
-
-          <span
-            id="titleChars"
-            dir="ltr"
-          >
-            0 / 80
-          </span>
-
-        </div>
-
-      </div>
-
-
-      
-
-      <div class="field">
-
-        <label for="alertMessage">
-          پەیام
-        </label>
-
-
-        <textarea
-          class="textarea"
-          id="alertMessage"
-          maxlength="1000"
-          placeholder="ناڤەڕۆکا ئاگەهداریێ ل ڤێرێ بنڤیسە..."
-        ></textarea>
-
-
-        <div class="char-row">
-
-          <span>
-            پێدڤیە
-          </span>
-
-
-          <span
-            id="messageChars"
-            dir="ltr"
-          >
-            0 / 1000
-          </span>
-
-        </div>
-
-      </div>
-
-
-     
-
-      <div class="audience-summary">
-
-        <div class="audience-summary-icon">
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21.75 6.75v10.5A2.25 2.25 0 0119.5 19.5h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0l-7.5-4.615a2.25 2.25 0 01-1.07-1.916V6.75"
-            />
-          </svg>
-
-        </div>
-
-
         <div>
 
-          <strong id="audienceTitle">
-            وەرگر: هەمی بکارهێنەرێن چالاک
+          <strong>
+            هەمی بەکارهێنەر
           </strong>
 
-
-          <span id="audienceText">
-            0 بەکارهێنەر دێ ئاگەهداری و ئیمەیڵێ وەرگرن
+          <span>
+            ئاگەهداری و ئیمەیڵ بۆ هەمی بکارهێنەرێن چالاک
           </span>
 
         </div>
-
-      </div>
-
-
-   
-
-      <button
-        class="send-btn"
-        id="sendBtn"
-        type="button"
-      >
-
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-          />
-        </svg>
-
-        هنارتنا ئاگەهداری و ئیمەیڵێ
 
       </button>
 
-    </section>
+      <button
+        type="button"
+        class="audience-option"
+        id="selectedUserBtn"
+      >
 
-  </main>
+        <div class="audience-option-icon">
 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766v-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0z"
+            />
+          </svg>
 
-  
+        </div>
 
-  <div
-    class="modal"
-    id="confirmModal"
-  >
+        <div>
 
-    <div class="modal-card">
+          <strong>
+            بکارهێنەرەک
+          </strong>
 
-      <div class="modal-icon">
+          <span>
+            ئاگەهداری و ئیمەیڵ تەنێ بۆ کەسەکێ هەلبژارتی
+          </span>
 
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-          />
-        </svg>
+        </div>
 
-      </div>
+      </button>
 
+      <button
+        type="button"
+        class="audience-option"
+        id="multiUsersBtn"
+      >
 
-      <h2>
-        ئاگەهداری بهێتە هنارتن؟
-      </h2>
+        <div class="audience-option-icon">
 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198A9.755 9.755 0 0112 21.75a9.755 9.755 0 01-5.66-1.635A3 3 0 016 18.72m9-11.97a3 3 0 11-6 0 3 3 0 016 0zM8.25 6.75a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+            />
+          </svg>
 
-      <p id="confirmText"></p>
+        </div>
 
+        <div>
 
-      <div class="modal-actions">
+          <strong>
+            چەند بەکارهێنەر
+          </strong>
 
-        <button
-          class="cancel-btn"
-          id="cancelBtn"
-          type="button"
-        >
-          نەخێر
-        </button>
+          <span>
+            چەند کەس هەلبژێرە و ئاگەهداریێ بۆ وان بهنێرە
+          </span>
 
+        </div>
 
-        <button
-          class="confirm-btn"
-          id="confirmBtn"
-          type="button"
-        >
-          بەلێ، بهنێرە
-        </button>
+      </button>
+
+    </div>
+
+    <div
+      class="user-selector"
+      id="userSelector"
+    >
+
+      <label for="selectedUser">
+        بکارهێنەری هەلبژێرە
+      </label>
+
+      <select
+        class="select"
+        id="selectedUser"
+      >
+
+        <option value="">
+          -- بەکارهێنەر هەلبژێرە --
+        </option>
+
+      </select>
+
+      <div
+        class="selected-user-info"
+        id="selectedUserInfo"
+      >
+
+        <div
+          class="selected-name"
+          id="selectedUserName"
+        ></div>
+
+        <div
+          class="selected-email"
+          id="selectedUserEmail"
+        ></div>
 
       </div>
 
     </div>
 
+    <div
+      class="user-selector"
+      id="multiUserSelector"
+    >
+
+      <label>
+        بەکارهێنەرێن دڤێت ئاگەهداریێ وەرگرن هەلبژێرە
+      </label>
+
+      <div
+        class="multi-user-list"
+        id="multiUserList"
+      ></div>
+
+      <div
+        class="multi-selected-count"
+        id="multiSelectedCount"
+      >
+        0 بەکارهێنەر هەلبژارتی
+      </div>
+
+    </div>
+
+    <div class="field">
+
+      <label for="alertTitle">
+        ناڤونیشان
+      </label>
+
+      <input
+        class="input"
+        id="alertTitle"
+        type="text"
+        maxlength="80"
+        autocomplete="off"
+        placeholder="ناڤونیشانێ ئاگەهداریێ بنڤیسە"
+      >
+
+      <div class="char-row">
+
+        <span>
+          پێدڤیە
+        </span>
+
+        <span
+          id="titleChars"
+          dir="ltr"
+        >
+          0 / 80
+        </span>
+
+      </div>
+
+    </div>
+
+    <div class="field">
+
+      <label for="alertMessage">
+        پەیام
+      </label>
+
+      <textarea
+        class="textarea"
+        id="alertMessage"
+        maxlength="1000"
+        placeholder="ناڤەڕۆکا ئاگەهداریێ ل ڤێرێ بنڤیسە..."
+      ></textarea>
+
+      <div class="char-row">
+
+        <span>
+          پێدڤیە
+        </span>
+
+        <span
+          id="messageChars"
+          dir="ltr"
+        >
+          0 / 1000
+        </span>
+
+      </div>
+
+    </div>
+
+    <div class="audience-summary">
+
+      <div class="audience-summary-icon">
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21.75 6.75v10.5A2.25 2.25 0 0119.5 19.5h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0l-7.5-4.615a2.25 2.25 0 01-1.07-1.916V6.75"
+          />
+        </svg>
+
+      </div>
+
+      <div>
+
+        <strong id="audienceTitle">
+          وەرگر: هەمی بکارهێنەرێن چالاک
+        </strong>
+
+        <span id="audienceText">
+          0 بەکارهێنەر دێ ئاگەهداری و ئیمەیڵێ وەرگرن
+        </span>
+
+      </div>
+
+    </div>
+
+    <button
+      class="send-btn"
+      id="sendBtn"
+      type="button"
+    >
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+        />
+      </svg>
+
+      هنارتنا ئاگەهداری و ئیمەیڵێ
+
+    </button>
+
+  </section>
+
+</main>
+
+<div
+  class="modal"
+  id="confirmModal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-icon">
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+        />
+      </svg>
+
+    </div>
+
+    <h2>
+      ئاگەهداری بهێتە هنارتن؟
+    </h2>
+
+    <p id="confirmText"></p>
+
+    <div class="modal-actions">
+
+      <button
+        class="cancel-btn"
+        id="cancelBtn"
+        type="button"
+      >
+        نەخێر
+      </button>
+
+      <button
+        class="confirm-btn"
+        id="confirmBtn"
+        type="button"
+      >
+        بەلێ، بهنێرە
+      </button>
+
+    </div>
+
   </div>
 
+</div>
 
-  
+<script type="module">
 
-  <script type="module">
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+  getDatabase,
+  ref,
+  get,
+  onValue
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
+
+  authDomain:
+    "office-8e7cb.firebaseapp.com",
+
+  databaseURL:
+    "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId:
+    "office-8e7cb",
+
+  storageBucket:
+    "office-8e7cb.firebasestorage.app",
+
+  messagingSenderId:
+    "604465845047",
+
+  appId:
+    "1:604465845047:web:42004e33906c8986ee80b2",
+
+  measurementId:
+    "G-LJJM71LQ0K"
+
+};
+
+const EMAIL_API_URL =
+  "https://api.leaveportal.io/api/send-alert";
+
+const OWNER_LOGIN_URL =
+  "/adminoffice/login/Login.html";
+
+const app =
+  initializeApp(
+    firebaseConfig
+  );
+
+const auth =
+  getAuth(
+    app
+  );
+
+const database =
+  getDatabase(
+    app
+  );
+
+const pageLoading =
+  document.getElementById(
+    "pageLoading"
+  );
+
+const toast =
+  document.getElementById(
+    "toast"
+  );
+
+const alertTitle =
+  document.getElementById(
+    "alertTitle"
+  );
+
+const alertMessage =
+  document.getElementById(
+    "alertMessage"
+  );
+
+const titleChars =
+  document.getElementById(
+    "titleChars"
+  );
+
+const messageChars =
+  document.getElementById(
+    "messageChars"
+  );
+
+const recipientCount =
+  document.getElementById(
+    "recipientCount"
+  );
+
+const alertsCount =
+  document.getElementById(
+    "alertsCount"
+  );
+
+const audienceTitle =
+  document.getElementById(
+    "audienceTitle"
+  );
+
+const audienceText =
+  document.getElementById(
+    "audienceText"
+  );
+
+const sendBtn =
+  document.getElementById(
+    "sendBtn"
+  );
+
+const allUsersBtn =
+  document.getElementById(
+    "allUsersBtn"
+  );
+
+const selectedUserBtn =
+  document.getElementById(
+    "selectedUserBtn"
+  );
+
+const multiUsersBtn =
+  document.getElementById(
+    "multiUsersBtn"
+  );
+
+const userSelector =
+  document.getElementById(
+    "userSelector"
+  );
+
+const multiUserSelector =
+  document.getElementById(
+    "multiUserSelector"
+  );
+
+const multiUserList =
+  document.getElementById(
+    "multiUserList"
+  );
+
+const multiSelectedCount =
+  document.getElementById(
+    "multiSelectedCount"
+  );
+
+const selectedUser =
+  document.getElementById(
+    "selectedUser"
+  );
+
+const selectedUserInfo =
+  document.getElementById(
+    "selectedUserInfo"
+  );
+
+const selectedUserName =
+  document.getElementById(
+    "selectedUserName"
+  );
+
+const selectedUserEmail =
+  document.getElementById(
+    "selectedUserEmail"
+  );
 
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-
-
-    import {
-      getDatabase,
-      ref,
-      get,
-      onValue
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
-
-
-    
-
-    const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyB83R6OlUr5p7W5EkTvHpwjfgBirsfQbek",
-
-      authDomain:
-        "office-8e7cb.firebaseapp.com",
-
-      databaseURL:
-        "https://office-8e7cb-default-rtdb.europe-west1.firebasedatabase.app",
-
-      projectId:
-        "office-8e7cb",
-
-      storageBucket:
-        "office-8e7cb.firebasestorage.app",
-
-      messagingSenderId:
-        "604465845047",
-
-      appId:
-        "1:604465845047:web:42004e33906c8986ee80b2",
-
-      measurementId:
-        "G-LJJM71LQ0K"
-
-    };
-
-
-    const EMAIL_API_URL =
-      "https://api.leaveportal.io/api/send-alert";
-
-
-    const OWNER_LOGIN_URL =
-      "/adminoffice/login/Login.html";
-
-
-    const app =
-      initializeApp(
-        firebaseConfig
-      );
-
-
-    const auth =
-      getAuth(
-        app
-      );
-
-
-    const database =
-      getDatabase(
-        app
-      );
-
-
-    
-
-    const pageLoading =
-      document.getElementById(
-        "pageLoading"
-      );
-
-
-    const toast =
-      document.getElementById(
-        "toast"
-      );
-
-
-    const alertTitle =
-      document.getElementById(
-        "alertTitle"
-      );
-
-
-    const alertMessage =
-      document.getElementById(
-        "alertMessage"
-      );
-
-
-    const titleChars =
-      document.getElementById(
-        "titleChars"
-      );
-
-
-    const messageChars =
-      document.getElementById(
-        "messageChars"
-      );
-
-
-    const recipientCount =
-      document.getElementById(
-        "recipientCount"
-      );
-
-
-    const alertsCount =
-      document.getElementById(
-        "alertsCount"
-      );
-
-
-    const audienceTitle =
-      document.getElementById(
-        "audienceTitle"
-      );
-
-
-    const audienceText =
-      document.getElementById(
-        "audienceText"
-      );
-
-
-    const sendBtn =
-      document.getElementById(
-        "sendBtn"
-      );
-
-
-    const allUsersBtn =
-      document.getElementById(
-        "allUsersBtn"
-      );
-
-
-    const selectedUserBtn =
-      document.getElementById(
-        "selectedUserBtn"
-      );
-
-
-    const userSelector =
-      document.getElementById(
-        "userSelector"
-      );
-
-
-    const selectedUser =
-      document.getElementById(
-        "selectedUser"
-      );
-
-
-    const selectedUserInfo =
-      document.getElementById(
-        "selectedUserInfo"
-      );
-
-
-    const selectedUserName =
-      document.getElementById(
-        "selectedUserName"
-      );
-
-
-    const selectedUserEmail =
-      document.getElementById(
-        "selectedUserEmail"
-      );
-
-
-    const confirmModal =
-      document.getElementById(
-        "confirmModal"
-      );
-
-
-    const confirmText =
-      document.getElementById(
-        "confirmText"
-      );
-
-
-    const cancelBtn =
-      document.getElementById(
-        "cancelBtn"
-      );
-
-
-    const confirmBtn =
-      document.getElementById(
-        "confirmBtn"
-      );
-
-
-    
-
-    let currentOwner =
-      null;
-
-
-    let activeUsers =
-      [];
-
-
-    let audienceMode =
-      "all";
-
-
-    let toastTimer =
-      null;
-
-
-    
-
-    function showToast(
-      text,
-      type = ""
-    ) {
-
-      clearTimeout(
-        toastTimer
-      );
-
-
-      toast.textContent =
-        text;
-
-
-      toast.className =
-        `toast ${type} show`;
-
-
-      toastTimer =
-        setTimeout(
-          () => {
-
-            toast.className =
-              "toast";
-
-          },
-          3500
-        );
-
-    }
-
-
-    
-
-    async function goToLogin() {
-
-      try {
-
-        await signOut(
-          auth
-        );
-
-      }
-      catch(error) {
-
-        console.error(
-          error
-        );
-
-      }
-
-
-      window.location.replace(
-        OWNER_LOGIN_URL
-      );
-
-    }
-
-
-    
-
-    function startUsersListener() {
-
-      onValue(
-
-        ref(
-          database,
-          "users"
-        ),
-
-        snapshot => {
-
-          const entries =
-            snapshot.exists()
-              ?
-              Object.entries(
-                snapshot.val() || {}
-              )
-              :
-              [];
-
-
-          activeUsers =
-            entries
-
-              .map(
-                ([uid, profile]) => ({
-                  uid,
-                  ...(profile || {})
-                })
-              )
-
-              .filter(
-                profile => {
-
-                  return (
-                    String(
-                      profile.role || ""
-                    ).toLowerCase() ===
-                    "user"
-
-                    &&
-
-                    profile.active !==
-                    false
-                  );
-
-                }
-              )
-
-              .sort(
-                (a, b) =>
-
-                  String(
-                    a.name || ""
-                  )
-
-                    .localeCompare(
-                      String(
-                        b.name || ""
-                      )
-                    )
+const confirmModal =
+  document.getElementById(
+    "confirmModal"
+  );
+
+const confirmText =
+  document.getElementById(
+    "confirmText"
+  );
+
+const cancelBtn =
+  document.getElementById(
+    "cancelBtn"
+  );
+
+const confirmBtn =
+  document.getElementById(
+    "confirmBtn"
+  );
+
+let currentOwner =
+  null;
+
+let activeUsers =
+  [];
+
+let audienceMode =
+  "all";
+
+let selectedMultiUserIds =
+  new Set();
+
+let toastTimer =
+  null;
+
+function showToast(
+  text,
+  type = ""
+) {
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toast.textContent =
+    text;
+
+  toast.className =
+    `toast ${type} show`;
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        toast.className =
+          "toast";
+
+      },
+      3500
+    );
+
+}
+
+async function goToLogin() {
+
+  try {
+
+    await signOut(
+      auth
+    );
+
+  }
+  catch(error) {
+
+    console.error(
+      error
+    );
+
+  }
+
+  window.location.replace(
+    OWNER_LOGIN_URL
+  );
+
+}
+
+function startUsersListener() {
+
+  onValue(
+
+    ref(
+      database,
+      "users"
+    ),
+
+    snapshot => {
+
+      const entries =
+        snapshot.exists()
+          ?
+          Object.entries(
+            snapshot.val() || {}
+          )
+          :
+          [];
+
+      activeUsers =
+        entries
+
+          .map(
+            ([uid, profile]) => ({
+              uid,
+              ...(profile || {})
+            })
+          )
+
+          .filter(
+            profile => {
+
+              return (
+                String(
+                  profile.role || ""
+                ).toLowerCase() ===
+                "user"
+
+                &&
+
+                profile.active !==
+                false
               );
 
+            }
+          )
 
-          renderUserOptions();
+          .sort(
+            (a, b) =>
 
-          updateAudience();
+              String(
+                a.name || ""
+              )
 
-        },
-
-        error => {
-
-          console.error(
-            "Users listener error:",
-            error
+                .localeCompare(
+                  String(
+                    b.name || ""
+                  )
+                )
           );
 
+      selectedMultiUserIds =
+        new Set(
+          [...selectedMultiUserIds]
+            .filter(
+              uid =>
+                activeUsers.some(
+                  user =>
+                    user.uid === uid
+                )
+            )
+        );
 
-          activeUsers =
-            [];
+      renderUserOptions();
 
+      renderMultiUserOptions();
 
-          renderUserOptions();
+      updateAudience();
 
-          updateAudience();
+    },
 
-        }
+    error => {
 
+      console.error(
+        "Users listener error:",
+        error
       );
 
-    }
+      activeUsers =
+        [];
 
+      selectedMultiUserIds.clear();
 
-    
+      renderUserOptions();
 
-    function startAlertsListener() {
-
-      onValue(
-
-        ref(
-          database,
-          "alerts"
-        ),
-
-        snapshot => {
-
-          if (
-            !snapshot.exists()
-          ) {
-
-            alertsCount.textContent =
-              "0";
-
-            return;
-
-          }
-
-
-          const alerts =
-            Object.values(
-              snapshot.val() || {}
-            );
-
-
-          const count =
-            alerts.filter(
-              alert =>
-                alert &&
-                alert.active !== false
-            ).length;
-
-
-          alertsCount.textContent =
-            count > 99
-              ?
-              "99+"
-              :
-              String(count);
-
-        },
-
-        error => {
-
-          console.error(
-            "Alerts count error:",
-            error
-          );
-
-
-          alertsCount.textContent =
-            "0";
-
-        }
-
-      );
-
-    }
-
-
-   
-
-    function renderUserOptions() {
-
-      const oldValue =
-        selectedUser.value;
-
-
-      selectedUser.innerHTML =
-        `
-          <option value="">
-            -- بەکارهێنەر هەلبژێرە --
-          </option>
-        `;
-
-
-      activeUsers.forEach(
-        user => {
-
-          const option =
-            document.createElement(
-              "option"
-            );
-
-
-          option.value =
-            user.uid;
-
-
-          option.textContent =
-            `${user.name || "بکارهێنەر"}${
-              user.email
-                ?
-                ` — ${user.email}`
-                :
-                ""
-            }`;
-
-
-          selectedUser.appendChild(
-            option
-          );
-
-        }
-      );
-
-
-      if (
-        activeUsers.some(
-          user =>
-            user.uid ===
-            oldValue
-        )
-      ) {
-
-        selectedUser.value =
-          oldValue;
-
-      }
-
-
-      renderSelectedUser();
-
-    }
-
-
-   
-
-    function setAudienceMode(
-      mode
-    ) {
-
-     
-
-      audienceMode =
-        mode;
-
-
-      allUsersBtn.classList.toggle(
-        "active",
-        mode === "all"
-      );
-
-
-      selectedUserBtn.classList.toggle(
-        "active",
-        mode === "user"
-      );
-
-
-      userSelector.classList.toggle(
-        "show",
-        mode === "user"
-      );
-
+      renderMultiUserOptions();
 
       updateAudience();
 
     }
 
+  );
 
-    allUsersBtn.addEventListener(
-      "click",
-      () => {
+}
 
-        setAudienceMode(
-          "all"
-        );
+function startAlertsListener() {
 
-      }
-    );
+  onValue(
 
+    ref(
+      database,
+      "alerts"
+    ),
 
-    selectedUserBtn.addEventListener(
-      "click",
-      () => {
+    snapshot => {
 
-        setAudienceMode(
-          "user"
-        );
+      if (
+        !snapshot.exists()
+      ) {
 
-      }
-    );
-
-
-    selectedUser.addEventListener(
-      "change",
-      () => {
-
-        renderSelectedUser();
-
-        updateAudience();
-
-      }
-    );
-
-
-   
-
-    function getSelectedUser() {
-
-      return (
-        activeUsers.find(
-          user =>
-            user.uid ===
-            selectedUser.value
-        )
-        ||
-        null
-      );
-
-    }
-
-
-    function renderSelectedUser() {
-
-      const user =
-        getSelectedUser();
-
-
-      if (!user) {
-
-        selectedUserInfo
-          .classList
-          .remove(
-            "show"
-          );
-
-
-        selectedUserName.textContent =
-          "";
-
-
-        selectedUserEmail.textContent =
-          "";
-
+        alertsCount.textContent =
+          "0";
 
         return;
 
       }
 
-
-      selectedUserInfo
-        .classList
-        .add(
-          "show"
+      const alerts =
+        Object.values(
+          snapshot.val() || {}
         );
 
+      const count =
+        alerts.filter(
+          alert =>
+            alert &&
+            alert.active !== false
+        ).length;
 
-      selectedUserName.textContent =
-        user.name ||
-        "بەکارهێنەر";
+      alertsCount.textContent =
+        count > 99
+          ?
+          "99+"
+          :
+          String(count);
 
+    },
 
-      selectedUserEmail.textContent =
-        user.email ||
-        "ئیمەیڵ نینە";
+    error => {
+
+      console.error(
+        "Alerts count error:",
+        error
+      );
+
+      alertsCount.textContent =
+        "0";
 
     }
 
+  );
 
-    
+}
 
-    function updateAudience() {
+function renderUserOptions() {
+
+  const oldValue =
+    selectedUser.value;
+
+  selectedUser.innerHTML =
+    `
+      <option value="">
+        -- بەکارهێنەر هەلبژێرە --
+      </option>
+    `;
+
+  activeUsers.forEach(
+    user => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        user.uid;
+
+      option.textContent =
+        `${user.name || "بکارهێنەر"}${
+          user.email
+            ?
+            ` — ${user.email}`
+            :
+            ""
+        }`;
+
+      selectedUser.appendChild(
+        option
+      );
+
+    }
+  );
+
+  if (
+    activeUsers.some(
+      user =>
+        user.uid ===
+        oldValue
+    )
+  ) {
+
+    selectedUser.value =
+      oldValue;
+
+  }
+
+  renderSelectedUser();
+
+}
+
+function renderMultiUserOptions() {
+
+  multiUserList.innerHTML =
+    "";
+
+  if (
+    activeUsers.length ===
+    0
+  ) {
+
+    multiUserList.innerHTML =
+      `
+        <div
+          style="
+            padding:18px;
+            text-align:center;
+            color:#64748b;
+            font-weight:700;
+          "
+        >
+          بکارهێنەرێ چالاک نینن
+        </div>
+      `;
+
+    multiSelectedCount.textContent =
+      "0 بەکارهێنەر هەلبژارتی";
+
+    return;
+
+  }
+
+  activeUsers.forEach(
+    user => {
+
+      const label =
+        document.createElement(
+          "label"
+        );
+
+      label.className =
+        "multi-user-item";
+
+      if (
+        selectedMultiUserIds.has(
+          user.uid
+        )
+      ) {
+
+        label.classList.add(
+          "selected"
+        );
+
+      }
+
+      label.innerHTML =
+        `
+
+          <input
+            type="checkbox"
+            value="${escapeHTML(user.uid)}"
+            ${
+              selectedMultiUserIds.has(
+                user.uid
+              )
+                ?
+                "checked"
+                :
+                ""
+            }
+          >
+
+          <div class="multi-user-content">
+
+            <div class="multi-user-name">
+
+              ${escapeHTML(
+                user.name ||
+                "بکارهێنەر"
+              )}
+
+            </div>
+
+            <div class="multi-user-email">
+
+              ${escapeHTML(
+                user.email ||
+                "ئیمەیڵ نینە"
+              )}
+
+            </div>
+
+          </div>
+
+        `;
+
+      const checkbox =
+        label.querySelector(
+          "input"
+        );
+
+      checkbox.addEventListener(
+        "change",
+        () => {
+
+          if (
+            checkbox.checked
+          ) {
+
+            selectedMultiUserIds.add(
+              user.uid
+            );
+
+            label.classList.add(
+              "selected"
+            );
+
+          }
+          else {
+
+            selectedMultiUserIds.delete(
+              user.uid
+            );
+
+            label.classList.remove(
+              "selected"
+            );
+
+          }
+
+          updateMultiSelectedCount();
+
+          updateAudience();
+
+        }
+      );
+
+      multiUserList.appendChild(
+        label
+      );
+
+    }
+  );
+
+  updateMultiSelectedCount();
+
+}
+
+function updateMultiSelectedCount() {
+
+  const count =
+    getSelectedMultiUsers()
+      .length;
+
+  multiSelectedCount.textContent =
+    `${count} بەکارهێنەر هەلبژارتی`;
+
+}
+
+function setAudienceMode(
+  mode
+) {
+
+  audienceMode =
+    mode;
+
+  allUsersBtn.classList.toggle(
+    "active",
+    mode === "all"
+  );
+
+  selectedUserBtn.classList.toggle(
+    "active",
+    mode === "user"
+  );
+
+  multiUsersBtn.classList.toggle(
+    "active",
+    mode === "multi"
+  );
+
+  userSelector.classList.toggle(
+    "show",
+    mode === "user"
+  );
+
+  multiUserSelector.classList.toggle(
+    "show",
+    mode === "multi"
+  );
+
+  updateAudience();
+
+}
+
+allUsersBtn.addEventListener(
+  "click",
+  () => {
+
+    setAudienceMode(
+      "all"
+    );
+
+  }
+);
+
+selectedUserBtn.addEventListener(
+  "click",
+  () => {
+
+    setAudienceMode(
+      "user"
+    );
+
+  }
+);
+
+multiUsersBtn.addEventListener(
+  "click",
+  () => {
+
+    setAudienceMode(
+      "multi"
+    );
+
+  }
+);
+
+selectedUser.addEventListener(
+  "change",
+  () => {
+
+    renderSelectedUser();
+
+    updateAudience();
+
+  }
+);
+
+function getSelectedUser() {
+
+  return (
+    activeUsers.find(
+      user =>
+        user.uid ===
+        selectedUser.value
+    )
+    ||
+    null
+  );
+
+}
+
+function getSelectedMultiUsers() {
+
+  return activeUsers.filter(
+    user =>
+      selectedMultiUserIds.has(
+        user.uid
+      )
+  );
+
+}
+
+function renderSelectedUser() {
+
+  const user =
+    getSelectedUser();
+
+  if (!user) {
+
+    selectedUserInfo
+      .classList
+      .remove(
+        "show"
+      );
+
+    selectedUserName.textContent =
+      "";
+
+    selectedUserEmail.textContent =
+      "";
+
+    return;
+
+  }
+
+  selectedUserInfo
+    .classList
+    .add(
+      "show"
+    );
+
+  selectedUserName.textContent =
+    user.name ||
+    "بەکارهێنەر";
+
+  selectedUserEmail.textContent =
+    user.email ||
+    "ئیمەیڵ نینە";
+
+}
+
+function updateAudience() {
+
+  if (
+    audienceMode ===
+    "all"
+  ) {
+
+    recipientCount.textContent =
+      String(
+        activeUsers.length
+      );
+
+    audienceTitle.textContent =
+      "وەرگر: هەمی بەکارهێنەرێن چالاک";
+
+    audienceText.textContent =
+      `${activeUsers.length} بەکارهێنەر دێ ئاگەهداری و ئیمەیڵێ وەرگرن`;
+
+    return;
+
+  }
+
+  if (
+    audienceMode ===
+    "user"
+  ) {
+
+    const user =
+      getSelectedUser();
+
+    recipientCount.textContent =
+      user
+        ?
+        "1"
+        :
+        "0";
+
+    audienceTitle.textContent =
+      "وەرگر: بکارهێنەری هەلبژارتی";
+
+    audienceText.textContent =
+      user
+        ?
+        `${user.name || "بکارهێنەر"} دێ ئاگەهداری و ئیمەیڵێ وەرگریت`
+        :
+        "بکارهێنەری هەلبژێرە";
+
+    return;
+
+  }
+
+  const users =
+    getSelectedMultiUsers();
+
+  recipientCount.textContent =
+    String(
+      users.length
+    );
+
+  audienceTitle.textContent =
+    "وەرگر: چەند بەکارهێنەرێن هەلبژارتی";
+
+  audienceText.textContent =
+    users.length > 0
+      ?
+      `${users.length} بەکارهێنەر دێ ئاگەهداری و ئیمەیڵێ وەرگرن`
+      :
+      "بکارهێنەر هەلبژێرە";
+
+}
+
+alertTitle.addEventListener(
+  "input",
+  () => {
+
+    titleChars.textContent =
+      `${alertTitle.value.length} / 80`;
+
+  }
+);
+
+alertMessage.addEventListener(
+  "input",
+  () => {
+
+    messageChars.textContent =
+      `${alertMessage.value.length} / 1000`;
+
+  }
+);
+
+sendBtn.addEventListener(
+  "click",
+  () => {
+
+    const title =
+      alertTitle.value.trim();
+
+    const message =
+      alertMessage.value.trim();
+
+    if (!title) {
+
+      showToast(
+        "ناڤونیشانێ ئاگەهداریێ بنڤیسە.",
+        "error"
+      );
+
+      alertTitle.focus();
+
+      return;
+
+    }
+
+    if (!message) {
+
+      showToast(
+        "پەیامێ ئاگەهداریێ بنڤیسە.",
+        "error"
+      );
+
+      alertMessage.focus();
+
+      return;
+
+    }
+
+    if (
+      audienceMode ===
+      "all"
+      &&
+      activeUsers.length < 1
+    ) {
+
+      showToast(
+        "بکارهێنەرێ چالاک نینن.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    if (
+      audienceMode ===
+      "user"
+      &&
+      !getSelectedUser()
+    ) {
+
+      showToast(
+        "بکارهێنەری هەلبژێرە.",
+        "error"
+      );
+
+      selectedUser.focus();
+
+      return;
+
+    }
+
+    if (
+      audienceMode ===
+      "multi"
+      &&
+      getSelectedMultiUsers().length < 1
+    ) {
+
+      showToast(
+        "کێمترین بەکارهێنەرەک هەلبژێرە.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    if (
+      audienceMode ===
+      "all"
+    ) {
+
+      confirmText.textContent =
+        `ئاگەهداری و ئیمەیڵ دێ بۆ ${activeUsers.length} بکارهێنەرێن چالاک هێتە هنارتن.`;
+
+    }
+    else if (
+      audienceMode ===
+      "user"
+    ) {
+
+      const user =
+        getSelectedUser();
+
+      confirmText.textContent =
+        `ئاگەهداری و ئیمەیڵ دێ تەنێ بۆ ${user.name || "بکارهێنەر"} هێتە هنارتن.`;
+
+    }
+    else {
+
+      const users =
+        getSelectedMultiUsers();
+
+      confirmText.textContent =
+        `ئاگەهداری و ئیمەیڵ دێ بۆ ${users.length} بکارهێنەرێن هەلبژارتی هێتە هنارتن.`;
+
+    }
+
+    confirmModal
+      .classList
+      .add(
+        "active"
+      );
+
+  }
+);
+
+cancelBtn.addEventListener(
+  "click",
+  () => {
+
+    confirmModal
+      .classList
+      .remove(
+        "active"
+      );
+
+  }
+);
+
+confirmModal.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      confirmModal
+    ) {
+
+      confirmModal
+        .classList
+        .remove(
+          "active"
+        );
+
+    }
+
+  }
+);
+
+async function sendAlertRequest(
+  idToken,
+  body
+) {
+
+  const response =
+    await fetch(
+
+      EMAIL_API_URL,
+
+      {
+
+        method:
+          "POST",
+
+        headers: {
+
+          "Content-Type":
+            "application/json",
+
+          "Authorization":
+            `Bearer ${idToken}`
+
+        },
+
+        body:
+          JSON.stringify(
+            body
+          )
+
+      }
+
+    );
+
+  const result =
+    await response
+      .json()
+      .catch(
+        () => ({})
+      );
+
+  if (
+    !response.ok
+  ) {
+
+    throw new Error(
+      result.error ||
+      "ئاگەهداری نەهاتە هنارتن."
+    );
+
+  }
+
+  return result;
+
+}
+
+confirmBtn.addEventListener(
+  "click",
+  async () => {
+
+    if (!currentOwner) {
+
+      return;
+
+    }
+
+    const title =
+      alertTitle.value.trim();
+
+    const message =
+      alertMessage.value.trim();
+
+    const selected =
+      getSelectedUser();
+
+    const selectedMultiple =
+      getSelectedMultiUsers();
+
+    confirmBtn.disabled =
+      true;
+
+    sendBtn.disabled =
+      true;
+
+    confirmBtn.textContent =
+      "دهێتە هنارتن...";
+
+    try {
+
+      const idToken =
+        await currentOwner
+          .getIdToken();
+
+      let emailSent =
+        0;
+
+      let emailFailed =
+        0;
+
+      let alertSuccess =
+        0;
+
+      let alertFailed =
+        0;
 
       if (
         audienceMode ===
         "all"
       ) {
 
-        recipientCount.textContent =
-          String(
-            activeUsers.length
+        const result =
+          await sendAlertRequest(
+
+            idToken,
+
+            {
+
+              title,
+
+              message,
+
+              target:
+                "all"
+
+            }
+
           );
 
+        emailSent +=
+          Number(
+            result.emailSentCount ||
+            0
+          );
 
-        audienceTitle.textContent =
-          "وەرگر: هەمی بەکارهێنەرێن چالاک";
+        emailFailed +=
+          Number(
+            result.emailFailedCount ||
+            0
+          );
 
+        alertSuccess =
+          1;
 
-        audienceText.textContent =
-          `${activeUsers.length} بەکارهێنەر دێ ئاگەهداری و ئیمەیڵێ وەرگرن`;
+      }
 
+      else if (
+        audienceMode ===
+        "user"
+      ) {
+
+        const result =
+          await sendAlertRequest(
+
+            idToken,
+
+            {
+
+              title,
+
+              message,
+
+              target:
+                "user",
+
+              userId:
+                selected.uid
+
+            }
+
+          );
+
+        emailSent +=
+          Number(
+            result.emailSentCount ||
+            0
+          );
+
+        emailFailed +=
+          Number(
+            result.emailFailedCount ||
+            0
+          );
+
+        alertSuccess =
+          1;
+
+      }
+
+      else {
+
+        for (
+          const user
+          of selectedMultiple
+        ) {
+
+          try {
+
+            const result =
+              await sendAlertRequest(
+
+                idToken,
+
+                {
+
+                  title,
+
+                  message,
+
+                  target:
+                    "user",
+
+                  userId:
+                    user.uid
+
+                }
+
+              );
+
+            emailSent +=
+              Number(
+                result.emailSentCount ||
+                0
+              );
+
+            emailFailed +=
+              Number(
+                result.emailFailedCount ||
+                0
+              );
+
+            alertSuccess++;
+
+          }
+          catch(error) {
+
+            console.error(
+              `Send alert to ${user.uid} error:`,
+              error
+            );
+
+            alertFailed++;
+
+          }
+
+        }
+
+        if (
+          alertSuccess ===
+          0
+        ) {
+
+          throw new Error(
+            "ئاگەهداری بۆ هیچ بەکارهێنەرەکی نەهاتە هنارتن."
+          );
+
+        }
+
+      }
+
+      alertTitle.value =
+        "";
+
+      alertMessage.value =
+        "";
+
+      titleChars.textContent =
+        "0 / 80";
+
+      messageChars.textContent =
+        "0 / 1000";
+
+      confirmModal
+        .classList
+        .remove(
+          "active"
+        );
+
+      if (
+        audienceMode ===
+        "multi"
+        &&
+        alertFailed > 0
+      ) {
+
+        showToast(
+          `${alertSuccess} ئاگەهداری ب سەرکەفتی هاتنە هنارتن و ${alertFailed} سەرنەکەفتن. ${emailSent} ئیمەیڵ هاتنە هنارتن.`,
+          "warning"
+        );
+
+      }
+
+      else if (
+        emailFailed > 0
+      ) {
+
+        showToast(
+          `ئاگەهداری هاتە هنارتن. ${emailSent} ئیمەیڵ هاتنە هنارتن و ${emailFailed} ئیمەیڵ سەرنەکەفتن.`,
+          "warning"
+        );
+
+      }
+
+      else {
+
+        showToast(
+          `ئاگەهداری هاتە هنارتن و ${emailSent} ئیمەیڵ ب سەرکەفتی هاتنە هنارتن.`,
+          "success"
+        );
+
+      }
+
+    }
+    catch(error) {
+
+      console.error(
+        "Send alert error:",
+        error
+      );
+
+      showToast(
+        error.message ||
+        "ئاگەهداری نەهاتە هنارتن.",
+        "error"
+      );
+
+    }
+    finally {
+
+      confirmBtn.disabled =
+        false;
+
+      sendBtn.disabled =
+        false;
+
+      confirmBtn.textContent =
+        "بەلێ، بهنێرە";
+
+    }
+
+  }
+);
+
+function escapeHTML(
+  value
+) {
+
+  return String(
+    value ?? ""
+  )
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+onAuthStateChanged(
+  auth,
+  async user => {
+
+    if (!user) {
+
+      window.location.replace(
+        OWNER_LOGIN_URL
+      );
+
+      return;
+
+    }
+
+    try {
+
+      const snapshot =
+        await get(
+
+          ref(
+            database,
+            `users/${user.uid}`
+          )
+
+        );
+
+      if (
+        !snapshot.exists()
+      ) {
+
+        await goToLogin();
 
         return;
 
       }
 
+      const profile =
+        snapshot.val();
 
-      const user =
-        getSelectedUser();
+      if (
+        String(
+          profile.role || ""
+        ).toLowerCase() !==
+        "owner"
 
+        ||
 
-      recipientCount.textContent =
-        user
-          ?
-          "1"
-          :
-          "0";
+        profile.active ===
+        false
+      ) {
 
+        await goToLogin();
 
-      audienceTitle.textContent =
-        "وەرگر: بکارهێنەری هەلبژارتی";
+        return;
 
+      }
 
-      audienceText.textContent =
-        user
-          ?
-          `${user.name || "بکارهێنەر"} دێ ئاگەهداری و ئیمەیڵێ وەرگریت`
-          :
-          "بکارهێنەری هەلبژێرە";
+      currentOwner =
+        user;
+
+      pageLoading
+        .classList
+        .add(
+          "hide"
+        );
+
+      startUsersListener();
+
+      startAlertsListener();
+
+    }
+    catch(error) {
+
+      console.error(
+        "Owner verification error:",
+        error
+      );
+
+      await goToLogin();
 
     }
 
+  }
+);
 
-    
-
-    alertTitle.addEventListener(
-      "input",
-      () => {
-
-        titleChars.textContent =
-          `${alertTitle.value.length} / 80`;
-
-      }
-    );
-
-
-    alertMessage.addEventListener(
-      "input",
-      () => {
-
-        messageChars.textContent =
-          `${alertMessage.value.length} / 1000`;
-
-      }
-    );
-
-
-    
-
-    sendBtn.addEventListener(
-      "click",
-      () => {
-
-        const title =
-          alertTitle.value.trim();
-
-
-        const message =
-          alertMessage.value.trim();
-
-
-        if (!title) {
-
-          showToast(
-            "ناڤونیشانێ ئاگەهداریێ بنڤیسە.",
-            "error"
-          );
-
-
-          alertTitle.focus();
-
-          return;
-
-        }
-
-
-        if (!message) {
-
-          showToast(
-            "پەیامێ ئاگەهداریێ بنڤیسە.",
-            "error"
-          );
-
-
-          alertMessage.focus();
-
-          return;
-
-        }
-
-
-        if (
-          audienceMode ===
-          "all"
-          &&
-          activeUsers.length < 1
-        ) {
-
-          showToast(
-            "بکارهێنەرێ چالاک نینن.",
-            "error"
-          );
-
-
-          return;
-
-        }
-
-
-        if (
-          audienceMode ===
-          "user"
-          &&
-          !getSelectedUser()
-        ) {
-
-          showToast(
-            "بکارهێنەری هەلبژێرە.",
-            "error"
-          );
-
-
-          selectedUser.focus();
-
-          return;
-
-        }
-
-
-        if (
-          audienceMode ===
-          "all"
-        ) {
-
-          confirmText.textContent =
-            `ئاگەهداری و ئیمەیڵ دێ بۆ ${activeUsers.length} بکارهێنەرێن چالاک هێتە هنارتن.`;
-
-        }
-        else {
-
-          const user =
-            getSelectedUser();
-
-
-          confirmText.textContent =
-            `ئاگەهداری و ئیمەیڵ دێ تەنێ بۆ ${user.name || "بکارهێنەر"} هێتە هنارتن.`;
-
-        }
-
-
-        confirmModal
-          .classList
-          .add(
-            "active"
-          );
-
-      }
-    );
-
-
-    
-
-    cancelBtn.addEventListener(
-      "click",
-      () => {
-
-        confirmModal
-          .classList
-          .remove(
-            "active"
-          );
-
-      }
-    );
-
-
-    confirmModal.addEventListener(
-      "click",
-      event => {
-
-        if (
-          event.target ===
-          confirmModal
-        ) {
-
-          confirmModal
-            .classList
-            .remove(
-              "active"
-            );
-
-        }
-
-      }
-    );
-
-
-    
-
-    confirmBtn.addEventListener(
-      "click",
-      async () => {
-
-        if (!currentOwner) {
-
-          return;
-
-        }
-
-
-        const title =
-          alertTitle.value.trim();
-
-
-        const message =
-          alertMessage.value.trim();
-
-
-        const selected =
-          getSelectedUser();
-
-
-        confirmBtn.disabled =
-          true;
-
-
-        sendBtn.disabled =
-          true;
-
-
-        confirmBtn.textContent =
-          "دهێتە هنارتن...";
-
-
-        try {
-
-          const idToken =
-            await currentOwner
-              .getIdToken();
-
-
-         
-
-          const body = {
-
-            title,
-
-            message,
-
-            target:
-              audienceMode
-
-          };
-
-
-          if (
-            audienceMode ===
-            "user"
-          ) {
-
-            body.userId =
-              selected.uid;
-
-          }
-
-
-          const response =
-            await fetch(
-
-              EMAIL_API_URL,
-
-              {
-
-                method:
-                  "POST",
-
-
-                headers: {
-
-                  "Content-Type":
-                    "application/json",
-
-
-                  "Authorization":
-                    `Bearer ${idToken}`
-
-                },
-
-
-                body:
-                  JSON.stringify(
-                    body
-                  )
-
-              }
-
-            );
-
-
-          const result =
-            await response
-              .json()
-              .catch(
-                () => ({})
-              );
-
-
-          if (
-            !response.ok
-          ) {
-
-            throw new Error(
-              result.error ||
-              "ئاگەهداری نەهاتە هنارتن."
-            );
-
-          }
-
-
-          
-
-          alertTitle.value =
-            "";
-
-
-          alertMessage.value =
-            "";
-
-
-          titleChars.textContent =
-            "0 / 80";
-
-
-          messageChars.textContent =
-            "0 / 1000";
-
-
-          confirmModal
-            .classList
-            .remove(
-              "active"
-            );
-
-
-          
-
-          const emailSent =
-            Number(
-              result.emailSentCount ||
-              0
-            );
-
-
-          const emailFailed =
-            Number(
-              result.emailFailedCount ||
-              0
-            );
-
-
-          if (
-            emailFailed > 0
-          ) {
-
-            showToast(
-              `ئاگەهداری هاتە هنارتن. ${emailSent} ئیمەیڵ هاتنە هنارتن و ${emailFailed} ئیمەیڵ سەرنەکەفتن.`,
-              "warning"
-            );
-
-          }
-          else {
-
-            showToast(
-              `ئاگەهداری هاتە هنارتن و ${emailSent} ئیمەیڵ ب سەرکەفتی هاتنە هنارتن.`,
-              "success"
-            );
-
-          }
-
-        }
-        catch(error) {
-
-          console.error(
-            "Send alert error:",
-            error
-          );
-
-
-          showToast(
-            error.message ||
-            "ئاگەهداری نەهاتە هنارتن.",
-            "error"
-          );
-
-        }
-        finally {
-
-          confirmBtn.disabled =
-            false;
-
-
-          sendBtn.disabled =
-            false;
-
-
-          confirmBtn.textContent =
-            "بەلێ، بهنێرە";
-
-        }
-
-      }
-    );
-
-
-    
-
-    onAuthStateChanged(
-      auth,
-      async user => {
-
-        if (!user) {
-
-          window.location.replace(
-            OWNER_LOGIN_URL
-          );
-
-
-          return;
-
-        }
-
-
-        try {
-
-          const snapshot =
-            await get(
-
-              ref(
-                database,
-                `users/${user.uid}`
-              )
-
-            );
-
-
-          if (
-            !snapshot.exists()
-          ) {
-
-            await goToLogin();
-
-            return;
-
-          }
-
-
-          const profile =
-            snapshot.val();
-
-
-          if (
-            String(
-              profile.role || ""
-            ).toLowerCase() !==
-            "owner"
-
-            ||
-
-            profile.active === false
-          ) {
-
-            await goToLogin();
-
-            return;
-
-          }
-
-
-          currentOwner =
-            user;
-
-
-          pageLoading
-            .classList
-            .add(
-              "hide"
-            );
-
-
-          startUsersListener();
-
-          startAlertsListener();
-
-        }
-        catch(error) {
-
-          console.error(
-            "Owner verification error:",
-            error
-          );
-
-
-          await goToLogin();
-
-        }
-
-      }
-    );
-
-  </script>
+</script>
 
 </body>
+
 </html>
