@@ -431,6 +431,53 @@
         }
 
 
+        .reviewed-by {
+            margin-top: 9px;
+
+            display: inline-flex;
+            align-items: center;
+
+            gap: 7px;
+
+            padding:
+                7px
+                10px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            direction: rtl;
+
+            text-align: right;
+        }
+
+
+        .reviewed-by.approved {
+            background:
+                rgba(16, 185, 129, 0.10);
+
+            color: #059669;
+        }
+
+
+        .reviewed-by.rejected {
+            background:
+                rgba(239, 68, 68, 0.10);
+
+            color: #dc2626;
+        }
+
+
+        .reviewed-by svg {
+            width: 15px;
+            height: 15px;
+
+            flex-shrink: 0;
+        }
+
+
 
 
         .state-box {
@@ -1681,6 +1728,30 @@
 
        
 
+        <div
+            class="detail-item"
+            id="mdlReviewedByBox"
+            style="display:none;"
+        >
+
+            <span
+                class="detail-label"
+                id="mdlReviewedByLabel"
+            >
+                بڕیار ژ لایێ
+            </span>
+
+            <span
+                class="detail-value"
+                id="mdlReviewedBy"
+            >
+                --
+            </span>
+
+        </div>
+
+
+
         <div class="modal-actions">
 
 
@@ -1835,6 +1906,15 @@ const EMAIL_API_URL =
     const mdlTime =
         document.getElementById("mdlTime");
 
+    const mdlReviewedByBox =
+        document.getElementById("mdlReviewedByBox");
+
+    const mdlReviewedByLabel =
+        document.getElementById("mdlReviewedByLabel");
+
+    const mdlReviewedBy =
+        document.getElementById("mdlReviewedBy");
+
     const approveBtn =
         document.getElementById("approveBtn");
 
@@ -1854,8 +1934,10 @@ const EMAIL_API_URL =
     
 
     let currentOwner = null;
+    let currentOwnerProfile = null;
     let currentRequestId = null;
     let requestsCache = {};
+    let ownerProfilesCache = {};
 
     let firstRequestsLoad = true;
     let knownRequestIds = new Set();
@@ -2011,7 +2093,7 @@ const EMAIL_API_URL =
         async function(user) {
             if (!user) {
                 window.location.replace(
-                    "../login/login.html"
+                    "/adminoffice/login/Login.html"
                 );
                 return;
             }
@@ -2050,7 +2132,9 @@ const EMAIL_API_URL =
                 }
 
                 currentOwner = user;
+                currentOwnerProfile = profile;
 
+                startOwnerProfilesListener();
                 startRequestsListener();
 
                 
@@ -2085,7 +2169,7 @@ const EMAIL_API_URL =
         }
 
         window.location.replace(
-            "../login/login.html"
+            "/adminoffice/login/Login.html"
         );
     }
 
@@ -2129,6 +2213,137 @@ const EMAIL_API_URL =
 
 
     
+
+    function startOwnerProfilesListener() {
+        onValue(
+            ref(
+                database,
+                "users"
+            ),
+            function(snapshot) {
+                ownerProfilesCache =
+                    snapshot.exists()
+                        ? snapshot.val() || {}
+                        : {};
+
+                if (
+                    Object.keys(
+                        requestsCache
+                    ).length >
+                    0
+                ) {
+                    renderRequests();
+                }
+
+                if (
+                    currentRequestId &&
+                    requestsCache[
+                        currentRequestId
+                    ]
+                ) {
+                    renderReviewerDetails(
+                        requestsCache[
+                            currentRequestId
+                        ]
+                    );
+                }
+            },
+            function(error) {
+                console.error(
+                    "Owner profiles listener error:",
+                    error
+                );
+            }
+        );
+    }
+
+
+    function getReviewerName(
+        request
+    ) {
+        if (!request) {
+            return "رێڤەبەر";
+        }
+
+        if (
+            request.reviewedByName
+        ) {
+            return request.reviewedByName;
+        }
+
+        if (
+            request.reviewedBy &&
+            ownerProfilesCache[
+                request.reviewedBy
+            ]
+        ) {
+            const reviewer =
+                ownerProfilesCache[
+                    request.reviewedBy
+                ];
+
+            return (
+                reviewer.name ||
+                reviewer.email ||
+                "رێڤەبەر"
+            );
+        }
+
+        if (
+            request.reviewedBy ===
+            currentOwner?.uid
+        ) {
+            return (
+                currentOwnerProfile?.name ||
+                currentOwnerProfile?.email ||
+                currentOwner?.email ||
+                "رێڤەبەر"
+            );
+        }
+
+        return (
+            request.reviewedByEmail ||
+            "رێڤەبەر"
+        );
+    }
+
+
+    function renderReviewerDetails(
+        request
+    ) {
+        if (
+            !request ||
+            (
+                request.status !==
+                "approved" &&
+                request.status !==
+                "rejected"
+            )
+        ) {
+            mdlReviewedByBox.style.display =
+                "none";
+
+            mdlReviewedBy.textContent =
+                "--";
+
+            return;
+        }
+
+        mdlReviewedByBox.style.display =
+            "flex";
+
+        mdlReviewedByLabel.textContent =
+            request.status ===
+            "approved"
+                ? "پەسەندکرن ژ لایێ"
+                : "رەتکرن ژ لایێ";
+
+        mdlReviewedBy.textContent =
+            getReviewerName(
+                request
+            );
+    }
+
 
     function startRequestsListener() {
         const requestsRef =
@@ -2387,6 +2602,51 @@ const EMAIL_API_URL =
                                     ""
                                 )}
                             </p>
+
+                            ${
+                                request.status ===
+                                "approved" ||
+                                request.status ===
+                                "rejected"
+                                    ? `
+                                        <div
+                                            class="reviewed-by ${
+                                                request.status ===
+                                                "approved"
+                                                    ? "approved"
+                                                    : "rejected"
+                                            }"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                stroke-width="2.2"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0ZM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                                                />
+                                            </svg>
+
+                                            ${
+                                                request.status ===
+                                                "approved"
+                                                    ? "پەسەندکرن ژ لایێ:"
+                                                    : "رەتکرن ژ لایێ:"
+                                            }
+
+                                            ${escapeHTML(
+                                                getReviewerName(
+                                                    request
+                                                )
+                                            )}
+                                        </div>
+                                    `
+                                    : ""
+                            }
                         </div>
 
                     </div>
@@ -2504,6 +2764,10 @@ const EMAIL_API_URL =
             mdlTimeBox.style.display =
                 "none";
         }
+
+        renderReviewerDetails(
+            request
+        );
 
         rejectArea.classList.remove(
             "active"
@@ -2691,6 +2955,17 @@ const EMAIL_API_URL =
                         reviewedBy:
                             currentOwner.uid,
 
+                        reviewedByName:
+                            currentOwnerProfile?.name ||
+                            currentOwnerProfile?.email ||
+                            currentOwner.email ||
+                            "رێڤەبەر",
+
+                        reviewedByEmail:
+                            currentOwnerProfile?.email ||
+                            currentOwner.email ||
+                            "",
+
                         reviewedAt:
                             serverTimestamp()
                     }
@@ -2815,6 +3090,17 @@ const EMAIL_API_URL =
 
                         reviewedBy:
                             currentOwner.uid,
+
+                        reviewedByName:
+                            currentOwnerProfile?.name ||
+                            currentOwnerProfile?.email ||
+                            currentOwner.email ||
+                            "رێڤەبەر",
+
+                        reviewedByEmail:
+                            currentOwnerProfile?.email ||
+                            currentOwner.email ||
+                            "",
 
                         reviewedAt:
                             serverTimestamp()
